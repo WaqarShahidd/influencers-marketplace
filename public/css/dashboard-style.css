@@ -21,7 +21,7 @@
   border-color: #f1f3f9 !important;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
 .bg-primary {
   background-color: #1066e7 !important;
@@ -141,7 +141,8 @@ a.text-light:focus {
 }
 
 .bg-footer {
-  background-color: #202942 !important;
+  /* background-color: #202942 !important; */
+  background-color: #090909 !important;
 }
 
 .text-footer {
@@ -244,10 +245,10 @@ small {
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   overflow-x: hidden !important;
   font-size: 16px;
-  color: #161c2d;
+  color: #fff !important;
 }
 
 h1,
@@ -262,7 +263,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   line-height: 1.5;
   font-weight: 600;
 }
@@ -1280,7 +1281,7 @@ button:not(:disabled) {
 }
 
 .home-wrapper:before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 25rem;
   right: 60rem;
@@ -1490,7 +1491,7 @@ button:not(:disabled) {
 
 .ribbon span:before,
 .ribbon span:after {
-  content: '';
+  content: "";
   position: absolute;
   top: 100%;
   z-index: -1;
@@ -1793,7 +1794,7 @@ button:not(:disabled) {
   font-weight: 600;
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   padding-left: 8px;
   padding-right: 8px;
 }

@@ -1,71 +1,115 @@
-import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Footer from '../../components/Footer'
-import Navbar from '../../components/Navbar'
-import StyleSwitcher from '../../components/StyleSwitcher'
-import Countdown from 'react-countdown'
-import { client01, client02, client03, client08, client09, client10, item1, item2, gif1, gif2, itemDetail1 } from '../../components/imageImport'
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
+import StyleSwitcher from "../../components/StyleSwitcher";
+import Countdown from "react-countdown";
+import {
+  client01,
+  client02,
+  client03,
+  client08,
+  client09,
+  client10,
+  item1,
+  item2,
+  gif1,
+  gif2,
+  itemDetail1,
+  news3,
+  news2,
+  news1,
+  social2,
+  social3,
+  social4,
+  social1,
+  job1,
+  job2,
+  job3,
+} from "../../components/imageImport";
 
 const ItemDetailOne = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const activityData = [
     {
-      title: 'Digital Art Collection',
-      author: 'Panda',
-      time: '1 hours ago',
-      favorite: 'Started Following',
+      title: "Digital Art Collection",
+      author: "Panda",
+      time: "1 hours ago",
+      favorite: "Started Following",
       image: item1,
     },
     {
-      title: 'Skrrt Cobain Official',
-      author: 'ButterFly',
-      time: '2 hours ago',
-      favorite: 'Liked by',
+      title: "Skrrt Cobain Official",
+      author: "ButterFly",
+      time: "2 hours ago",
+      favorite: "Liked by",
       image: gif1,
     },
     {
-      title: 'Wow! That Brain Is Floating',
-      author: 'ButterFly',
-      time: '2 hours ago',
-      favorite: 'Liked by',
+      title: "Wow! That Brain Is Floating",
+      author: "ButterFly",
+      time: "2 hours ago",
+      favorite: "Liked by",
       image: item2,
     },
-  ]
+  ];
   const createdData = [
     {
       image: gif1,
-      title: 'Deep Sea Phantasy',
-      id: 'May 29, 2022 6:0:0',
-      type: 'GIFs',
+      title: "Deep Sea Phantasy",
+      id: "May 29, 2022 6:0:0",
+      type: "GIFs",
       client: client01,
-      author: 'StreetBoy',
+      author: "StreetBoy",
     },
     {
       image: item1,
-      title: 'CyberPrimal 042 LAN',
-      id: 'June 03, 2022 5:3:1',
-      type: 'Arts',
+      title: "CyberPrimal 042 LAN",
+      id: "June 03, 2022 5:3:1",
+      type: "Arts",
       client: client09,
-      author: 'PandaOne',
+      author: "PandaOne",
     },
     {
       image: gif2,
-      title: 'Crypto Egg Stamp #5',
-      id: 'June 10, 2022 1:0:1',
-      type: 'GIFs',
+      title: "Crypto Egg Stamp #5",
+      id: "June 10, 2022 1:0:1",
+      type: "GIFs",
       client: client02,
-      author: 'CutieGirl',
+      author: "CutieGirl",
     },
     {
       image: item2,
-      title: 'Colorful Abstract Painting',
-      id: 'June 18, 2022 1:2:1',
-      type: 'Memes',
+      title: "Colorful Abstract Painting",
+      id: "June 18, 2022 1:2:1",
+      type: "Memes",
       client: client03,
-      author: 'NorseQueen',
+      author: "NorseQueen",
     },
-  ]
+  ];
+
+  const relatedJobs = [
+    {
+      image: job1,
+      title: "Fashion Leader Inspiring Change.",
+      createdBy: "@callyjoe",
+      type: "Job Category",
+    },
+    {
+      image: job2,
+      title: "Fashion Leader Inspiring Change.",
+      createdBy: "@kristyhoney",
+      type: "Job Category",
+    },
+    {
+      image: job3,
+      title: "Fashion Leader Inspiring Change.",
+      createdBy: "@pandaone",
+      type: "Job Category",
+    },
+  ];
+
   return (
     <>
       {/* Navbar */}
@@ -78,9 +122,10 @@ const ItemDetailOne = () => {
             <div className="col-md-6">
               <div className="sticky-bar">
                 <img
-                  src={itemDetail1}
+                  src={news1}
                   className="img-fluid rounded-md shadow"
                   alt=""
+                  style={{ width: "100%" }}
                 />
               </div>
             </div>
@@ -89,48 +134,74 @@ const ItemDetailOne = () => {
               <div className="ms-lg-5">
                 <div className="title-heading">
                   <h4 className="h3 fw-bold mb-0">
-                    Wolf with Skull{' '}
-                    <span className="text-gradient-primary">Orange</span> <br />{' '}
-                    <span className="text-gradient-primary">Illustration</span>{' '}
-                    T-shirt Tattoo
+                    Social Media Scheduler -{" "}
+                    <span className="text-gradient-primary">
+                      Work From Home
+                    </span>
+                    <br />
+                    {/* <span className="text-gradient-primary">Illustration</span>{" "} */}
                   </h4>
                 </div>
 
                 <div className="row">
-                  <div className="col-md-6 mt-4 pt-2">
-                    <h6>Current Bid</h6>
-                    <h4 className="mb-0">4.85 ETH</h4>
-                    <small className="mb-0 text-muted">$450.48USD</small>
+                  <div className="mt-2">
+                    <h4 className="mb-0">Brand X</h4>
+                    <h6 style={{ marginTop: "10px" }}>Levant</h6>
                   </div>
 
-                  <div className="col-md-6 mt-4 pt-2">
-                    <h6>Auction Ending In</h6>
-                    <Countdown
-                      date={'Aug 20, 2022 1:6:3'}
-                      renderer={({ days, hours, minutes, seconds }) => (
-                        <span>
-                          {days}:{hours}:{minutes}:{seconds}
-                        </span>
-                      )}
-                    />
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div
+                      className="pt-2"
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <h6 style={{ margin: "0px", marginRight: "10px" }}>
+                        Job Type:{" "}
+                      </h6>
+                      <p
+                        style={{ margin: "0px", lineHeight: 1 }}
+                        className="mb-0 text-muted"
+                      >
+                        Full-time
+                      </p>
+                    </div>
+                    <div
+                      className="pt-2"
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <h6 style={{ margin: "0px", marginRight: "10px" }}>
+                        Pay:{" "}
+                      </h6>
+                      <p
+                        style={{ margin: "0px", lineHeight: 1 }}
+                        className="mb-0 text-muted"
+                      >
+                        $450 - $500 per post
+                      </p>
+                    </div>
                   </div>
-
                   <div className="col-12 mt-4 pt-2">
-                    <a
+                    {/* <a
                       href="#"
                       className="btn btn-l btn-pills btn-primary me-2"
                       data-bs-toggle="modal"
                       data-bs-target="#NftBid"
                     >
                       <i className="mdi mdi-gavel fs-5 me-2"></i> Place a Bid
-                    </a>
+                    </a> */}
                     <a
                       href="#"
                       className="btn btn-l btn-pills btn-primary"
                       data-bs-toggle="modal"
                       data-bs-target="#NftBuynow"
                     >
-                      <i className="mdi mdi-cart fs-5 me-2"></i> Buy Now
+                      {/* <i className="mdi mdi-cart fs-5 me-2"></i> */}
+                      Apply Now
                     </a>
                   </div>
                 </div>
@@ -168,11 +239,11 @@ const ItemDetailOne = () => {
                           aria-controls="bids"
                           aria-selected="false"
                         >
-                          Bids
+                          Socials
                         </button>
                       </li>
 
-                      <li className="nav-item" role="presentation">
+                      {/* <li className="nav-item" role="presentation">
                         <button
                           className="nav-link"
                           id="activity-tab"
@@ -185,10 +256,11 @@ const ItemDetailOne = () => {
                         >
                           Activity
                         </button>
-                      </li>
+                      </li> */}
                     </ul>
 
                     <div className="tab-content mt-4 pt-2" id="myTabContent">
+                      {/* Details */}
                       <div
                         className="tab-pane fade show active"
                         id="detailItem"
@@ -196,19 +268,45 @@ const ItemDetailOne = () => {
                         aria-labelledby="detail-tab"
                       >
                         <p className="text-muted">
-                          Hey guys! New exploration about NFT Marketplace Web
-                          Design, this time I'm inspired by one of my favorite
-                          NFT website called Superex (with crypto payment)! What
-                          do you think?
+                          This is a work from home position working USA Hours
+                          from 7:00a.m. CST to 3:30p.m Central Standard Time
+                          USA. We are seeking a Social Media Scheduler to join
+                          our team. In this role, you will primarily focus on
+                          Posting design post to correctly via Meta Suite or any
+                          third party software for our social media channels for
+                          multiple clients. Social media management tools like
+                          Meta (formerly Facebook Business Suite) is a must to
+                          know. Training will be provided for Specific
+                          software's but Meta (previously Facebook) posting
+                          knowledge is required. <br />
+                          <br />
+                          Responsibilities: Research Content and learn about
+                          client. Schedule and publish posts across different
+                          social media platforms using Meta's scheduling tools
+                          as well as other scheduling software's (training
+                          material will be provided for other platforms besides
+                          Meta). Making Accurate posts on accurate clients.
+                          Double checking all work. Monitor and analyze the
+                          performance of social media graphics and campaigns,
+                          making data-driven improvements. Stay updated on
+                          industry trends and best practices in graphic design,
+                          Reels, stories, and social media management. Properly
+                          know how to review and validate your own work, as well
+                          as that of others, to ensure accuracy and compliance
+                          with the specific guidelines set by each unique client
+                          base. <br />
+                          <br />
+                          Qualifications: Proven experience as a social media
+                          scheduling. In-depth knowledge of social media
+                          platforms and their respective image size and
+                          formatting requirements. Experience with social media
+                          management tools, especially Meta (Facebook Business
+                          Suite). Strong attention to detail and the ability to
+                          meet deadlines. Excellent communication and teamwork
+                          skills. Creative thinking and a passion for staying
+                          up-to-date with social media trends.
                         </p>
-                        <p className="text-muted">
-                          What does it mean? Biomechanics is the study of the
-                          structure, function and motion of the mechanical
-                          aspects of biological systems, at any level from whole
-                          organisms to organs, cells and cell organelles, using
-                          the methods of mechanics. Biomechanics is a branch of
-                          biophysics.
-                        </p>
+
                         <h6>Owner</h6>
 
                         <div className="creators creator-primary d-flex align-items-center">
@@ -227,26 +325,27 @@ const ItemDetailOne = () => {
                             <h6 className="mb-0">
                               <a
                                 href="/creators"
-                                onClick={e => {
-                                  e.preventDefault()
-                                  navigate('/creators')
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigate("/creators");
                                 }}
                                 className="text-dark name"
                               >
-                                PandaOne
+                                Brand X
                               </a>
                             </h6>
                           </div>
                         </div>
                       </div>
 
+                      {/* Socials */}
                       <div
                         className="tab-pane fade"
                         id="bids"
                         role="tabpanel"
                         aria-labelledby="bids-tab"
                       >
-                        <div className="creators creator-primary d-flex align-items-center">
+                        {/* <div className="creators creator-primary d-flex align-items-center">
                           <div className="position-relative">
                             <img
                               src={client01}
@@ -257,12 +356,12 @@ const ItemDetailOne = () => {
 
                           <div className="ms-3">
                             <h6 className="mb-0">
-                              2 WETH <span className="text-muted">by</span>{' '}
+                              2 WETH <span className="text-muted">by</span>{" "}
                               <a
                                 href="/creator-profile"
-                                onClick={e => {
-                                  e.preventDefault()
-                                  navigate('/creator-profile')
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigate("/creator-profile");
                                 }}
                                 className="text-dark name"
                               >
@@ -284,12 +383,12 @@ const ItemDetailOne = () => {
 
                           <div className="ms-3">
                             <h6 className="mb-0">
-                              0.001 WETH <span className="text-muted">by</span>{' '}
+                              0.001 WETH <span className="text-muted">by</span>{" "}
                               <a
                                 href="/creator-profile"
-                                onClick={e => {
-                                  e.preventDefault()
-                                  navigate('/creator-profile')
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigate("/creator-profile");
                                 }}
                                 className="text-dark name"
                               >
@@ -311,12 +410,12 @@ const ItemDetailOne = () => {
 
                           <div className="ms-3">
                             <h6 className="mb-0">
-                              1.225 WETH <span className="text-muted">by</span>{' '}
+                              1.225 WETH <span className="text-muted">by</span>{" "}
                               <a
                                 href="/creator-profile"
-                                onClick={e => {
-                                  e.preventDefault()
-                                  navigate('/creator-profile')
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigate("/creator-profile");
                                 }}
                                 className="text-dark name"
                               >
@@ -325,9 +424,66 @@ const ItemDetailOne = () => {
                             </h6>
                             <small className="text-muted">6 hours ago</small>
                           </div>
+                        </div> */}
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                          }}
+                        >
+                          <img
+                            src={social1}
+                            style={{ height: 20, width: 20 }}
+                          />
+                          <p style={{ lineHeight: 1, marginLeft: "15px" }}>
+                            facebook.com/lizhales_5864
+                          </p>
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                          }}
+                        >
+                          <img
+                            src={social4}
+                            style={{ height: 20, width: 20 }}
+                          />
+                          <p style={{ lineHeight: 1, marginLeft: "15px" }}>
+                            instagram.com/lizhales_5864
+                          </p>
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                          }}
+                        >
+                          <img
+                            src={social3}
+                            style={{ height: 20, width: 20 }}
+                          />
+                          <p style={{ lineHeight: 1, marginLeft: "15px" }}>
+                            tiktok.com/lizhales_5864
+                          </p>
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                          }}
+                        >
+                          <img
+                            src={social2}
+                            style={{ height: 20, width: 20 }}
+                          />
+                          <p style={{ lineHeight: 1, marginLeft: "15px" }}>
+                            youtube.com/lizhales_5864
+                          </p>
                         </div>
                       </div>
 
+                      {/* Activity */}
                       <div
                         className="tab-pane fade"
                         id="activity"
@@ -335,7 +491,7 @@ const ItemDetailOne = () => {
                         aria-labelledby="activity-tab"
                       >
                         <div className="row g-4">
-                          {activityData?.map(data => {
+                          {activityData?.map((data) => {
                             return (
                               <div className="col-12" key={data?.title}>
                                 <div className="card activity activity-primary rounded-md shadow p-4">
@@ -349,9 +505,9 @@ const ItemDetailOne = () => {
 
                                       <div className="position-absolute top-0 start-0 translate-middle px-1 rounded-lg shadow-md bg-white">
                                         {data?.favorite ===
-                                          'Started Following' ? (
+                                        "Started Following" ? (
                                           <i className="mdi mdi-account-check mdi-18px text-success"></i>
-                                        ) : data?.favorite === 'Liked by' ? (
+                                        ) : data?.favorite === "Liked by" ? (
                                           <i className="mdi mdi-heart mdi-18px text-danger"></i>
                                         ) : (
                                           <i className="mdi mdi-format-list-bulleted mdi-18px text-warning"></i>
@@ -361,16 +517,16 @@ const ItemDetailOne = () => {
                                     <span className="content ms-3">
                                       <a
                                         href=""
-                                        onClick={e => e.preventDefault()}
+                                        onClick={(e) => e.preventDefault()}
                                         className="text-dark title mb-0 h6 d-block"
                                       >
                                         {data?.time}
                                       </a>
                                       <small className="text-muted d-block mt-1">
-                                        {data?.favorite}{' '}
+                                        {data?.favorite}{" "}
                                         <a
                                           href=""
-                                          onClick={e => e.preventDefault()}
+                                          onClick={(e) => e.preventDefault()}
                                           className="link fw-bold"
                                         >
                                           @{data?.author}
@@ -384,7 +540,7 @@ const ItemDetailOne = () => {
                                   </div>
                                 </div>
                               </div>
-                            )
+                            );
                           })}
                           {/*end col*/}
                         </div>
@@ -404,6 +560,118 @@ const ItemDetailOne = () => {
         <div className="container mt-100 mt-60">
           <div className="row justify-content-center">
             <div className="col">
+              <h1
+                className="title"
+                style={{
+                  marginTop: "45px",
+                  textAlign: "center",
+                  fontWeight: "bolder",
+                  marginBottom: "50px",
+                }}
+              >
+                Related Jobs
+              </h1>
+            </div>
+            {/*end col*/}
+          </div>
+          {/*end row*/}
+
+          <div className="row g-4">
+            {relatedJobs?.map((data, index) => {
+              return (
+                <div className="col-lg-4 col-md-6" key={data?.title}>
+                  <div className="card blog blog-primary shadow rounded-md overflow-hidden">
+                    <div className="position-relative">
+                      <img
+                        src={data?.image}
+                        className="img-fluid rounded-md"
+                        alt=""
+                      />
+                      {/* <div className="position-absolute top-0 end-0 m-3">
+                        <span className="like-icon shadow-sm">
+                          <a
+                            href=""
+                            onClick={(e) => e.preventDefault()}
+                            className="text-muted icon"
+                          >
+                            <i className="mdi mdi-18px mdi-heart mb-0"></i>
+                          </a>
+                        </span>
+                      </div> */}
+                    </div>
+                    <div className="card-body position-relative p-4">
+                      <a
+                        href=""
+                        className="badge tag gradient rounded-md fw-bold"
+                      >
+                        {data?.type}
+                      </a>
+
+                      <ul className="list-unstyled mt-2">
+                        <li className="list-inline-item text-muted small me-3">
+                          <i className="uil uil-calendar-alt text-dark h6 me-1"></i>
+                          20th January, 2022
+                        </li>
+                      </ul>
+                      <a
+                        href="/blog-detail"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate("/blog-detail");
+                        }}
+                        className="text-dark title h5 mt-3"
+                      >
+                        {data?.title}
+                      </a>
+
+                      <div className="mt-3 d-flex justify-content-between align-items-center">
+                        {/* <a
+                          href="/blog-detail"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigate("/blog-detail");
+                          }}
+                          className="btn btn-link text-muted"
+                        >
+                          Read more <FiArrowRight className="fea icon-sm" />
+                        </a> */}
+
+                        <a
+                          href=""
+                          onClick={(e) => e.preventDefault()}
+                          className="btn btn-pills btn-soft-primary"
+                        >
+                          View Job
+                        </a>
+
+                        <span className="text-muted fs-6">
+                          by{" "}
+                          <a
+                            href="/creator-profile"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate("/creator-profile");
+                            }}
+                            className="link"
+                          >
+                            {data?.createdBy}
+                          </a>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+
+            {/*end col*/}
+          </div>
+          {/*end row*/}
+        </div>
+
+        {/* <div className="container mt-100 mt-60">
+          <div className="row justify-content-center">
+            <div className="col">
               <div className="section-title text-center mb-4 pb-2">
                 <h4 className="title mb-4">Related Auction Items</h4>
                 <p className="text-muted para-desc mb-0 mx-auto">
@@ -413,12 +681,10 @@ const ItemDetailOne = () => {
                 </p>
               </div>
             </div>
-            {/*end col*/}
           </div>
-          {/*end row*/}
 
           <div className="row row-cols-xl-4 row-cols-lg-3 row-cols-sm-2 row-cols-1">
-            {createdData?.map(data => {
+            {createdData?.map((data) => {
               return (
                 <div className="col mt-4 pt-2" key={data?.title}>
                   <div className="card nft-items nft-primary nft-auction rounded-md shadow overflow-hidden mb-1 p-3">
@@ -431,7 +697,7 @@ const ItemDetailOne = () => {
                         />
                         <a
                           href=""
-                          onClick={e => e.preventDefault()}
+                          onClick={(e) => e.preventDefault()}
                           className="text-dark small creator-name h6 mb-0 ms-2"
                         >
                           @{data?.author}
@@ -442,9 +708,9 @@ const ItemDetailOne = () => {
                     <div className="nft-image rounded-md mt-3 position-relative overflow-hidden">
                       <a
                         href="/item-detail-one"
-                        onClick={e => {
-                          e.preventDefault()
-                          navigate('/item-detail-one')
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate("/item-detail-one");
                         }}
                       >
                         <img src={data?.image} className="img-fluid" alt="" />
@@ -452,7 +718,7 @@ const ItemDetailOne = () => {
                       <div className="position-absolute top-0 start-0 m-2">
                         <a
                           href=""
-                          onClick={e => e.preventDefault()}
+                          onClick={(e) => e.preventDefault()}
                           className="badge badge-link bg-primary"
                         >
                           {data?.type}
@@ -462,7 +728,7 @@ const ItemDetailOne = () => {
                         <span className="like-icon shadow-sm">
                           <a
                             href=""
-                            onClick={e => e.preventDefault()}
+                            onClick={(e) => e.preventDefault()}
                             className="text-muted icon"
                           >
                             <i className="mdi mdi-18px mdi-heart mb-0"></i>
@@ -471,7 +737,7 @@ const ItemDetailOne = () => {
                       </div>
 
                       <div className="position-absolute bottom-0 start-0 m-2 h5 bg-gradient-primary text-white title-dark rounded-pill px-3">
-                        <i className="uil uil-clock"></i>{' '}
+                        <i className="uil uil-clock"></i>{" "}
                         <Countdown
                           date={data?.id}
                           renderer={({ days, hours, minutes, seconds }) => (
@@ -486,9 +752,9 @@ const ItemDetailOne = () => {
                     <div className="card-body content position-relative p-0 mt-3">
                       <a
                         href="/item-detail-one"
-                        onClick={e => {
-                          e.preventDefault()
-                          navigate('/item-detail-one')
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate("/item-detail-one");
                         }}
                         className="title text-dark h6"
                       >
@@ -504,9 +770,9 @@ const ItemDetailOne = () => {
                         </div>
                         <a
                           href="/item-detail-one"
-                          onClick={e => {
-                            e.preventDefault()
-                            navigate('/item-detail-one')
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigate("/item-detail-one");
                           }}
                           className="btn btn-icon btn-pills btn-primary"
                         >
@@ -516,13 +782,10 @@ const ItemDetailOne = () => {
                     </div>
                   </div>
                 </div>
-              )
+              );
             })}
-            {/*end col*/}
           </div>
-          {/*end row*/}
-        </div>
-        {/*end container*/}
+        </div> */}
       </section>
       {/*end section*/}
       {/* End */}
@@ -648,9 +911,9 @@ const ItemDetailOne = () => {
             <div className="modal-footer">
               <a
                 href="/activity"
-                onClick={e => {
-                  e.preventDefault()
-                  navigate('/activity')
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/activity");
                 }}
                 data-bs-toggle="modal"
                 className="btn btn-pills btn-primary"
@@ -753,10 +1016,10 @@ const ItemDetailOne = () => {
                       className="form-check-label text-muted ms-2"
                       htmlFor="AcceptT&C"
                     >
-                      I Accept{' '}
+                      I Accept{" "}
                       <a
                         href=""
-                        onClick={e => e.preventDefault()}
+                        onClick={(e) => e.preventDefault()}
                         className="text-primary"
                       >
                         Terms And Condition
@@ -791,10 +1054,10 @@ const ItemDetailOne = () => {
             <div className="modal-body text-center p-4">
               <h3>Yahhhoooo! 🎉</h3>
               <h6 className="text-muted mb-0">
-                You successfully purchased{' '}
+                You successfully purchased{" "}
                 <a href="" className="text-reset">
                   <u>XYZ nft</u>
-                </a>{' '}
+                </a>{" "}
                 from Superex
               </h6>
 
@@ -812,11 +1075,11 @@ const ItemDetailOne = () => {
 
               <ul className="list-unstyled social-icon mb-0 mt-4">
                 {[
-                  'uil uil-facebook-f',
-                  'uil uil-instagram',
-                  'uil uil-linkedin',
-                  'uil uil-dribbble',
-                  'uil uil-twitter',
+                  "uil uil-facebook-f",
+                  "uil uil-instagram",
+                  "uil uil-linkedin",
+                  "uil uil-dribbble",
+                  "uil uil-twitter",
                 ]?.map((data, index) => {
                   return (
                     <li className="list-inline-item lh-1 mr-1" key={index}>
@@ -824,7 +1087,7 @@ const ItemDetailOne = () => {
                         <i className={data}></i>
                       </a>
                     </li>
-                  )
+                  );
                 })}
               </ul>
             </div>
@@ -834,11 +1097,8 @@ const ItemDetailOne = () => {
       {/* Buy Now NFt Modal */}
       {/* footer */}
       <Footer />
-
-      {/* Style switcher  */}
-      <StyleSwitcher />
     </>
-  )
-}
+  );
+};
 
-export default ItemDetailOne
+export default ItemDetailOne;

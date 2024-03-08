@@ -1,26 +1,26 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Footer from '../../components/Footer'
-import Navbar from '../../components/Navbar'
-import { bg01, client01 } from '../../components/imageImport'
-import StyleSwitcher from '../../components/StyleSwitcher'
-import { FiCamera } from 'react-icons/fi'
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
+import { bg01, client01 } from "../../components/imageImport";
+import StyleSwitcher from "../../components/StyleSwitcher";
+import { FiCamera } from "react-icons/fi";
 
 const CreatorProfileEdit = () => {
-  const navigate = useNavigate()
-  const [name, setName] = useState('streetboyyy')
-  const [url, setUrl] = useState('https://superex.exe/streetboyyy')
-  const [twitter, _twitter] = useState('https://twitter.com/streetboyyy')
-  const [website, setWebsite] = useState('https://streetboyyy.com/')
-  const [email, setEmail] = useState('streetboyyy@example.com')
-  const [follow, setFollow] = useState(true)
-  const [job, setJob] = useState(true)
-  const [unsubscribe, setUnsubscribe] = useState(true)
+  const navigate = useNavigate();
+  const [name, setName] = useState("streetboyyy");
+  const [url, setUrl] = useState("https://superex.exe/streetboyyy");
+  const [twitter, _twitter] = useState("https://twitter.com/streetboyyy");
+  const [website, setWebsite] = useState("https://streetboyyy.com/");
+  const [email, setEmail] = useState("streetboyyy@example.com");
+  const [follow, setFollow] = useState(true);
+  const [job, setJob] = useState(true);
+  const [unsubscribe, setUnsubscribe] = useState(true);
 
   const loadFile = function (event) {
-    var image = document.getElementById(event.target.name)
-    image.src = URL.createObjectURL(event.target.files[0])
-  }
+    var image = document.getElementById(event.target.name);
+    image.src = URL.createObjectURL(event.target.files[0]);
+  };
 
   return (
     <>
@@ -53,17 +53,17 @@ const CreatorProfileEdit = () => {
             <nav aria-label="breadcrumb" className="d-block">
               <ul
                 className="breadcrumb breadcrumb-muted mb-0 p-0"
-                style={{ backgroundColor: 'transparent' }}
+                style={{ backgroundColor: "transparent" }}
               >
                 <li className="breadcrumb-item">
                   <a
-                    href="index"
-                    onClick={e => {
-                      e.preventDefault()
-                      navigate('/index')
+                    href="/"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/");
                     }}
                   >
-                    Superex
+                    Faimos
                   </a>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
@@ -121,23 +121,9 @@ const CreatorProfileEdit = () => {
                           type="text"
                           className="form-control"
                           value={name}
-                          onChange={e => setName(e.target.value)}
+                          onChange={(e) => setName(e.target.value)}
+                          style={{ paddingLeft: "20px" }}
                         />
-                      </div>
-                      {/*end col*/}
-
-                      <div className="col-12 mb-4">
-                        <label className="form-label h6">URL</label>
-                        <div className="form-icon">
-                          <input
-                            name="url"
-                            id="superex-url"
-                            type="url"
-                            className="form-control"
-                            value={url}
-                            onChange={e => setUrl(e.target.value)}
-                          />
-                        </div>
                       </div>
                       {/*end col*/}
 
@@ -148,7 +134,8 @@ const CreatorProfileEdit = () => {
                           id="comments"
                           rows="3"
                           className="form-control"
-                          placeholder="I'm a Digital Artist. Digital Art with over 3 years of experience. Experienced with all stages of the Art cycle for dynamic projects."
+                          placeholder="Bio."
+                          style={{ paddingLeft: "20px" }}
                         ></textarea>
                       </div>
                       {/*end col*/}
@@ -166,7 +153,8 @@ const CreatorProfileEdit = () => {
                             type="url"
                             className="form-control"
                             value={twitter}
-                            onChange={e => _twitter(e.target.value)}
+                            onChange={(e) => _twitter(e.target.value)}
+                            style={{ paddingLeft: "20px" }}
                           />
                         </div>
                       </div>
@@ -181,7 +169,8 @@ const CreatorProfileEdit = () => {
                             type="url"
                             className="form-control"
                             value={website}
-                            onChange={e => setWebsite(e.target.value)}
+                            onChange={(e) => setWebsite(e.target.value)}
+                            style={{ paddingLeft: "20px" }}
                           />
                         </div>
                       </div>
@@ -195,7 +184,8 @@ const CreatorProfileEdit = () => {
                           type="email"
                           className="form-control"
                           value={email}
-                          onChange={e => setEmail(e.target.value)}
+                          onChange={(e) => setEmail(e.target.value)}
+                          style={{ paddingLeft: "20px" }}
                         />
                       </div>
                       {/*end col*/}
@@ -391,7 +381,7 @@ const CreatorProfileEdit = () => {
                     name="profile-image"
                     type="file"
                     className="d-none"
-                    onChange={e => loadFile(e)}
+                    onChange={(e) => loadFile(e)}
                   />
                   <div className="position-relative d-inline-block">
                     <img
@@ -429,11 +419,8 @@ const CreatorProfileEdit = () => {
 
       {/* footer */}
       <Footer />
-
-      {/* Style switcher  */}
-      <StyleSwitcher />
     </>
-  )
-}
+  );
+};
 
-export default CreatorProfileEdit
+export default CreatorProfileEdit;

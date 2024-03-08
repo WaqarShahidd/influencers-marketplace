@@ -1,12 +1,12 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import Footer from '../../components/Footer'
-import Navbar from '../../components/Navbar'
-import { bg01, office } from '../../components/imageImport'
-import StyleSwitcher from '../../components/StyleSwitcher'
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
+import { bg01, office } from "../../components/imageImport";
+import StyleSwitcher from "../../components/StyleSwitcher";
 
 const Contact = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // Contact Form
   function validateForm() {
     var name = document.forms["myForm"]["name"].value;
@@ -14,24 +14,28 @@ const Contact = () => {
     var subject = document.forms["myForm"]["subject"].value;
     var comments = document.forms["myForm"]["comments"].value;
     document.getElementById("error-msg").style.opacity = 0;
-    document.getElementById('error-msg').innerHTML = "";
+    document.getElementById("error-msg").innerHTML = "";
     if (name == "" || name == null) {
-      document.getElementById('error-msg').innerHTML = "<div class='alert alert-warning error_message'>*Please enter a Name*</div>";
+      document.getElementById("error-msg").innerHTML =
+        "<div class='alert alert-warning error_message'>*Please enter a Name*</div>";
       fadeIn();
       return false;
     }
     if (email == "" || email == null) {
-      document.getElementById('error-msg').innerHTML = "<div class='alert alert-warning error_message'>*Please enter a Email*</div>";
+      document.getElementById("error-msg").innerHTML =
+        "<div class='alert alert-warning error_message'>*Please enter a Email*</div>";
       fadeIn();
       return false;
     }
     if (subject == "" || subject == null) {
-      document.getElementById('error-msg').innerHTML = "<div class='alert alert-warning error_message'>*Please enter a Subject*</div>";
+      document.getElementById("error-msg").innerHTML =
+        "<div class='alert alert-warning error_message'>*Please enter a Subject*</div>";
       fadeIn();
       return false;
     }
     if (comments == "" || comments == null) {
-      document.getElementById('error-msg').innerHTML = "<div class='alert alert-warning error_message'>*Please enter a Comments*</div>";
+      document.getElementById("error-msg").innerHTML =
+        "<div class='alert alert-warning error_message'>*Please enter a Comments*</div>";
       fadeIn();
       return false;
     }
@@ -47,7 +51,16 @@ const Contact = () => {
     };
     xhttp.open("POST", "php/contact.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("name=" + name + "&email=" + email + "&subject=" + subject + "&comments=" + comments);
+    xhttp.send(
+      "name=" +
+        name +
+        "&email=" +
+        email +
+        "&subject=" +
+        subject +
+        "&comments=" +
+        comments
+    );
     return false;
   }
   function fadeIn() {
@@ -55,7 +68,7 @@ const Contact = () => {
     var opacity = 0;
     var intervalID = setInterval(function () {
       if (opacity < 1) {
-        opacity = opacity + 0.5
+        opacity = opacity + 0.5;
         fade.style.opacity = opacity;
       } else {
         clearInterval(intervalID);
@@ -93,17 +106,17 @@ const Contact = () => {
             <nav aria-label="breadcrumb" className="d-block">
               <ul
                 className="breadcrumb breadcrumb-muted mb-0 p-0"
-                style={{ backgroundColor: 'transparent' }}
+                style={{ backgroundColor: "transparent" }}
               >
                 <li className="breadcrumb-item">
                   <a
-                    href="/index"
-                    onClick={e => {
-                      e.preventDefault()
-                      navigate('/index')
+                    href="/"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/");
                     }}
                   >
-                    Superex
+                    Faimos
                   </a>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
@@ -144,7 +157,7 @@ const Contact = () => {
                 <div className="content mt-4 px-4">
                   <h5 className="fw-bold">Phone</h5>
                   <p className="text-muted">
-                    Start working with Superex that can provide everything
+                    Start working with Faimos that can provide everything
                   </p>
                   <a href="tel:+152534-468-854" className="text-primary">
                     +152 534-468-854
@@ -162,7 +175,7 @@ const Contact = () => {
                 <div className="content mt-4 px-4">
                   <h5 className="fw-bold">Email</h5>
                   <p className="text-muted">
-                    Start working with Superex that can provide everything
+                    Start working with Faimos that can provide everything
                   </p>
                   <a href="mailto:contact@example.com" className="text-primary">
                     contact@example.com
@@ -211,9 +224,9 @@ const Contact = () => {
                       name="myForm"
                       onSubmit={(e) => {
                         e.preventDefault();
-                        validateForm()
+                        validateForm();
                       }}
-                    // id="myForm"
+                      // id="myForm"
                     >
                       <p className="mb-0" id="error-msg"></p>
                       <div id="simple-msg"></div>
@@ -343,11 +356,8 @@ const Contact = () => {
 
       {/* footer */}
       <Footer />
-
-      {/* Style switcher  */}
-      <StyleSwitcher />
     </>
-  )
-}
+  );
+};
 
-export default Contact
+export default Contact;

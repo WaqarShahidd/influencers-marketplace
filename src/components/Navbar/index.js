@@ -1,6 +1,7 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { character, client01, lightLogo, logoDark } from "../imageImport";
+import { character, client01, lightLogo, logo, logoDark } from "../imageImport";
 
 const Navbar = () => {
   const [myPublicAddress, setMyPublicAddress] = useState("qhut0...hfteh45");
@@ -185,16 +186,16 @@ const Navbar = () => {
       {/* Navbar STart */}
       <header
         id="topnav"
-        className={`defaultscroll sticky ${url && "gradient"}`}
+        className={`defaultscroll sticky ${url && "gradient"} `}
       >
         <div className="container">
           {/* Logo Start*/}
           <a
             className="logo"
-            href="/index"
+            href="/"
             onClick={(e) => {
               e.preventDefault();
-              navigate("/index");
+              navigate("/");
               setTimeout(() => {
                 activateMenu();
                 toggleSwitcher(false);
@@ -202,18 +203,8 @@ const Navbar = () => {
             }}
           >
             <span className="">
-              <img
-                src={logoDark}
-                height="26"
-                className={becomeUrl ? "logo-light-mode" : "l-dark"}
-                alt=""
-              />
-              <img
-                src={lightLogo}
-                height="26"
-                className={becomeUrl ? "logo-dark-mode" : "l-light"}
-                alt=""
-              />
+              <img src={logo} height="26" className={"l-dark"} alt="" />
+              <img src={logo} height="26" className={"l-light"} alt="" />
             </span>
             {/* {!becomeUrl && (
               <img
@@ -259,6 +250,7 @@ const Navbar = () => {
                   data-bs-toggle="dropdown"
                   aria-haspopup="true"
                   aria-expanded="false"
+                  style={{ marginRight: "10px" }}
                 >
                   {becomeUrl ? (
                     <i className="uil uil-search text-dark fs-5 align-middle"></i>
@@ -355,7 +347,7 @@ const Navbar = () => {
                           Calvin Carlo
                         </h6>
                       </div>
-                      <div className="mt-2">
+                      {/* <div className="mt-2">
                         <small className="text-start text-dark d-block fw-bold">
                           Wallet:
                         </small>
@@ -371,16 +363,16 @@ const Navbar = () => {
                             <span className="uil uil-copy"></span>
                           </a>
                         </div>
-                      </div>
+                      </div> */}
 
-                      <div className="mt-2">
+                      {/* <div className="mt-2">
                         <small className="text-dark">
                           Balance:{" "}
                           <span className="text-primary fw-bold">
                             0.00045ETH
                           </span>
                         </small>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div className="mt-2">
@@ -414,17 +406,51 @@ const Navbar = () => {
                       </span>{" "}
                       Settings
                     </a>
-                    <div className="dropdown-divider border-top"></div>
                     <a
                       className="dropdown-item small fw-semibold text-dark d-flex align-items-center"
-                      href="/lock-screen"
+                      href="/upload-work"
                       onClick={(e) => {
                         e.preventDefault();
                         setTimeout(() => {
                           activateMenu();
                           toggleSwitcher(false);
                         }, 1000);
-                        navigate("/lock-screen");
+                        navigate("/upload-work");
+                      }}
+                    >
+                      <span className="mb-0 d-inline-block me-1">
+                        <i className="uil uil-upload align-middle h6 mb-0 me-1"></i>
+                      </span>{" "}
+                      Upload Your Work
+                    </a>
+                    <a
+                      className="dropdown-item small fw-semibold text-dark d-flex align-items-center"
+                      href="/post-job"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setTimeout(() => {
+                          activateMenu();
+                          toggleSwitcher(false);
+                        }, 1000);
+                        navigate("/post-job");
+                      }}
+                    >
+                      <span className="mb-0 d-inline-block me-1">
+                        <i className="uil uil-upload align-middle h6 mb-0 me-1"></i>
+                      </span>{" "}
+                      Post a Job
+                    </a>
+                    <div className="dropdown-divider border-top"></div>
+                    <a
+                      className="dropdown-item small fw-semibold text-dark d-flex align-items-center"
+                      href="/login"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setTimeout(() => {
+                          activateMenu();
+                          toggleSwitcher(false);
+                        }, 1000);
+                        navigate("/login");
                       }}
                     >
                       <span className="mb-0 d-inline-block me-1">
@@ -447,11 +473,11 @@ const Navbar = () => {
               }`}
             >
               <li className="has-submenu parent-parent-menu-item">
-                <a href="" onClick={(e) => mobileHandler(e, "home")}>
+                <a href="" onClick={() => navigate("/")}>
                   Home
                 </a>
-                <span className="menu-arrow"></span>
-                <ul
+                {/* <span className="menu-arrow"></span> */}
+                {/* <ul
                   className={`submenu megamenu ${
                     mobile?.includes("home") ? "open" : ""
                   }`}
@@ -557,7 +583,7 @@ const Navbar = () => {
                           className="sub-menu-item"
                         >
                           Home Five{" "}
-                          {/* <span className="badge bg-warning">NEW</span> */}
+                          
                         </a>
                       </li>
                     </ul>
@@ -672,7 +698,6 @@ const Navbar = () => {
                           className="sub-menu-item"
                         >
                           Home Five Dark{" "}
-                          {/* <span className="badge bg-warning">NEW</span> */}
                         </a>
                       </li>
                     </ul>
@@ -699,7 +724,6 @@ const Navbar = () => {
                           className="sub-menu-item"
                         >
                           Home One RTL{" "}
-                          {/* <span className="badge bg-warning">NEW</span> */}
                         </a>
                       </li>
                       <li
@@ -722,7 +746,6 @@ const Navbar = () => {
                           className="sub-menu-item"
                         >
                           Home Two RTL{" "}
-                          {/* <span className="badge bg-warning">NEW</span> */}
                         </a>
                       </li>
                       <li
@@ -745,7 +768,6 @@ const Navbar = () => {
                           className="sub-menu-item"
                         >
                           Home Three RTL{" "}
-                          {/* <span className="badge bg-warning">NEW</span> */}
                         </a>
                       </li>
                       <li
@@ -768,7 +790,6 @@ const Navbar = () => {
                           className="sub-menu-item"
                         >
                           Home Four RTL{" "}
-                          {/* <span className="badge bg-warning">NEW</span> */}
                         </a>
                       </li>
                       <li
@@ -791,7 +812,6 @@ const Navbar = () => {
                           className="sub-menu-item"
                         >
                           Home Five RTL{" "}
-                          {/* <span className="badge bg-warning">NEW</span> */}
                         </a>
                       </li>
                     </ul>
@@ -820,7 +840,6 @@ const Navbar = () => {
                           className="sub-menu-item"
                         >
                           Home One Dark RTL{" "}
-                          {/* <span className="badge bg-warning">NEW</span> */}
                         </a>
                       </li>
                       <li
@@ -843,7 +862,6 @@ const Navbar = () => {
                           className="sub-menu-item"
                         >
                           Home Two Dark RTL{" "}
-                          {/* <span className="badge bg-warning">NEW</span> */}
                         </a>
                       </li>
                       <li
@@ -866,7 +884,6 @@ const Navbar = () => {
                           className="sub-menu-item"
                         >
                           Home Three Dark RTL{" "}
-                          {/* <span className="badge bg-warning">NEW</span> */}
                         </a>
                       </li>
                       <li
@@ -889,7 +906,6 @@ const Navbar = () => {
                           className="sub-menu-item"
                         >
                           Home Four Dark RTL{" "}
-                          {/* <span className="badge bg-warning">NEW</span> */}
                         </a>
                       </li>
                       <li
@@ -912,7 +928,6 @@ const Navbar = () => {
                           className="sub-menu-item"
                         >
                           Home Five Dark RTL{" "}
-                          {/* <span className="badge bg-warning">NEW</span> */}
                         </a>
                       </li>
                     </ul>
@@ -925,10 +940,78 @@ const Navbar = () => {
                       </li>
                     </ul>
                   </li>
-                </ul>
+                </ul> */}
               </li>
 
-              <li className="has-submenu parent-parent-menu-item">
+              <li>
+                <a
+                  href="/creators"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setTimeout(() => {
+                      activateMenu();
+                      toggleSwitcher(false);
+                    }, 1000);
+                    navigate("/creators");
+                  }}
+                  className="sub-menu-item"
+                >
+                  {" "}
+                  Creators
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/blog-sidebar"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setTimeout(() => {
+                      activateMenu();
+                      toggleSwitcher(false);
+                    }, 1000);
+                    navigate("/blog-sidebar");
+                  }}
+                  className="sub-menu-item"
+                >
+                  {" "}
+                  News
+                </a>
+              </li>
+
+              <li>
+                <a
+                  href="/wallet"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setTimeout(() => {
+                      activateMenu();
+                      toggleSwitcher(false);
+                    }, 1000);
+                    navigate("/wallet");
+                  }}
+                  className="sub-menu-item"
+                >
+                  Jobs
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/explore-one"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setTimeout(() => {
+                      activateMenu();
+                      toggleSwitcher(false);
+                    }, 1000);
+                    navigate("/explore-one");
+                  }}
+                  className="sub-menu-item"
+                >
+                  Pitch
+                </a>
+              </li>
+
+              {/* <li className="has-submenu parent-parent-menu-item">
                 <a href="" onClick={(e) => mobileHandler(e, "explores")}>
                   Explore
                 </a>
@@ -1057,46 +1140,27 @@ const Navbar = () => {
                     </a>
                   </li>
                 </ul>
-              </li>
+              </li> */}
 
               <li>
                 <a
-                  href="/activity"
+                  href="/contact"
                   onClick={(e) => {
                     e.preventDefault();
                     setTimeout(() => {
                       activateMenu();
                       toggleSwitcher(false);
                     }, 1000);
-                    navigate("/activity");
+                    navigate("/contact");
                   }}
                   className="sub-menu-item"
                 >
-                  {" "}
-                  Activity
+                  Contact
                 </a>
               </li>
-
-              <li>
-                <a
-                  href="/wallet"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setTimeout(() => {
-                      activateMenu();
-                      toggleSwitcher(false);
-                    }, 1000);
-                    navigate("/wallet");
-                  }}
-                  className="sub-menu-item"
-                >
-                  Wallet
-                </a>
-              </li>
-
               <li className="has-submenu parent-parent-menu-item">
                 <a href="" onClick={(e) => mobileHandler(e, "pages")}>
-                  Pages
+                  Help
                 </a>
                 <span className="menu-arrow"></span>
                 <ul
@@ -1120,7 +1184,7 @@ const Navbar = () => {
                       About Us
                     </a>
                   </li>
-                  <li className="has-submenu parent-menu-item">
+                  {/* <li className="has-submenu parent-menu-item">
                     <a href="" onClick={(e) => mobileHandler(e, "creators")}>
                       {" "}
                       Creator{" "}
@@ -1200,8 +1264,8 @@ const Navbar = () => {
                         </a>
                       </li>
                     </ul>
-                  </li>
-                  <li>
+                  </li> */}
+                  {/* <li>
                     <a
                       href="/collections"
                       onClick={(e) => {
@@ -1216,8 +1280,8 @@ const Navbar = () => {
                     >
                       Collections
                     </a>
-                  </li>
-                  <li className="has-submenu parent-menu-item">
+                  </li> */}
+                  {/* <li className="has-submenu parent-menu-item">
                     <a href="" onClick={(e) => mobileHandler(e, "blog")}>
                       {" "}
                       Blog{" "}
@@ -1280,93 +1344,93 @@ const Navbar = () => {
                         </a>
                       </li>
                     </ul>
-                  </li>
-                  <li className="has-submenu parent-menu-item">
-                    <a href="" onClick={(e) => mobileHandler(e, "auth")}>
-                      {" "}
-                      Auth Pages{" "}
-                    </a>
-                    <span className="submenu-arrow"></span>
-                    <ul
-                      className={`submenu ${
-                        mobile.includes("auth") ? "open" : ""
-                      }`}
-                    >
-                      <li>
-                        <a
-                          href="/login"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
-                            }, 1000);
-                            navigate("/login");
-                          }}
-                          className="sub-menu-item"
-                        >
-                          {" "}
-                          Login
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="/signup"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
-                            }, 1000);
-                            navigate("/signup");
-                          }}
-                          className="sub-menu-item"
-                        >
-                          {" "}
-                          Signup
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="/reset-password"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
-                            }, 1000);
-                            navigate("/reset-password");
-                          }}
-                          className="sub-menu-item"
-                        >
-                          {" "}
-                          Forgot Password
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="/lock-screen"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
-                            }, 1000);
-                            navigate("/lock-screen");
-                          }}
-                          className="sub-menu-item"
-                        >
-                          {" "}
-                          Lock Screen
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li className="has-submenu parent-menu-item">
+                  </li> */}
+                  {/* <li className="has-submenu parent-menu-item">
+                      <a href="" onClick={(e) => mobileHandler(e, "auth")}>
+                        {" "}
+                        Auth Pages{" "}
+                      </a>
+                      <span className="submenu-arrow"></span>
+                      <ul
+                        className={`submenu ${
+                          mobile.includes("auth") ? "open" : ""
+                        }`}
+                      >
+                        <li>
+                          <a
+                            href="/login"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setTimeout(() => {
+                                activateMenu();
+                                toggleSwitcher(false);
+                              }, 1000);
+                              navigate("/login");
+                            }}
+                            className="sub-menu-item"
+                          >
+                            {" "}
+                            Login
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="/signup"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setTimeout(() => {
+                                activateMenu();
+                                toggleSwitcher(false);
+                              }, 1000);
+                              navigate("/signup");
+                            }}
+                            className="sub-menu-item"
+                          >
+                            {" "}
+                            Signup
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="/reset-password"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setTimeout(() => {
+                                activateMenu();
+                                toggleSwitcher(false);
+                              }, 1000);
+                              navigate("/reset-password");
+                            }}
+                            className="sub-menu-item"
+                          >
+                            {" "}
+                            Forgot Password
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="/lock-screen"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setTimeout(() => {
+                                activateMenu();
+                                toggleSwitcher(false);
+                              }, 1000);
+                              navigate("/lock-screen");
+                            }}
+                            className="sub-menu-item"
+                          >
+                            {" "}
+                            Lock Screen
+                          </a>
+                        </li>
+                      </ul>
+                    </li> */}
+                  {/* <li className="has-submenu parent-menu-item">
                     <a href="" onClick={(e) => mobileHandler(e, "special")}>
                       {" "}
                       Special
-                      {/* <span className="badge bg-warning">NEW</span> */}{" "}
+                  
                     </a>
                     <span className="submenu-arrow"></span>
                     <ul
@@ -1408,32 +1472,13 @@ const Navbar = () => {
                           Maintenance
                         </a>
                       </li>
-                      <li>
-                        <a
-                          href="/error"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
-                            }, 1000);
-                            navigate("/error");
-                          }}
-                          className="sub-menu-item"
-                        >
-                          {" "}
-                          404!
-                        </a>
-                      </li>
+                      
                     </ul>
-                  </li>
-                  <li className="has-submenu parent-menu-item">
+                  </li> */}
+                  {/* <li className="has-submenu parent-menu-item">
                     <a href="" onClick={(e) => mobileHandler(e, "help")}>
                       {" "}
                       Help Center
-                      {/* <span className="badge bg-warning">
-                        NEW
-                      </span>{' '} */}
                     </a>
                     <span className="submenu-arrow"></span>
                     <ul
@@ -1526,7 +1571,7 @@ const Navbar = () => {
                     >
                       Upload Works
                     </a>
-                  </li>
+                  </li> */}
                   <li>
                     <a
                       href="/terms"
@@ -1576,23 +1621,6 @@ const Navbar = () => {
                     </a>
                   </li>
                 </ul>
-              </li>
-
-              <li>
-                <a
-                  href="/contact"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setTimeout(() => {
-                      activateMenu();
-                      toggleSwitcher(false);
-                    }, 1000);
-                    navigate("/contact");
-                  }}
-                  className="sub-menu-item"
-                >
-                  Contact
-                </a>
               </li>
             </ul>
             {/*end navigation menu*/}

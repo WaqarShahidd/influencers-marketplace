@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
-import { whiteLogo } from "../../components/imageImport";
+import { logo, whiteLogo } from "../../components/imageImport";
 import StyleSwitcher from "../../components/StyleSwitcher";
 
 const SignUp = () => {
@@ -22,7 +22,7 @@ const SignUp = () => {
       {/*  Hero Start  */}
       <section className="position-relative">
         <div className="bg-video-wrapper">
-          <iframe src="https://player.vimeo.com/video/502163294?background=1&autoplay=1&loop=1&byline=0&title=0"></iframe>
+          {/* <iframe src="https://player.vimeo.com/video/502163294?background=1&autoplay=1&loop=1&byline=0&title=0"></iframe> */}
           {/* Note: Vimeo Embed Background Video */}
 
           {/*  <iframe src="https://www.youtube.com/embed/yba7hPeTSjk?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1"></iframe>  */}
@@ -35,8 +35,8 @@ const SignUp = () => {
               <div className="d-flex flex-column min-vh-100 p-4">
                 {/*  Start Logo  */}
                 <div className="text-center">
-                  <a href="">
-                    <img src={whiteLogo} alt="" />
+                  <a href="" onClick={() => navigate("/")}>
+                    <img src={logo} alt="" />
                   </a>
                 </div>
                 {/*  End Logo  */}
@@ -55,6 +55,7 @@ const SignUp = () => {
                               className="form-control"
                               id="RegisterName"
                               placeholder="Harry"
+                              style={{ backgroundColor: "transparent" }}
                             />
                             <label htmlFor="RegisterName">First Name</label>
                           </div>
@@ -68,6 +69,7 @@ const SignUp = () => {
                               className="form-control"
                               id="RegisterEmail"
                               placeholder="name@example.com"
+                              style={{ backgroundColor: "transparent" }}
                             />
                             <label htmlFor="RegisterEmail">Email Address</label>
                           </div>
@@ -81,6 +83,7 @@ const SignUp = () => {
                               className="form-control"
                               id="RegisterPassword"
                               placeholder="Password"
+                              style={{ backgroundColor: "transparent" }}
                             />
                             <label htmlFor="RegisterPassword">Password</label>
                           </div>
@@ -148,13 +151,7 @@ const SignUp = () => {
                 {/*  End Content  */}
 
                 {/*  Start Footer  */}
-                <div className="text-center">
-                  <small className="mb-0 text-light title-dark">
-                    © <script>document.write(new Date().getFullYear())</script>{" "}
-                    Superex. Design & Develop with{" "}
-                    <i className="mdi mdi-heart text-danger"></i> by
-                  </small>
-                </div>
+
                 {/*  End Footer  */}
               </div>
             </div>
@@ -166,9 +163,6 @@ const SignUp = () => {
       </section>
       {/* end section */}
       {/*  Hero End  */}
-
-      {/* Style switcher  */}
-      <StyleSwitcher />
     </>
   );
 };

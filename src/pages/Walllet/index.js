@@ -1,126 +1,196 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import Footer from '../../components/Footer'
-import Navbar from '../../components/Navbar'
-import StyleSwitcher from '../../components/StyleSwitcher'
-import { bg01, MetaMask_Fox, aave, Airswap, Compound, DDEX, defiSaver, dYdX, IDEX, Kyber, Maker, NUO, PoolTogether, Sablier, set, Uniswap, Zerion, logoDark } from '../../components/imageImport'
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
+import Countdown from "react-countdown";
+import StyleSwitcher from "../../components/StyleSwitcher";
+import {
+  bg01,
+  MetaMask_Fox,
+  aave,
+  Airswap,
+  Compound,
+  DDEX,
+  defiSaver,
+  dYdX,
+  IDEX,
+  Kyber,
+  Maker,
+  NUO,
+  PoolTogether,
+  Sablier,
+  set,
+  Uniswap,
+  Zerion,
+  logoDark,
+  client06,
+  client05,
+  client08,
+  item10,
+  item9,
+  item8,
+  item7,
+  gif6,
+  item6,
+  gif5,
+  item5,
+  gif4,
+  item4,
+  gif3,
+  item3,
+  item2,
+  gif2,
+  item1,
+  gif1,
+  news1,
+  news2,
+  news3,
+  news4,
+} from "../../components/imageImport";
 
 const Wallet = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const walletData = [
     {
-      title: 'MetaMask',
-      description: 'Learn about how to get the wallet and much more clicking ',
+      title: "MetaMask",
+      description: "Learn about how to get the wallet and much more clicking ",
       image: MetaMask_Fox,
-      background: 'bg-gradient-primary',
+      background: "bg-gradient-primary",
       popular: true,
     },
     {
-      title: 'Aave',
-      description: 'Learn about how to get the wallet and much more clicking ',
+      title: "Aave",
+      description: "Learn about how to get the wallet and much more clicking ",
       image: aave,
-      background: 'bg-gradient-primary',
+      background: "bg-gradient-primary",
       popular: false,
     },
     {
-      title: 'Airswap',
-      description: 'Learn about how to get the wallet and much more clicking ',
+      title: "Airswap",
+      description: "Learn about how to get the wallet and much more clicking ",
       image: Airswap,
-      background: 'bg-gradient-warning',
+      background: "bg-gradient-warning",
       popular: false,
     },
     {
-      title: 'Compound',
-      description: 'Learn about how to get the wallet and much more clicking ',
+      title: "Compound",
+      description: "Learn about how to get the wallet and much more clicking ",
       image: Compound,
-      background: 'bg-gradient-danger',
+      background: "bg-gradient-danger",
       popular: false,
     },
     {
-      title: 'DDEX',
-      description: 'Learn about how to get the wallet and much more clicking ',
+      title: "DDEX",
+      description: "Learn about how to get the wallet and much more clicking ",
       image: DDEX,
-      background: 'bg-gradient-info',
+      background: "bg-gradient-info",
       popular: false,
     },
     {
-      title: 'Defi Saver',
-      description: 'Learn about how to get the wallet and much more clicking ',
+      title: "Defi Saver",
+      description: "Learn about how to get the wallet and much more clicking ",
       image: defiSaver,
-      background: 'bg-gradient-primary',
+      background: "bg-gradient-primary",
       popular: false,
     },
     {
-      title: 'DYDX',
-      description: 'Learn about how to get the wallet and much more clicking ',
+      title: "DYDX",
+      description: "Learn about how to get the wallet and much more clicking ",
       image: dYdX,
-      background: 'bg-gradient-primary',
+      background: "bg-gradient-primary",
       popular: false,
     },
     {
-      title: 'IDEX',
-      description: 'Learn about how to get the wallet and much more clicking ',
+      title: "IDEX",
+      description: "Learn about how to get the wallet and much more clicking ",
       image: IDEX,
-      background: 'bg-gradient-warning',
+      background: "bg-gradient-warning",
       popular: false,
     },
     {
-      title: 'Kyber',
-      description: 'Learn about how to get the wallet and much more clicking ',
+      title: "Kyber",
+      description: "Learn about how to get the wallet and much more clicking ",
       image: Kyber,
-      background: 'bg-gradient-danger',
+      background: "bg-gradient-danger",
       popular: false,
     },
     {
-      title: 'Maker',
-      description: 'Learn about how to get the wallet and much more clicking ',
+      title: "Maker",
+      description: "Learn about how to get the wallet and much more clicking ",
       image: Maker,
-      background: 'bg-gradient-info',
+      background: "bg-gradient-info",
       popular: false,
     },
     {
-      title: 'NUO',
-      description: 'Learn about how to get the wallet and much more clicking ',
+      title: "NUO",
+      description: "Learn about how to get the wallet and much more clicking ",
       image: NUO,
-      background: 'bg-gradient-primary',
+      background: "bg-gradient-primary",
       popular: false,
     },
     {
-      title: 'PoolTogether',
-      description: 'Learn about how to get the wallet and much more clicking ',
+      title: "PoolTogether",
+      description: "Learn about how to get the wallet and much more clicking ",
       image: PoolTogether,
-      background: 'bg-gradient-primary',
+      background: "bg-gradient-primary",
       popular: false,
     },
     {
-      title: 'Sablier',
-      description: 'Learn about how to get the wallet and much more clicking ',
+      title: "Sablier",
+      description: "Learn about how to get the wallet and much more clicking ",
       image: Sablier,
-      background: 'bg-gradient-warning',
+      background: "bg-gradient-warning",
       popular: false,
     },
     {
-      title: 'Set',
-      description: 'Learn about how to get the wallet and much more clicking ',
+      title: "Set",
+      description: "Learn about how to get the wallet and much more clicking ",
       image: set,
-      background: 'bg-gradient-danger',
+      background: "bg-gradient-danger",
       popular: false,
     },
     {
-      title: 'Uniswap',
-      description: 'Learn about how to get the wallet and much more clicking ',
+      title: "Uniswap",
+      description: "Learn about how to get the wallet and much more clicking ",
       image: Uniswap,
-      background: 'bg-gradient-info',
+      background: "bg-gradient-info",
       popular: false,
     },
     {
-      title: 'Zerion',
-      description: 'Learn about how to get the wallet and much more clicking ',
+      title: "Zerion",
+      description: "Learn about how to get the wallet and much more clicking ",
       image: Zerion,
-      background: 'bg-gradient-secondary',
+      background: "bg-gradient-secondary",
       popular: false,
     },
-  ]
+  ];
+
+  const AuctionData = [
+    {
+      image: news1,
+      title: "Brand X",
+      id: "May 29, 2022 6:0:0",
+      type: "Editor",
+    },
+    {
+      image: news2,
+      title: "Brand Y",
+      id: "",
+      type: "Videographer",
+    },
+    {
+      image: news3,
+      title: "Brand Z",
+      id: "",
+      type: "Photographer",
+    },
+    {
+      image: news4,
+      title: "Brand W",
+      id: "June 03, 2022 5:3:1",
+      type: "Designer",
+    },
+  ];
   return (
     <>
       {/* Navbar */}
@@ -137,10 +207,11 @@ const Wallet = () => {
             <div className="col-12">
               <div className="title-heading text-center">
                 <h5 className="heading fw-semibold sub-heading text-white title-dark">
-                  Wallet Connect
+                  Job Marketplace
                 </h5>
                 <p className="text-white-50 para-desc mx-auto mb-0">
-                  Please check all Wallets and connect with your wallet
+                  Find the best job for you and get hired by the top brands
+                  around the world.
                 </p>
               </div>
             </div>
@@ -152,21 +223,21 @@ const Wallet = () => {
             <nav aria-label="breadcrumb" className="d-block">
               <ul
                 className="breadcrumb breadcrumb-muted mb-0 p-0"
-                style={{ backgroundColor: 'transparent' }}
+                style={{ backgroundColor: "transparent" }}
               >
                 <li className="breadcrumb-item">
                   <a
-                    href="/index"
-                    onClick={e => {
-                      e.preventDefault()
-                      navigate('/index')
+                    href="/"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/");
                     }}
                   >
-                    Superex
+                    Faimos
                   </a>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
-                  Wallet
+                  Jobs
                 </li>
               </ul>
             </nav>
@@ -191,8 +262,8 @@ const Wallet = () => {
       </div>
       {/* End Home */}
 
-      {/* Start Hero */}
-      <section className="section">
+      {/* Start Wallet */}
+      {/* <section className="section">
         <div className="container">
           <div className="row row-cols-xl-4 row-cols-lg-3 row-cols-sm-2 row-cols-1 g-4">
             {walletData?.map((wallet, index) => {
@@ -224,7 +295,7 @@ const Wallet = () => {
                           {wallet?.description}
                           <a
                             href=""
-                            onClick={e => e.preventDefault()}
+                            onClick={(e) => e.preventDefault()}
                             data-bs-toggle="modal"
                             data-bs-target="#LoginForm"
                             className="link fw-semibold"
@@ -236,16 +307,13 @@ const Wallet = () => {
                     </div>
                   </div>
                 </div>
-              )
+              );
               {
-                /*end col*/
               }
             })}
           </div>
-          {/*end row*/}
         </div>
-        {/*end container*/}
-      </section>
+      </section> */}
 
       {/* Modal Login Start */}
       <div
@@ -314,9 +382,9 @@ const Wallet = () => {
                   <small className="text-muted mb-0">
                     <a
                       href="/reset-password"
-                      onClick={e => {
-                        e.preventDefault()
-                        navigate('/reset-password')
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/reset-password");
                       }}
                       data-bs-toggle="modal"
                       data-bs-target="#LoginForm"
@@ -332,7 +400,7 @@ const Wallet = () => {
                   type="submit"
                   data-bs-toggle="modal"
                   data-bs-target="#LoginForm"
-                  onClick={e => e.preventDefault()}
+                  onClick={(e) => e.preventDefault()}
                 >
                   Sign in
                 </button>
@@ -341,12 +409,12 @@ const Wallet = () => {
                   <small>
                     <span className="text-muted me-2">
                       Don't have an account ?
-                    </span>{' '}
+                    </span>{" "}
                     <a
                       href="/signup"
-                      onClick={e => {
-                        e.preventDefault()
-                        navigate('/signup')
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/signup");
                       }}
                       data-bs-toggle="modal"
                       data-bs-target="#LoginForm"
@@ -364,15 +432,386 @@ const Wallet = () => {
       </div>
 
       {/* Modal Login End */}
+
+      {/* Start */}
+      <section className="section">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-3 col-md-6">
+              <div className="sticky-bar">
+                <h5 className="mb-0">Filters</h5>
+                <div className="p-4 rounded-md shadow mt-4">
+                  <div>
+                    <h6>Orders By:</h6>
+                    <form>
+                      <div className="form-check align-items-center d-flex mb-0">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value=""
+                          id="NewOrder"
+                        />
+                        <label
+                          className="form-check-label fw-bold ms-2"
+                          htmlFor="NewOrder"
+                        >
+                          Newest
+                        </label>
+                      </div>
+                      <div className="form-check align-items-center d-flex mb-0">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value=""
+                          id="TrendOrder"
+                        />
+                        <label
+                          className="form-check-label fw-bold ms-2"
+                          htmlFor="TrendOrder"
+                        >
+                          Trending
+                        </label>
+                      </div>
+                      <div className="form-check align-items-center d-flex mb-0">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value=""
+                          id="OldOrder"
+                        />
+                        <label
+                          className="form-check-label fw-bold ms-2"
+                          htmlFor="OldOrder"
+                        >
+                          Oldest
+                        </label>
+                      </div>
+                    </form>
+                  </div>
+
+                  <div className="mt-4">
+                    <h6>Catagories By:</h6>
+                    <form>
+                      <div className="form-check align-items-center d-flex mb-0">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value=""
+                          id="GamesCatagory"
+                        />
+                        <label
+                          className="form-check-label fw-bold ms-2"
+                          htmlFor="GamesCatagory"
+                        >
+                          Fashion
+                        </label>
+                      </div>
+                      <div className="form-check align-items-center d-flex mb-0">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value=""
+                          id="ArtCatagory"
+                        />
+                        <label
+                          className="form-check-label fw-bold ms-2"
+                          htmlFor="ArtCatagory"
+                        >
+                          Food & Drink
+                        </label>
+                      </div>
+                      <div className="form-check align-items-center d-flex mb-0">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value=""
+                          id="MusicCatagory"
+                        />
+                        <label
+                          className="form-check-label fw-bold ms-2"
+                          htmlFor="MusicCatagory"
+                        >
+                          Music
+                        </label>
+                      </div>
+                      <div className="form-check align-items-center d-flex mb-0">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value=""
+                          id="VideoCatagory"
+                        />
+                        <label
+                          className="form-check-label fw-bold ms-2"
+                          htmlFor="VideoCatagory"
+                        >
+                          Video
+                        </label>
+                      </div>
+                      <div className="form-check align-items-center d-flex mb-0">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value=""
+                          id="MemesCatagory"
+                        />
+                        <label
+                          className="form-check-label fw-bold ms-2"
+                          htmlFor="MemesCatagory"
+                        >
+                          Memes
+                        </label>
+                      </div>
+                      <div className="form-check align-items-center d-flex mb-0">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value=""
+                          id="IllustrationCatagory"
+                        />
+                        <label
+                          className="form-check-label fw-bold ms-2"
+                          htmlFor="IllustrationCatagory"
+                        >
+                          Illustration
+                        </label>
+                      </div>
+                    </form>
+                  </div>
+
+                  <div className="mt-4">
+                    <h6>Creators By:</h6>
+                    <form>
+                      <div className="form-check align-items-center d-flex mb-0">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value=""
+                          id="AllCreators"
+                        />
+                        <label
+                          className="form-check-label fw-bold ms-2"
+                          htmlFor="AllCreators"
+                        >
+                          All Creators
+                        </label>
+                      </div>
+                      <div className="form-check align-items-center d-flex mb-0">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value=""
+                          id="VerifyCreators"
+                        />
+                        <label
+                          className="form-check-label fw-bold ms-2"
+                          htmlFor="VerifyCreators"
+                        >
+                          Verified Creators
+                        </label>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/*end col*/}
+
+            <div className="col-lg-9 col-md-6 mt-4 mt-sm-0 pt-2 pt-sm-0">
+              <div className="row row-cols-xl-3 row-cols-lg-2 row-cols-1">
+                {AuctionData?.map((data, index) => {
+                  return (
+                    <div
+                      className={index < 3 ? "col" : "col pt-2 mt-4"}
+                      key={index}
+                    >
+                      <div className="card nft-items nft-primary rounded-md shadow overflow-hidden mb-1 p-3">
+                        {/* <div className="d-flex justify-content-between">
+                          <div className="img-group">
+                            <a
+                              href="/creator-profile"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/creator-profile");
+                              }}
+                              className="user-avatar"
+                            >
+                              <img
+                                src={client08}
+                                alt="user"
+                                className="avatar avatar-sm-sm img-thumbnail border-0 shadow-sm rounded-circle"
+                              />
+                            </a>
+                            <a
+                              href="/creator-profile"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/creator-profile");
+                              }}
+                              className="user-avatar ms-n3"
+                            >
+                              <img
+                                src={client05}
+                                alt="user"
+                                className="avatar avatar-sm-sm img-thumbnail border-0 shadow-sm rounded-circle"
+                              />
+                            </a>
+                            <a
+                              href="/creator-profile"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/creator-profile");
+                              }}
+                              className="user-avatar ms-n3"
+                            >
+                              <img
+                                src={client06}
+                                alt="user"
+                                className="avatar avatar-sm-sm img-thumbnail border-0 shadow-sm rounded-circle"
+                              />
+                            </a>
+                          </div>
+
+                          <span className="like-icon shadow-sm">
+                            <a
+                              href=""
+                              onClick={(e) => e.preventDefault()}
+                              className="text-muted icon"
+                            >
+                              <i className="mdi mdi-18px mdi-heart mb-0"></i>
+                            </a>
+                          </span>
+                        </div> */}
+
+                        <div className="nft-image rounded-md position-relative overflow-hidden">
+                          <a
+                            href="/item-detail-one"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate("/item-detail-one");
+                            }}
+                          >
+                            <img
+                              src={data?.image}
+                              className="img-fluid"
+                              alt=""
+                            />
+                          </a>
+                          {data?.type && (
+                            <div className="position-absolute top-0 start-0 m-2">
+                              <a
+                                href=""
+                                onClick={(e) => e.preventDefault()}
+                                className="badge badge-link bg-primary"
+                              >
+                                {data?.type}
+                              </a>
+                            </div>
+                          )}
+                          <div
+                            className={`${
+                              data?.id ? "" : "hide-data"
+                            } position-absolute bottom-0 start-0 m-2 bg-gradient-primary text-white title-dark rounded-pill px-3`}
+                          >
+                            <i className="uil uil-clock"></i>{" "}
+                            <Countdown
+                              date={data?.id}
+                              renderer={({ days, hours, minutes, seconds }) => (
+                                <span>Urgently Hiring</span>
+                              )}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="card-body content position-relative p-0 mt-3">
+                          <a
+                            href="/item-detail-one"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate("/item-detail-one");
+                            }}
+                            className="title text-dark h6"
+                          >
+                            Job Title
+                          </a>
+                          <p style={{ fontSize: "15px" }}>{data?.title}</p>
+
+                          <div className="d-flex justify-content-between mt-2">
+                            <small className="rate fw-bold">Mesopotamia</small>
+                            <small className="text-dark fw-bold">
+                              $30,000 USD
+                              {/* <span className="text-muted">($50,000)</span> */}
+                            </small>
+                          </div>
+                          <div>
+                            <span
+                              className="text-muted"
+                              style={{
+                                display: "-webkit-box",
+                                WebkitBoxOrient: "vertical",
+                                WebkitLineClamp: 3,
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                marginTop: "10px",
+                              }}
+                            >
+                              {" "}
+                              We are seeking a Social Media Scheduler to join
+                              our team. In this role, you will primarily focus
+                              on Posting design post to correctly via Meta Suite
+                              or any third party software for our social media
+                              channels for multiple clients. Social media
+                              management tools like Meta (formerly Facebook
+                              Business Suite) is a must to know. Training will
+                              be provided for Specific software's but Meta
+                              (previously Facebook) posting knowledge is
+                              required.
+                            </span>
+                            <span style={{ fontSize: "10px", color: "grey" }}>
+                              Posted 2 days ago
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+                {/*end col*/}
+              </div>
+              {/*end row*/}
+
+              <div className="row justify-content-center mt-4">
+                <div className="col">
+                  <div className="text-center">
+                    <a
+                      href=""
+                      onClick={(e) => e.preventDefault()}
+                      className="btn btn-primary rounded-md"
+                    >
+                      <i className="uil uil-process mdi-spin me-1"></i> Load
+                      More
+                    </a>
+                  </div>
+                </div>
+                {/*end col*/}
+              </div>
+              {/*end row*/}
+            </div>
+            {/*end col*/}
+          </div>
+          {/*end row*/}
+        </div>
+        {/*end container*/}
+      </section>
       {/*end section*/}
-      {/* End Hero */}
+      {/* End */}
+
+      {/*end section*/}
+      {/* CTA End */}
       {/* footer */}
       <Footer />
-
-      {/* Style switcher  */}
-      <StyleSwitcher />
     </>
-  )
-}
+  );
+};
 
-export default Wallet
+export default Wallet;

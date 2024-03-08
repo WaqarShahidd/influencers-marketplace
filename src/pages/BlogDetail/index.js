@@ -1,13 +1,21 @@
-import React, { useEffect } from 'react'
-import Footer from '../../components/Footer'
-import Navbar from '../../components/Navbar'
-import StyleSwitcher from '../../components/StyleSwitcher'
-import { bg10, single, logo48 } from '../../components/imageImport'
+import React, { useEffect } from "react";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
+import StyleSwitcher from "../../components/StyleSwitcher";
+import {
+  bg10,
+  single,
+  logo48,
+  logoS,
+  news4,
+  news1,
+  news2,
+} from "../../components/imageImport";
 
 const BlogDetail = () => {
   useEffect(() => {
-    window.Tobii()
-  }, [])
+    window.Tobii();
+  }, []);
 
   return (
     <>
@@ -20,26 +28,31 @@ const BlogDetail = () => {
           <div className="row mt-5 mt-lg-0 justify-content-center">
             <div className="col-lg-8">
               <div className="title-heading">
-                <h4 className="heading sub-heading fw-bold mb-3">
-                  Here's a quick guide about how to make money selling your
-                  artworks with Superex!
+                <h4
+                  className="heading sub-heading fw-bold mb-3"
+                  style={{ color: "#fff" }}
+                >
+                  90% of Social Media Influencers Are Active on Instagram
                 </h4>
                 <p className="text-muted fs-5 mb-0">
-                  The NFT space has made unprecedented progress since we first
-                  launched Superex in late 2021, as it hit several major
-                  milestones in the past…
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu.
                 </p>
 
                 <div className="d-flex align-items-center mt-4">
-                  <img src={logo48} className="rounded-pill shadow-md" alt="" />
+                  <img src={logoS} className="rounded-pill shadow-md" alt="" />
 
                   <div className="content ms-2">
                     <a
                       href=""
-                      onClick={e => e.preventDefault()}
+                      onClick={(e) => e.preventDefault()}
                       className="h6 text-dark d-block mb-0"
                     >
-                      Superex NFT
+                      Faimos
                     </a>
                     <small className="text-muted mb-0">
                       20th January 2022, 8 min read
@@ -50,7 +63,7 @@ const BlogDetail = () => {
             </div>
             {/*end col*/}
 
-            <div className="col-12 mt-5">
+            {/* <div className="col-12 mt-5">
               <div className="position-relative">
                 <img
                   src={single}
@@ -68,75 +81,68 @@ const BlogDetail = () => {
                   </a>
                 </div>
               </div>
-            </div>
+            </div> */}
             {/*end col*/}
 
             <div className="col-lg-8 mt-5">
               <p className="text-muted">
-                However, as the space keeps expanding and people proceed to mint
-                thousands of NFTs every day, an important question arises - how
-                do we make sure that all that creative work remains accessible
-                over time?
+                In today's digital age, influencer marketing has become a
+                powerful tool for brands to reach their target audience
+                authentically. Similarly, influencers are constantly seeking
+                meaningful partnerships with brands that align with their values
+                and aspirations. At our marketplace, we bring together the best
+                of both worlds, creating a vibrant ecosystem where brands and
+                influencers can seamlessly connect and collaborate.
               </p>
 
               <p className="text-muted">
-                Earlier this year, as NFTs began hitting the mainstream, the
-                industry faced a major technical problem. As highlighted by some
-                analysts, most of the JPEGs (or other file formats) that serve
-                as the media basis for their respective NFTs weren't stored on
-                the chain itself. Instead, NFTs often simply redirected to a URL
-                where the corresponding media was hosted - in most cases, that
-                was a separate domain that belonged to either the creator or the
-                platform where that NFT was minted.
+                Our platform serves as a bridge, connecting brands with a
+                diverse range of influencers spanning various niches and
+                demographics. Whether you're a burgeoning startup or an
+                established brand, our marketplace provides you with
+                unparalleled access to a curated network of influencers ready to
+                amplify your message.
               </p>
 
               <p className="text-muted">
-                But what happens when those domains go down? With that
-                discovery, it became apparent that some NFTs have a single point
-                of failure, which, in turn, could significantly impact their
-                longevity and value.
+                For influencers, our platform offers a gateway to explore
+                exciting brand collaborations tailored to their unique voice and
+                audience. With access to a myriad of brands across industries,
+                influencers can discover partnership opportunities that resonate
+                with their personal brand ethos.
               </p>
 
               <p className="text-muted mb-0">
-                In light of that, numerous projects and organisations have begun
-                working on a potential fix. In a recent Clubhouse session, we
-                brought those pioneering protocols and projects - Protocol Labs
-                (an open-source lab that is working on Filecoin, IPFS and
-                libp2p), Async.art, Fleek and Arweave - together to have a
-                constructive discussion about the future of NFT metadata. Here's
-                a concise recap of the main ideas that were discussed there.
+                At the heart of our marketplace lies the belief in the power of
+                authentic connections. We prioritize transparency, ensuring that
+                brands and influencers have full control over their
+                partnerships. Our intuitive platform streamlines the
+                collaboration process, allowing both parties to communicate
+                effectively and negotiate terms that meet their mutual goals.
               </p>
 
               <div className="px-4 py-5 rounded-md bg-soft-primary text-center mt-4">
                 <h4 className="mb-0">
-                  " Thinking about giving the gift of an NFT? What to know about
-                  digital tokens "
+                  " Where Brands Meet Influence, and Influence Meets Brands -
+                  Unleash Your Potential Today! "
                 </h4>
               </div>
 
               <div className="mt-4">
                 <img
-                  src={bg10}
+                  src={news1}
                   className="img-fluid rounded-md shadow"
                   alt=""
+                  style={{ width: "100%" }}
                 />
               </div>
 
-              <h5 className="mt-4 mb-0">What's an NFT?</h5>
               <p className="text-muted mt-4">
-                This is the part that takes a bit of open-mindedness. An NFT is
-                a unique digital token, with most using the ethereum blockchain
-                to digitally record transactions. It's not a cryptocurrency like
-                bitcoin or ether, because those are fungible -- exchangeable for
-                another bitcoin or cash. NFTs are recorded in a digital ledger
-                in the same way as cryptocurrency, so there's a listing of who
-                owns each one.
-              </p>
-
-              <p className="text-muted mb-0">
-                What makes an NFT unique is the digital asset tied to the token.
-                This can be an image, video, tweet or piece of music that's
-                uploaded to a marketplace, which creates the NFT to be sold.
+                Whether you're a brand looking to expand your reach or an
+                influencer seeking meaningful partnerships, our marketplace is
+                your gateway to success. Join us in revolutionizing the way
+                brands and influencers collaborate, and together, let's create
+                impactful campaigns that resonate with audiences worldwide.
               </p>
             </div>
             {/*end col*/}
@@ -150,11 +156,8 @@ const BlogDetail = () => {
 
       {/* footer */}
       <Footer />
-
-      {/* Style switcher  */}
-      <StyleSwitcher />
     </>
-  )
-}
+  );
+};
 
-export default BlogDetail
+export default BlogDetail;

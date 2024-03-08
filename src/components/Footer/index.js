@@ -2,19 +2,19 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FiMail } from "react-icons/fi";
 import BackToTop from "../BackToTop";
-import { MetaMask_Fox, playStore, app, iconLogo } from "../imageImport";
+import { MetaMask_Fox, playStore, app, iconLogo, logo } from "../imageImport";
 
 const Footer = () => {
   const navigate = useNavigate();
   return (
     <>
-      <footer className="bg-footer">
-        <div className="py-5">
+      <footer className="bg-footer footer-bg-imp">
+        {/* <div className="py-5">
           <div className="container">
             <div className="row">
               <div className="col-xl-8 col-lg-7 col-md-6">
                 <h5 className="text-light fw-normal title-dark">
-                  Download the Superex app to explore any NFTs
+                  Download the Faimos app to explore any NFTs
                 </h5>
 
                 <div className="mt-4">
@@ -29,7 +29,7 @@ const Footer = () => {
 
               <div className="col-xl-4 col-lg-5 col-md-6 mt-4 mt-sm-0">
                 <h5 className="text-light fw-normal title-dark">
-                  Join Superex community
+                  Join Faimos community
                 </h5>
 
                 <ul className="list-unstyled social-icon foot-social-icon mb-0 mt-4 text-lg-end">
@@ -115,46 +115,45 @@ const Footer = () => {
                   </li>
                 </ul>
               </div>
-              {/*end col*/}
+              
             </div>
-            {/*end row*/}
+          
           </div>
-          {/*end container*/}
-        </div>
+          
+        </div> */}
         {/*end div*/}
 
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <div className="footer-py-60 footer-border">
+              <div className="footer-py-60">
                 <div className="row">
                   <div className="col-lg-4 col-12 mb-0 mb-md-4 pb-0 pb-md-2">
                     <a href="#" className="logo-footer">
-                      <img src={iconLogo} alt="" />
+                      <img src={logo} alt="" />
                     </a>
                     <p className="para-desc mb-0 mt-4">
-                      Buy, sell and discover exclusive digital assets by the top
-                      artists of NFTs world.
+                      Connecting brands with digital stars that takes you far.
                     </p>
                   </div>
                   {/*end col*/}
 
                   <div className="col-lg-2 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                    <h5 className="footer-head">Superex</h5>
+                    <h5 className="footer-head">Faimos</h5>
                     <ul className="list-unstyled footer-list mt-4">
                       <li>
                         <a
-                          href="/explore-two"
+                          href="/"
                           onClick={(e) => {
                             e.preventDefault();
-                            navigate("/explore-two");
+                            navigate("/");
                           }}
                           className="text-foot"
                         >
-                          <i className="uil uil-angle-right-b me-1"></i> Explore
+                          <i className="uil uil-angle-right-b me-1"></i> Home
                         </a>
                       </li>
-                      <li>
+                      {/* <li>
                         <a
                           href="/auction"
                           onClick={(e) => {
@@ -166,32 +165,7 @@ const Footer = () => {
                           <i className="uil uil-angle-right-b me-1"></i> Live
                           Auction
                         </a>
-                      </li>
-                      <li>
-                        <a
-                          href="/activity"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            navigate("/activity");
-                          }}
-                          className="text-foot"
-                        >
-                          <i className="uil uil-angle-right-b me-1"></i>{" "}
-                          Activities
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="/wallet"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            navigate("/wallet");
-                          }}
-                          className="text-foot"
-                        >
-                          <i className="uil uil-angle-right-b me-1"></i> Wallet
-                        </a>
-                      </li>
+                      </li> */}
                       <li>
                         <a
                           href="/creators"
@@ -203,6 +177,43 @@ const Footer = () => {
                         >
                           <i className="uil uil-angle-right-b me-1"></i>{" "}
                           Creators
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="/blog-sidebar"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigate("/blog-sidebar");
+                          }}
+                          className="text-foot"
+                        >
+                          <i className="uil uil-angle-right-b me-1"></i> News
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="/wallet"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigate("/wallet");
+                          }}
+                          className="text-foot"
+                        >
+                          <i className="uil uil-angle-right-b me-1"></i> Jobs
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="/explore-one"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigate("/explore-one");
+                          }}
+                          className="text-foot"
+                        >
+                          <i className="uil uil-angle-right-b me-1"></i> Pitch
+                          Board
                         </a>
                       </li>
                     </ul>
@@ -225,18 +236,7 @@ const Footer = () => {
                           Us
                         </a>
                       </li>
-                      <li>
-                        <a
-                          href="/blogs"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            navigate("/blogs");
-                          }}
-                          className="text-foot"
-                        >
-                          <i className="uil uil-angle-right-b me-1"></i> Blog
-                        </a>
-                      </li>
+
                       <li>
                         <a
                           href="/terms"
@@ -275,15 +275,7 @@ const Footer = () => {
                           <i className="uil uil-angle-right-b me-1"></i> Login
                         </a>
                       </li>
-                      <li>
-                        <a
-                          href="mailto:contact@example.com"
-                          className="text-foot"
-                        >
-                          <i className="uil uil-angle-right-b me-1"></i>{" "}
-                          Subscribe
-                        </a>
-                      </li>
+
                       <li>
                         <a
                           href="/contact"
@@ -352,19 +344,18 @@ const Footer = () => {
         </div>
         {/*end container*/}
 
-        <div className="footer-py-30 footer-bar">
+        {/* <div className="footer-py-30 footer-bar">
           <div className="container text-center">
             <div className="row align-items-center">
               <div className="col-sm-6">
                 <div className="text-sm-start">
                   <p className="mb-0">
                     © <script>document.write(new Date().getFullYear())</script>{" "}
-                    Superex. Design & Develop with{" "}
+                    Faimos. Design & Develop with{" "}
                     <i className="mdi mdi-heart text-danger"></i> by{" "}
                   </p>
                 </div>
               </div>
-              {/*end col*/}
 
               <div className="col-sm-6 mt-4 mt-sm-0 pt-2 pt-sm-0">
                 <ul className="list-unstyled footer-list text-sm-end mb-0">
@@ -418,12 +409,9 @@ const Footer = () => {
                   </li>
                 </ul>
               </div>
-              {/*end col*/}
             </div>
-            {/*end row*/}
           </div>
-          {/*end container*/}
-        </div>
+        </div> */}
       </footer>
       {/*end footer*/}
 

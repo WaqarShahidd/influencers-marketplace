@@ -1,9 +1,13 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import StyleSwitcher from "../../components/StyleSwitcher";
 import { logoDark, ErrorImage } from "../../components/imageImport";
+import { useNavigate } from "react-router-dom";
 
 const Error = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="back-to-home">
@@ -41,7 +45,12 @@ const Error = () => {
                   </p>
 
                   <div className="mt-4">
-                    <a href="" className="back-button btn btn-primary">
+                    <a
+                      href=""
+                      className="back-button btn btn-primary"
+                      onClick={() => navigate("/")}
+                      style={{ cursor: "pointer" }}
+                    >
                       Back to Home
                     </a>
                   </div>

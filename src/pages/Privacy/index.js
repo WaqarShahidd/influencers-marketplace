@@ -1,12 +1,12 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import Footer from '../../components/Footer'
-import Navbar from '../../components/Navbar'
-import { bg02 } from '../../components/imageImport'
-import StyleSwitcher from '../../components/StyleSwitcher'
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
+import { bg02 } from "../../components/imageImport";
+import StyleSwitcher from "../../components/StyleSwitcher";
 
 const Privacy = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <>
       {/* Navbar */}
@@ -36,17 +36,17 @@ const Privacy = () => {
             <nav aria-label="breadcrumb" className="d-block">
               <ul
                 className="breadcrumb breadcrumb-muted mb-0 p-0"
-                style={{ backgroundColor: 'transparent' }}
+                style={{ backgroundColor: "transparent" }}
               >
                 <li className="breadcrumb-item">
                   <a
                     href="/index"
-                    onClick={e => {
-                      e.preventDefault()
-                      navigate('/index')
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/index");
                     }}
                   >
-                    Superex
+                    Faimos
                   </a>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
@@ -84,24 +84,16 @@ const Privacy = () => {
                 <div className="card-body">
                   <h5 className="card-title">Overview :</h5>
                   <p className="text-muted mt-4">
-                    It seems that only fragments of the original text remain in
-                    the Lorem Ipsum texts used today. One may speculate that
-                    over the course of time certain letters were added or
-                    deleted at various positions within the text.
-                  </p>
-                  <p className="text-muted">
-                    In the 1960s, the text suddenly became known beyond the
-                    professional circle of typesetters and layout designers when
-                    it was used for Letraset sheets (adhesive letters on
-                    transparent film, popular until the 1980s) Versions of the
-                    text were subsequently included in DTP programmes such as
-                    PageMaker etc.
-                  </p>
-                  <p className="text-muted">
-                    There is now an abundance of readable dummy texts. These are
-                    usually used when a text is required purely to fill a space.
-                    These alternatives to the classic Lorem Ipsum texts are
-                    often amusing and tell short, funny or nonsensical stories.
+                    Lorem Ipsum is simply dummy text of the printing and
+                    typesetting industry. Lorem Ipsum has been the industry's
+                    standard dummy text ever since the 1500s, when an unknown
+                    printer took a galley of type and scrambled it to make a
+                    type specimen book. It has survived not only five centuries,
+                    but also the leap into electronic typesetting, remaining
+                    essentially unchanged. It was popularised in the 1960s with
+                    the release of Letraset sheets containing Lorem Ipsum
+                    passages, and more recently with desktop publishing software
+                    like Aldus PageMaker including versions of Lorem Ipsum.
                   </p>
 
                   <h5 className="card-title mt-5">
@@ -167,9 +159,9 @@ const Privacy = () => {
                   <div className="mt-4">
                     <a
                       href=""
-                      onClick={e => {
-                        e.preventDefault()
-                        window.print()
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.print();
                       }}
                       className="btn btn-soft-primary d-print-none"
                     >
@@ -189,11 +181,8 @@ const Privacy = () => {
       {/* End Privacy */}
       {/* footer */}
       <Footer />
-
-      {/* Style switcher  */}
-      <StyleSwitcher />
     </>
-  )
-}
+  );
+};
 
-export default Privacy
+export default Privacy;

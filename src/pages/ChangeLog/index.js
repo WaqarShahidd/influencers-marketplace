@@ -1,12 +1,12 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import Footer from '../../components/Footer'
-import Navbar from '../../components/Navbar'
-import { bg02 } from '../../components/imageImport'
-import StyleSwitcher from '../../components/StyleSwitcher'
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
+import { bg02 } from "../../components/imageImport";
+import StyleSwitcher from "../../components/StyleSwitcher";
 
 const ChangeLog = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <>
       {/* Navbar */}
@@ -35,17 +35,17 @@ const ChangeLog = () => {
             <nav aria-label="breadcrumb" className="d-block">
               <ul
                 className="breadcrumb breadcrumb-muted mb-0 p-0"
-                style={{ backgroundColor: 'transparent' }}
+                style={{ backgroundColor: "transparent" }}
               >
                 <li className="breadcrumb-item">
                   <a
                     href="/index"
-                    onClick={e => {
-                      e.preventDefault()
-                      navigate('/index')
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/index");
                     }}
                   >
-                    Superex
+                    Faimos
                   </a>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
@@ -81,7 +81,6 @@ const ChangeLog = () => {
             <div className="col-lg-9">
               <div className="card shadow rounded border-0">
                 <div className="card-body">
-
                   {/* v1.0 Start */}
                   <h5>
                     Version <span className="text-success">1.5.0</span> - 26th
@@ -101,7 +100,7 @@ const ChangeLog = () => {
 
                   <div>
                     <a
-                      href="https://1.envato.market/superex"
+                      href="https://1.envato.market/Faimos"
                       target="_blank"
                       className="btn btn-primary"
                     >
@@ -122,11 +121,8 @@ const ChangeLog = () => {
 
       {/* footer */}
       <Footer />
-
-      {/* Style switcher  */}
-      <StyleSwitcher />
     </>
-  )
-}
+  );
+};
 
-export default ChangeLog
+export default ChangeLog;

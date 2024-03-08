@@ -1,84 +1,96 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import Footer from '../../components/Footer'
-import Navbar from '../../components/Navbar'
-import StyleSwitcher from '../../components/StyleSwitcher'
-import { item1, item2, item3, item4, item5, gif1, gif2, gif3, gif4, gif5, bg01 } from '../../components/imageImport'
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
+import StyleSwitcher from "../../components/StyleSwitcher";
+import {
+  item1,
+  item2,
+  item3,
+  item4,
+  item5,
+  gif1,
+  gif2,
+  gif3,
+  gif4,
+  gif5,
+  bg01,
+} from "../../components/imageImport";
 
 const Activity = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const activityData = [
     {
-      title: 'Digital Art Collection',
-      author: 'Panda',
-      time: '1 hours ago',
-      favorite: 'Started Following',
+      title: "Digital Art Collection",
+      author: "Panda",
+      time: "1 hours ago",
+      favorite: "Started Following",
       image: item1,
     },
     {
-      title: 'Skrrt Cobain Official',
-      author: 'ButterFly',
-      time: '2 hours ago',
-      favorite: 'Liked by',
+      title: "Skrrt Cobain Official",
+      author: "ButterFly",
+      time: "2 hours ago",
+      favorite: "Liked by",
       image: gif1,
     },
     {
-      title: 'Wow! That Brain Is Floating',
-      author: 'ButterFly',
-      time: '2 hours ago',
-      favorite: 'Liked by',
+      title: "Wow! That Brain Is Floating",
+      author: "ButterFly",
+      time: "2 hours ago",
+      favorite: "Liked by",
       image: item2,
     },
     {
-      title: 'Our Journey Start',
-      author: 'CalvinCarlo',
-      time: '5 hours ago',
-      favorite: 'Listed by',
+      title: "Our Journey Start",
+      author: "CalvinCarlo",
+      time: "5 hours ago",
+      favorite: "Listed by",
       image: item3,
     },
     {
-      title: 'BitBears',
-      author: 'ButterFly',
-      time: '8 hours ago',
-      favorite: 'Liked by',
+      title: "BitBears",
+      author: "ButterFly",
+      time: "8 hours ago",
+      favorite: "Liked by",
       image: gif2,
     },
     {
-      title: 'Little Kokeshi #13',
-      author: 'ButterFly',
-      time: '10 hours ago',
-      favorite: 'Liked by',
+      title: "Little Kokeshi #13",
+      author: "ButterFly",
+      time: "10 hours ago",
+      favorite: "Liked by",
       image: item4,
     },
     {
-      title: 'EVOL Floater',
-      author: 'CutieGirl',
-      time: '13 hours ago',
-      favorite: 'Started Following',
+      title: "EVOL Floater",
+      author: "CutieGirl",
+      time: "13 hours ago",
+      favorite: "Started Following",
       image: gif3,
     },
     {
-      title: 'Smart Ape Club (SAC) - Limited Edition',
-      author: 'CalvinCarlo',
-      time: '18 hours ago',
-      favorite: 'Listed by',
+      title: "Smart Ape Club (SAC) - Limited Edition",
+      author: "CalvinCarlo",
+      time: "18 hours ago",
+      favorite: "Listed by",
       image: gif4,
     },
     {
-      title: 'THE SECRET SOCIETY XX #775',
-      author: 'CalvinCarlo',
-      time: '23 hours ago',
-      favorite: 'Listed by',
+      title: "THE SECRET SOCIETY XX #775",
+      author: "CalvinCarlo",
+      time: "23 hours ago",
+      favorite: "Listed by",
       image: gif5,
     },
     {
-      title: 'Create Your Own World',
-      author: 'ButterFly',
-      time: '24 hours ago',
-      favorite: 'Liked by',
+      title: "Create Your Own World",
+      author: "ButterFly",
+      time: "24 hours ago",
+      favorite: "Liked by",
       image: item5,
     },
-  ]
+  ];
   return (
     <>
       {/* Navbar */}
@@ -110,14 +122,14 @@ const Activity = () => {
             <nav aria-label="breadcrumb" className="d-block">
               <ul
                 className="breadcrumb breadcrumb-muted mb-0 p-0"
-                style={{ backgroundColor: 'transparent' }}
+                style={{ backgroundColor: "transparent" }}
               >
                 <li className="breadcrumb-item">
                   <a
                     href="/index"
-                    onClick={e => {
-                      e.preventDefault()
-                      navigate('/index')
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/index");
                     }}
                   >
                     Superex
@@ -169,9 +181,9 @@ const Activity = () => {
                               />
 
                               <div className="position-absolute top-0 start-0 translate-middle px-1 rounded-lg shadow-md bg-white">
-                                {data?.favorite === 'Started Following' ? (
+                                {data?.favorite === "Started Following" ? (
                                   <i className="mdi mdi-account-check mdi-18px text-success"></i>
-                                ) : data?.favorite === 'Liked by' ? (
+                                ) : data?.favorite === "Liked by" ? (
                                   <i className="mdi mdi-heart mdi-18px text-danger"></i>
                                 ) : (
                                   <i className="mdi mdi-format-list-bulleted mdi-18px text-warning"></i>
@@ -182,16 +194,16 @@ const Activity = () => {
                             <span className="content ms-3">
                               <a
                                 href=""
-                                onClick={e => e.preventDefault()}
+                                onClick={(e) => e.preventDefault()}
                                 className="text-dark title mb-0 h6 d-block"
                               >
                                 Digital Art Collection
                               </a>
                               <small className="text-muted d-block mt-1">
-                                Started Following{' '}
+                                Started Following{" "}
                                 <a
                                   href=""
-                                  onClick={e => e.preventDefault()}
+                                  onClick={(e) => e.preventDefault()}
                                   className="link fw-bold"
                                 >
                                   @Panda
@@ -205,7 +217,7 @@ const Activity = () => {
                           </div>
                         </div>
                       </div>
-                    )
+                    );
                   })}
                 </div>
                 {/*end row*/}
@@ -214,7 +226,7 @@ const Activity = () => {
                   <div className="col-12 text-center mt-4">
                     <a
                       href=""
-                      onClick={e => e.preventDefault()}
+                      onClick={(e) => e.preventDefault()}
                       className="btn btn-link primary text-dark"
                     >
                       Load More <i className="uil uil-arrow-right"></i>
@@ -234,73 +246,73 @@ const Activity = () => {
                   <div className="tagcloud">
                     <a
                       href=""
-                      onClick={e => e.preventDefault()}
+                      onClick={(e) => e.preventDefault()}
                       className="d-inline-flex align-items-center rounded-md text-capitalize"
                     >
                       <i className="uil uil-wallet fs-6 me-1"></i> Purchased
                     </a>
                     <a
                       href=""
-                      onClick={e => e.preventDefault()}
+                      onClick={(e) => e.preventDefault()}
                       className="d-inline-flex align-items-center rounded-md text-capitalize"
                     >
                       <i className="uil uil-tag-alt fs-6 me-1"></i> Sales
                     </a>
                     <a
                       href=""
-                      onClick={e => e.preventDefault()}
+                      onClick={(e) => e.preventDefault()}
                       className="d-inline-flex align-items-center rounded-md text-capitalize"
                     >
                       <i className="uil uil-fire fs-6 me-1"></i> Burns
                     </a>
                     <a
                       href=""
-                      onClick={e => e.preventDefault()}
+                      onClick={(e) => e.preventDefault()}
                       className="d-inline-flex align-items-center rounded-md text-capitalize"
                     >
                       <i className="uil uil-heart fs-6 me-1"></i> Likes
                     </a>
                     <a
                       href=""
-                      onClick={e => e.preventDefault()}
+                      onClick={(e) => e.preventDefault()}
                       className="d-inline-flex align-items-center rounded-md text-capitalize"
                     >
                       <i className="uil uil-browser fs-6 me-1"></i> Bids
                     </a>
                     <a
                       href=""
-                      onClick={e => e.preventDefault()}
+                      onClick={(e) => e.preventDefault()}
                       className="d-inline-flex align-items-center rounded-md text-capitalize"
                     >
                       <i className="uil uil-users-alt fs-6 me-1"></i> Following
                     </a>
                     <a
                       href=""
-                      onClick={e => e.preventDefault()}
+                      onClick={(e) => e.preventDefault()}
                       className="d-inline-flex align-items-center rounded-md text-capitalize"
                     >
                       <i className="uil uil-list-ui-alt fs-6 me-1"></i> Listing
                     </a>
                     <a
                       href=""
-                      onClick={e => e.preventDefault()}
+                      onClick={(e) => e.preventDefault()}
                       className="d-inline-flex align-items-center rounded-md text-capitalize"
                     >
                       <i className="uil uil-music fs-6 me-1"></i> Music
                     </a>
                     <a
                       href=""
-                      onClick={e => e.preventDefault()}
+                      onClick={(e) => e.preventDefault()}
                       className="d-inline-flex align-items-center rounded-md text-capitalize"
                     >
                       <i className="uil uil-camera fs-6 me-1"></i> Video
                     </a>
                     <a
                       href=""
-                      onClick={e => e.preventDefault()}
+                      onClick={(e) => e.preventDefault()}
                       className="d-inline-flex align-items-center rounded-md text-capitalize"
                     >
-                      <i className="uil uil-illustration fs-6 me-1"></i>{' '}
+                      <i className="uil uil-illustration fs-6 me-1"></i>{" "}
                       Illustration
                     </a>
                   </div>
@@ -321,7 +333,7 @@ const Activity = () => {
       {/* Style switcher  */}
       <StyleSwitcher />
     </>
-  )
-}
+  );
+};
 
-export default Activity
+export default Activity;

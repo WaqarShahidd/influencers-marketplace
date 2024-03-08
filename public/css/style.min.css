@@ -234,7 +234,7 @@ a.text-danger:focus {
   background: linear-gradient(to right, #3c4858 0%, #ffa432 100%);
 }
 .text-dark {
-  color: #3c4858 !important;
+  color: #fff !important;
 }
 .text-gradient-dark {
   background: linear-gradient(to right, #3c4858 0%, #ffa432 100%);
@@ -268,7 +268,7 @@ a.text-muted:focus {
   color: #75859b !important;
 }
 .bg-light {
-  background-color: #f8f9fc !important;
+  background-color: #070707 !important;
 }
 .bg-soft-light {
   background-color: rgba(248, 249, 252, 0.05) !important;
@@ -291,6 +291,7 @@ a.text-light:focus {
 }
 .bg-footer {
   background-color: #202942 !important;
+  background-color: #090909 !important;
 }
 .bg-soft-footer {
   background-color: rgba(32, 41, 66, 0.05) !important;
@@ -2743,7 +2744,7 @@ button:not(:disabled) {
   float: right;
 }
 #topnav.scroll {
-  background-color: #fff;
+  background-color: #070707 !important;
   border: none;
   box-shadow: 0 0 3px rgba(60, 72, 88, 0.15);
 }
@@ -2772,11 +2773,11 @@ button:not(:disabled) {
 }
 #topnav.nav-sticky {
   backdrop-filter: blur(10px);
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(7, 7, 7, 0.9);
   box-shadow: 0 0 3px rgba(60, 72, 88, 0.15);
 }
 #topnav.nav-sticky.gradient {
-  background: rgba(255, 255, 255, 0.9) !important;
+  background: rgba(7, 7, 7, 0.9) !important;
 }
 #topnav.nav-sticky .navigation-menu.nav-light > li > a {
   color: #3c4858;
@@ -4693,8 +4694,8 @@ button:not(:disabled) {
   font-weight: 500;
 }
 .tagcloud > a {
-  background: #f8f9fa;
-  color: #3c4858;
+  /* background: #f8f9fa; */
+  color: #fff;
   display: inline-block;
   font-size: 12px;
   letter-spacing: 1px;

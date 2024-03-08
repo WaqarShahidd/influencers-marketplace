@@ -1,88 +1,62 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { FiArrowRight } from 'react-icons/fi'
-import Footer from '../../components/Footer'
-import Navbar from '../../components/Navbar'
-import StyleSwitcher from '../../components/StyleSwitcher'
-import { bg02, bg1, bg2, bg3, bg4, bg5, bg6, bg7, bg8, bg9, bg10, bg11, bg12 } from '../../components/imageImport'
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { FiArrowRight } from "react-icons/fi";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
+import StyleSwitcher from "../../components/StyleSwitcher";
+import {
+  bg02,
+  bg1,
+  bg2,
+  bg3,
+  bg4,
+  bg5,
+  bg6,
+  bg7,
+  bg8,
+  bg9,
+  bg10,
+  bg11,
+  bg12,
+  news1,
+  news2,
+  news3,
+  news4,
+} from "../../components/imageImport";
 
 const BlogSidebar = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
   const blogList = [
     {
-      image: bg1,
-      title: 'Mindfulness Activities for Kids & Toddlers with NFT',
-      createdBy: '@callyjoe',
-      type: 'Arts',
+      image: news1,
+      title: "Influencer Is a Real Job. It’s Time to Act Like It and own it",
+      createdBy: "@callyjoe",
+      type: "Social Media News",
     },
     {
-      image: bg2,
-      title: 'Save Thousands Of Lives Through This NFT',
-      createdBy: '@kristyhoney',
-      type: 'Illustration',
+      image: news1,
+      title: "How Brands Can Break Barriers and Empower Creators",
+      createdBy: "@kristyhoney",
+      type: "Event News",
     },
     {
-      image: bg3,
-      title: 'A place where technology meets craftsmanship',
-      createdBy: '@pandaone',
-      type: 'Music',
+      image: news3,
+      title: "90% of Social Media Influencers Are Active on Instagram",
+      createdBy: "@pandaone",
+      type: "Creator News",
     },
     {
-      image: bg4,
-      title: 'NFT Market - A Compact Trike with the Big Benefits',
-      createdBy: '@streetboy',
-      type: 'Video',
+      image: news4,
+      title: "The Cost of Living Crisis Is Changing Creator Strategies",
+      createdBy: "@streetboy",
+      type: "Social Media News",
     },
-    {
-      image: bg5,
-      title: 'Honoring Black History Month with Toddlers',
-      createdBy: '@norsequeen',
-      type: 'Game',
-    },
-    {
-      image: bg6,
-      title: 'Setting Intentions Instead of Resolutions for 2021',
-      createdBy: '@bigbull',
-      type: 'Memes',
-    },
-    {
-      image: bg7,
-      title: 'Clever Ways to Purchase Extraordinart Items',
-      createdBy: '@princess',
-      type: 'GIFs',
-    },
-    {
-      image: bg8,
-      title: 'How to Save Money on Baby Essentials for NFT',
-      createdBy: '@crazyanyone',
-      type: 'Video',
-    },
-    {
-      image: bg9,
-      title: 'Liki Trike - A Compact Trike with the Big Benefits',
-      createdBy: '@angel',
-      type: 'Music',
-    },
-    {
-      image: bg10,
-      title: 'NFT Market - A Compact the Big Benefits',
-      createdBy: '@cutiegirl',
-      type: 'Tech',
-    },
+  ];
 
-    {
-      image: bg11,
-      title: 'Behind the Scenes of the creabik App',
-      createdBy: '@funnyguy',
-      type: 'Arts',
-    },
-    {
-      image: bg12,
-      title: 'Meet fennouni, Product Designer at GitHub',
-      createdBy: '@butterfly',
-      type: 'GIFs',
-    },
-  ]
+  useEffect(() => {
+    document.getElementById("theme-opt").href = "./css/style-dark.min.css";
+  }, []);
   return (
     <>
       {/* Navbar */}
@@ -91,7 +65,10 @@ const BlogSidebar = () => {
       {/* Start Home */}
       <section
         className="bg-half-170 d-table w-100"
-        style={{ background: `url(${bg02}) bottom` }}
+        style={{
+          background: `url(${bg02}) bottom`,
+          backgroundColor: "#120b2f",
+        }}
       >
         <div className="bg-overlay bg-gradient-overlay-2"></div>
         <div className="container">
@@ -99,10 +76,10 @@ const BlogSidebar = () => {
             <div className="col-12">
               <div className="title-heading text-center">
                 <h5 className="heading fw-semibold sub-heading text-white title-dark">
-                  Blog & News
+                  News
                 </h5>
                 <p className="text-white-50 para-desc mx-auto mb-0">
-                  Our Latest Blog and News in Grid Layouts
+                  Our Latest News
                 </p>
               </div>
             </div>
@@ -114,17 +91,17 @@ const BlogSidebar = () => {
             <nav aria-label="breadcrumb" className="d-block">
               <ul
                 className="breadcrumb breadcrumb-muted mb-0 p-0"
-                style={{ backgroundColor: 'transparent' }}
+                style={{ backgroundColor: "transparent" }}
               >
                 <li className="breadcrumb-item">
                   <a
-                    href="/index"
-                    onClick={e => {
-                      e.preventDefault()
-                      navigate('/index')
+                    href="/"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/");
                     }}
                   >
-                    Superex
+                    Faimos
                   </a>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
@@ -168,22 +145,22 @@ const BlogSidebar = () => {
                           className="img-fluid rounded-md"
                           alt=""
                         />
-                        <div className="position-absolute top-0 end-0 m-3">
+                        {/* <div className="position-absolute top-0 end-0 m-3">
                           <span className="like-icon shadow-sm">
                             <a
                               href=""
-                              onClick={e => e.preventDefault()}
+                              onClick={(e) => e.preventDefault()}
                               className="text-muted icon"
                             >
                               <i className="mdi mdi-18px mdi-heart mb-0"></i>
                             </a>
                           </span>
-                        </div>
+                        </div> */}
                       </div>
                       <div className="card-body position-relative p-4">
                         <a
                           href=""
-                          onClick={e => e.preventDefault()}
+                          onClick={(e) => e.preventDefault()}
                           className="badge tag gradient rounded-md fw-bold"
                         >
                           {blog?.type}
@@ -201,9 +178,9 @@ const BlogSidebar = () => {
                         </ul>
                         <a
                           href="/blog-detail"
-                          onClick={e => {
-                            e.preventDefault()
-                            navigate('/blog-detail')
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigate("/blog-detail");
                           }}
                           className="text-dark title h5 mt-3"
                         >
@@ -213,21 +190,21 @@ const BlogSidebar = () => {
                         <div className="mt-3 d-flex justify-content-between align-items-center">
                           <a
                             href="/blog-detail"
-                            onClick={e => {
-                              e.preventDefault()
-                              navigate('/blog-detail')
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate("/blog-detail");
                             }}
                             className="btn btn-link text-muted"
                           >
                             Read more <FiArrowRight className="fea icon-sm" />
                           </a>
                           <span className="text-muted fs-6">
-                            by{' '}
+                            by{" "}
                             <a
                               href="/creator-profile"
-                              onClick={e => {
-                                e.preventDefault()
-                                navigate('/creator-profile')
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/creator-profile");
                               }}
                               className="link"
                             >
@@ -248,10 +225,10 @@ const BlogSidebar = () => {
                   <div className="text-center">
                     <a
                       href=""
-                      onClick={e => e.preventDefault()}
+                      onClick={(e) => e.preventDefault()}
                       className="btn btn-primary rounded-md"
                     >
-                      Load More{' '}
+                      Load More{" "}
                       <i className="uil uil-process mdi-spin ms-1"></i>
                     </a>
                   </div>
@@ -266,7 +243,10 @@ const BlogSidebar = () => {
               <div className="sidebar sticky-bar ms-lg-4 p-4 rounded-md shadow">
                 {/* SEARCH */}
                 <div className="widget">
-                  <h6 className="widget-title font-weight-bold pt-2 pb-2 bg-light rounded text-center">
+                  <h6
+                    style={{ color: "#fff" }}
+                    className="widget-title font-weight-bold pt-2 pb-2 bg-light rounded text-center"
+                  >
                     Search
                   </h6>
                   <div id="search2" className="widget-search mt-4 mb-0">
@@ -292,7 +272,7 @@ const BlogSidebar = () => {
                 {/* SEARCH */}
 
                 {/* RECENT POST */}
-                <div className="widget mt-4 pt-2">
+                {/* <div className="widget mt-4 pt-2">
                   <h6 className="widget-title font-weight-bold pt-2 pb-2 bg-light rounded text-center">
                     Recent Post
                   </h6>
@@ -363,84 +343,38 @@ const BlogSidebar = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* RECENT POST */}
 
                 {/* TAG CLOUDS */}
                 <div className="widget mt-4 pt-2 text-center">
-                  <h6 className="widget-title font-weight-bold pt-2 pb-2 bg-light rounded">
+                  <h6
+                    style={{ color: "#fff" }}
+                    className="widget-title font-weight-bold pt-2 pb-2 bg-light rounded"
+                  >
                     Tags Cloud
                   </h6>
                   <div className="tagcloud mt-4">
                     <a
                       href=""
-                      onClick={e => e.preventDefault()}
+                      onClick={(e) => e.preventDefault()}
                       className="rounded text-capitalize fw-normal"
                     >
-                      Business
+                      Social Media News
                     </a>
                     <a
                       href=""
-                      onClick={e => e.preventDefault()}
+                      onClick={(e) => e.preventDefault()}
                       className="rounded text-capitalize fw-normal"
                     >
-                      Finance
+                      Event News
                     </a>
                     <a
                       href=""
-                      onClick={e => e.preventDefault()}
+                      onClick={(e) => e.preventDefault()}
                       className="rounded text-capitalize fw-normal"
                     >
-                      Marketing
-                    </a>
-                    <a
-                      href=""
-                      onClick={e => e.preventDefault()}
-                      className="rounded text-capitalize fw-normal"
-                    >
-                      Fashion
-                    </a>
-                    <a
-                      href=""
-                      onClick={e => e.preventDefault()}
-                      className="rounded text-capitalize fw-normal"
-                    >
-                      Bride
-                    </a>
-                    <a
-                      href=""
-                      onClick={e => e.preventDefault()}
-                      className="rounded text-capitalize fw-normal"
-                    >
-                      Lifestyle
-                    </a>
-                    <a
-                      href=""
-                      onClick={e => e.preventDefault()}
-                      className="rounded text-capitalize fw-normal"
-                    >
-                      Travel
-                    </a>
-                    <a
-                      href=""
-                      onClick={e => e.preventDefault()}
-                      className="rounded text-capitalize fw-normal"
-                    >
-                      Beauty
-                    </a>
-                    <a
-                      href=""
-                      onClick={e => e.preventDefault()}
-                      className="rounded text-capitalize fw-normal"
-                    >
-                      Video
-                    </a>
-                    <a
-                      href=""
-                      onClick={e => e.preventDefault()}
-                      className="rounded text-capitalize fw-normal"
-                    >
-                      Audio
+                      Creator News
                     </a>
                   </div>
                 </div>
@@ -458,11 +392,8 @@ const BlogSidebar = () => {
 
       {/* footer */}
       <Footer />
-
-      {/* Style switcher  */}
-      <StyleSwitcher />
     </>
-  )
-}
+  );
+};
 
-export default BlogSidebar
+export default BlogSidebar;

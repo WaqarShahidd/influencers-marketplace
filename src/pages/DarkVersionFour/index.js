@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable jsx-a11y/iframe-has-title */
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -60,6 +62,16 @@ import {
   bg2,
   bg1,
   client13,
+  banner,
+  united,
+  community,
+  news1,
+  news2,
+  news3,
+  news4,
+  job1,
+  job2,
+  job3,
 } from "../../components/imageImport";
 import { FiArrowRight } from "react-icons/fi";
 
@@ -117,22 +129,22 @@ const DarkVersionFour = () => {
 
   const blogRecord = [
     {
-      image: bg1,
-      title: "Mindfulness Activities for Kids & Toddlers with NFT",
+      image: news4,
+      title: "The Cost of Living Crisis Is Changing Creator Strategies",
       createdBy: "@callyjoe",
-      type: "Arts",
+      type: "Influencer",
     },
     {
-      image: bg2,
-      title: "Save Thousands Of Lives Through This NFT",
+      image: news2,
+      title: "90% of Social Media Influencers Are Active on Instagram",
       createdBy: "@kristyhoney",
-      type: "Illustration",
+      type: "Influencer",
     },
     {
-      image: bg3,
-      title: "A place where technology meets craftsmanship",
+      image: news3,
+      title: "How Brands Can Break Barriers and Empower Creators",
       createdBy: "@pandaone",
-      type: "Music",
+      type: "Influencer",
     },
   ];
 
@@ -330,86 +342,112 @@ const DarkVersionFour = () => {
       profileIcon: true,
       image: client01,
       name: "StreetBoy",
-      eth: "20.5 ETH",
+      bd: "01 January 2023",
     },
     {
       profileIcon: false,
       image: client13,
       name: "FunnyGuy",
-      eth: "20.5 ETH",
+      bd: "01 January 2023",
     },
     {
       profileIcon: true,
       image: client02,
       name: "CutieGirl",
-      eth: "20.5 ETH",
+      bd: "01 January 2023",
     },
     {
       profileIcon: true,
       image: client09,
       name: "PandaOne",
-      eth: "20.5 ETH",
+      bd: "01 January 2023",
     },
     {
       profileIcon: false,
       image: client03,
       name: "NorseQueen",
-      eth: "20.5 ETH",
+      bd: "01 January 2023",
     },
     {
       profileIcon: false,
       image: client04,
       name: "BigBull",
-      eth: "20.5 ETH",
+      bd: "01 January 2023",
     },
     {
       profileIcon: true,
       image: client10,
       name: "KristyHoney",
-      eth: "20.5 ETH",
+      bd: "01 January 2023",
     },
     {
       profileIcon: false,
       image: client05,
       name: "Angel",
-      eth: "20.5 ETH",
+      bd: "01 January 2023",
     },
     {
       profileIcon: true,
       image: client11,
       name: "ButterFly",
-      eth: "20.5 ETH",
+      bd: "01 January 2023",
     },
     {
       profileIcon: true,
       image: client06,
       name: "CrazyAnyone",
-      eth: "20.5 ETH",
+      bd: "01 January 2023",
     },
     {
       profileIcon: false,
       image: client07,
       name: "LooserBad",
-      eth: "20.5 ETH",
+      bd: "01 January 2023",
     },
     {
       profileIcon: true,
       image: client12,
       name: "Princess",
-      eth: "20.5 ETH",
+      bd: "01 January 2023",
+    },
+  ];
+
+  const NewsData = [
+    {
+      image: job1,
+      title: "Influencer Is a Real Job. It’s Time to Act Like It and own it",
+      type: ["all", "Instagram"],
+      createdBy: "@callyjoe",
+      id: 1,
+    },
+    {
+      image: job2,
+      title: "The Ultimate Guide to Instagram Hashtags for 2022",
+      type: ["Twitter", "all"],
+      createdBy: "@kristyhoney",
+      id: 2,
+    },
+    {
+      image: job3,
+      title: "How Brands Can Break Barriers and Empower Creators",
+      type: ["Facebook", "all"],
+      createdBy: "@pandaone",
+      id: 3,
     },
   ];
 
   const [allData, setAllData] = useState(AuctionData);
   const [type, setType] = useState("all");
   const location = useLocation();
-  useEffect(() => {
-    new Choices("#choices-criteria");
-    var singleCategorie = document.getElementById("choices-type");
-    if (singleCategorie) {
-      var singleCategories = new Choices("#choices-type");
-    }
-  }, []);
+
+  // useEffect(() => {
+  //   new Choices("#choices-criteria");
+  //   var singleCategorie = document.getElementById("choices-type");
+  //   if (singleCategorie) {
+  //     var singleCategories = new Choices("#choices-type");
+  //   }
+  // }, []);
+
   useEffect(() => {
     setTimeout(() => {
       if (location?.pathname === "/index-four-dark-rtl") {
@@ -428,7 +466,7 @@ const DarkVersionFour = () => {
 
   const setFilter = (type) => {
     setType(type);
-    const newOne = AuctionData?.filter((data) => data?.filter?.includes(type));
+    const newOne = NewsData?.filter((data) => data?.filter?.includes(type));
     setAllData(newOne);
   };
 
@@ -442,27 +480,49 @@ const DarkVersionFour = () => {
         <div className="container position-relative" style={{ zIndex: 1 }}>
           <div className="bg-half-100 rounded-md shadow-sm position-relative overflow-hidden">
             <div className="bg-video-wrapper">
-              <iframe src="https://player.vimeo.com/video/502163294?background=1&autoplay=1&loop=1&byline=0&title=0"></iframe>
+              {/* <iframe src="https://www.youtube.com/watch?v=2zgNE31UUCs"></iframe> */}
               {/*Note: Vimeo Embed Background Video*/}
 
-              {/* <iframe src="https://www.youtube.com/embed/yba7hPeTSjk?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1"></iframe> */}
+              {/* <iframe
+                src="https://www.youtube.com/embed/2zgNE31UUCs?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1"
+                allow="autoplay; loop; encrypted-media"
+                allowfullscreen
+              ></iframe> */}
               {/*Note: Youtube Embed Background Video*/}
+              <img
+                src={banner}
+                style={{ height: "100%", width: "100%", objectFit: "contain" }}
+              />
             </div>
             <div className="bg-overlay bg-linear-gradient-2"></div>
             <div className="row justify-content-center my-5">
               <div className="col-12">
-                <div className="title-heading text-center px-4">
-                  <h4 className="display-6 text-white title-dark fw-medium mb-3">
+                <div
+                  className="title-heading text-center px-4"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    height: "150px",
+                  }}
+                >
+                  {/* <h4
+                    className="display-6 text-white title-dark fw-medium mb-3"
+                    style={{ color: "tran" }}
+                  >
                     Discover the perfect <br />
                     <span className="text-gradient-primary">
                       Influencer
                     </span>{" "}
                     for your brand.
                   </h4>
-                  <p className="text-white title-dark mb-0">
-                    Discover limited-edition digital arts. Create, Sell and Buy
-                    now.
-                  </p>
+                  <p
+                    className="text-white title-dark mb-0"
+                    style={{ maxWidth: "50%" }}
+                  >
+                    Discover the perfect influencer for your brand. We help you
+                    to connect with the right influencer for your brand.
+                  </p> */}
                 </div>
               </div>
               {/*end col*/}
@@ -477,6 +537,7 @@ const DarkVersionFour = () => {
 
       {/* Start */}
       <section className="section">
+        {/* Banner & Search */}
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-12">
@@ -486,8 +547,18 @@ const DarkVersionFour = () => {
                     <div className="card bg-white feature-top border-0 shadow rounded p-3">
                       <form>
                         <div className="registration-form text-dark text-start">
-                          <div className="row g-lg-0">
-                            <div className="col-lg-3 col-md-6">
+                          <div
+                            className="row g-lg-0"
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "flex-end",
+                            }}
+                          >
+                            <div
+                              className="col-lg-3 col-md-6"
+                              style={{ width: "70%" }}
+                            >
                               <div className="filter-search-form position-relative filter-border">
                                 <i className="uil uil-search icons"></i>
                                 <input
@@ -495,13 +566,14 @@ const DarkVersionFour = () => {
                                   type="text"
                                   id="search-keyword"
                                   className="form-control filter-input-box bg-light border-0"
-                                  placeholder="Search your keaywords"
+                                  placeholder="Search here..."
+                                  style={{ borderRadius: "8px" }}
                                 />
                               </div>
                             </div>
                             {/*end col*/}
 
-                            <div className="col-lg-3 col-md-6 mt-3 mt-md-0">
+                            {/* <div className="col-lg-3 col-md-6 mt-3 mt-md-0">
                               <div className="filter-search-form position-relative filter-border">
                                 <i className="uil uil-usd-circle icons"></i>
                                 <select
@@ -517,10 +589,10 @@ const DarkVersionFour = () => {
                                   <option value="3">Offers</option>
                                 </select>
                               </div>
-                            </div>
+                            </div> */}
                             {/*end col*/}
 
-                            <div className="col-lg-3 col-md-6 mt-3 mt-lg-0">
+                            {/* <div className="col-lg-3 col-md-6 mt-3 mt-lg-0">
                               <div className="filter-search-form position-relative filter-border">
                                 <i className="uil uil-window icons"></i>
                                 <select
@@ -538,10 +610,13 @@ const DarkVersionFour = () => {
                                   <option value="5">Memes</option>
                                 </select>
                               </div>
-                            </div>
+                            </div> */}
                             {/*end col*/}
 
-                            <div className="col-lg-3 col-md-6 mt-3 mt-lg-0">
+                            <div
+                              className="col-lg-3 col-md-6 mt-3 mt-lg-0"
+                              style={{ width: "25%" }}
+                            >
                               <input
                                 type="submit"
                                 id="search"
@@ -570,132 +645,7 @@ const DarkVersionFour = () => {
         </div>
         {/*end container*/}
 
-        {/* <div className="container mt-4 pt-2 mt-lg-0 pt-lg-0">
-          <div className="row row-cols-xl-4 row-cols-lg-3 row-cols-sm-2 row-cols-1 g-4">
-            {allData?.map((data) => {
-              return (
-                <div className="col" key={data?.title}>
-                  <div className="card nft-items nft-primary rounded-md shadow overflow-hidden mb-1 p-3">
-                    <div className="d-flex justify-content-between">
-                      <div className="img-group">
-                        <a
-                          href="/creator-profile"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            navigate("/creator-profile");
-                          }}
-                          className="user-avatar"
-                        >
-                          <img
-                            src={client08}
-                            alt="user"
-                            className="avatar avatar-sm-sm img-thumbnail border-0 shadow-sm rounded-circle"
-                          />
-                        </a>
-                        <a
-                          href="/creator-profile"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            navigate("/creator-profile");
-                          }}
-                          className="user-avatar ms-n3"
-                        >
-                          <img
-                            src={client05}
-                            alt="user"
-                            className="avatar avatar-sm-sm img-thumbnail border-0 shadow-sm rounded-circle"
-                          />
-                        </a>
-                        <a
-                          href="/creator-profile"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            navigate("/creator-profile");
-                          }}
-                          className="user-avatar ms-n3"
-                        >
-                          <img
-                            src={client06}
-                            alt="user"
-                            className="avatar avatar-sm-sm img-thumbnail border-0 shadow-sm rounded-circle"
-                          />
-                        </a>
-                      </div>
-
-                      <span className="like-icon shadow-sm">
-                        <a
-                          href=""
-                          onClick={(e) => e.preventDefault()}
-                          className="text-muted icon"
-                        >
-                          <i className="mdi mdi-18px mdi-heart mb-0"></i>
-                        </a>
-                      </span>
-                    </div>
-
-                    <div className="nft-image rounded-md mt-3 position-relative overflow-hidden">
-                      <a
-                        href="/item-detail-one"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          navigate("/item-detail-one");
-                        }}
-                      >
-                        <img src={data?.image} className="img-fluid" alt="" />
-                      </a>
-                      <div className="position-absolute top-0 start-0 m-2">
-                        <a
-                          href=""
-                          onClick={(e) => e.preventDefault()}
-                          className="badge badge-link bg-primary"
-                        >
-                          GIFs
-                        </a>
-                      </div>
-                      <div
-                        className={`${
-                          data?.id ? "" : "hide-data"
-                        } position-absolute bottom-0 start-0 m-2 bg-gradient-primary text-white title-dark rounded-pill px-3`}
-                      >
-                        <i className="uil uil-clock"></i>{" "}
-                        <Countdown
-                          date={data?.id}
-                          renderer={({ days, hours, minutes, seconds }) => (
-                            <span>
-                              {days}:{hours}:{minutes}:{seconds}
-                            </span>
-                          )}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="card-body content position-relative p-0 mt-3">
-                      <a
-                        href="/item-detail-one"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          navigate("/item-detail-one");
-                        }}
-                        className="title text-dark h6"
-                      >
-                        {data?.title}
-                      </a>
-
-                      <div className="d-flex justify-content-between mt-2">
-                        <small className="rate fw-bold">20.5 ETH</small>
-                        <small className="text-dark fw-bold">1 out of 10</small>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-            
-          </div>
- 
-        </div> */}
-        {/*end container*/}
-
+        {/* Trending */}
         <div className="container mt-50 mt-60">
           <div className="row align-items-end mb-4 pb-2">
             <div className="col-md-8">
@@ -729,7 +679,11 @@ const DarkVersionFour = () => {
               <div className="tiny-five-item-nav-arrow">
                 {creator?.map((data, index) => {
                   return (
-                    <div className="tiny-slide" key={index}>
+                    <div
+                      className="tiny-slide"
+                      key={index}
+                      style={{ cursor: "pointer" }}
+                    >
                       <div className="card creators creators-two creator-primary rounded-md shadow overflow-hidden mx-2 my-3">
                         <div
                           className="py-5"
@@ -740,9 +694,13 @@ const DarkVersionFour = () => {
                             src={data?.Image}
                             className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
                             alt=""
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate("/creator-profile");
+                            }}
                           />
 
-                          <div className="content text-center pt-2 p-4">
+                          <div className="content text-center pt-2 p-2">
                             <a
                               href="/creator-profile"
                               onClick={(e) => {
@@ -756,8 +714,13 @@ const DarkVersionFour = () => {
                             <small className="text-muted">
                               @{data?.author}
                             </small>
+                            <br />
+                            <p style={{ marginTop: "10px", color: "#b5bdc9" }}>
+                              Bring to the table win-win survival strategies to
+                              ensure proactive...
+                            </p>
 
-                            <div className="mt-3">
+                            {/* <div className="mt-3">
                               <a
                                 href=""
                                 onClick={(e) => e.preventDefault()}
@@ -765,7 +728,7 @@ const DarkVersionFour = () => {
                               >
                                 Follow
                               </a>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       </div>
@@ -800,7 +763,7 @@ const DarkVersionFour = () => {
         </div>
         {/*end container*/}
 
-        <div className="container mt-100 mt-60">
+        {/* <div className="container mt-100 mt-60">
           <div className="row justify-content-center">
             <div className="col-12">
               <div className="section-title text-center mb-4 pb-2">
@@ -810,9 +773,7 @@ const DarkVersionFour = () => {
                 </p>
               </div>
             </div>
-            {/*end col*/}
           </div>
-          {/*end row*/}
 
           <div className="row">
             {collectionData?.map((data, index) => {
@@ -827,7 +788,6 @@ const DarkVersionFour = () => {
                           alt=""
                         />
                       </div>
-                      {/*end col*/}
 
                       <div className="col-4">
                         <img
@@ -836,7 +796,6 @@ const DarkVersionFour = () => {
                           alt=""
                         />
                       </div>
-                      {/*end col*/}
 
                       <div className="col-4">
                         <img
@@ -845,7 +804,6 @@ const DarkVersionFour = () => {
                           alt=""
                         />
                       </div>
-                      {/*end col*/}
 
                       <div className="col-4">
                         <img
@@ -854,9 +812,7 @@ const DarkVersionFour = () => {
                           alt=""
                         />
                       </div>
-                      {/*end col*/}
                     </div>
-                    {/*end row*/}
 
                     <div className="content text-center p-4 mt-n5">
                       <div className="position-relative d-inline-flex">
@@ -889,18 +845,20 @@ const DarkVersionFour = () => {
                 </div>
               );
             })}
-            {/*end col*/}
           </div>
-          {/*end row*/}
-        </div>
+        </div> */}
         {/*end container*/}
 
+        {/* Creator News */}
         <div className="container mt-100 mt-60">
           <div className="row justify-content-center">
             <div className="col">
-              <div className="section-title text-center mb-5 pb-3">
+              <div className="section-title mb-5 pb-3">
                 <h4 className="title mb-4">Creator News</h4>
-                <p className="text-muted para-desc mb-0 mx-auto">
+                <p
+                  className="text-muted para-desc mb-0 mx-auto"
+                  style={{ maxWidth: "100%" }}
+                >
                   Influencer Is a Real Job. It’s Time to Act Like It and own it
                 </p>
               </div>
@@ -920,7 +878,7 @@ const DarkVersionFour = () => {
                         className="img-fluid rounded-md"
                         alt=""
                       />
-                      <div className="position-absolute top-0 end-0 m-3">
+                      {/* <div className="position-absolute top-0 end-0 m-3">
                         <span className="like-icon shadow-sm">
                           <a
                             href=""
@@ -930,7 +888,7 @@ const DarkVersionFour = () => {
                             <i className="mdi mdi-18px mdi-heart mb-0"></i>
                           </a>
                         </span>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="card-body position-relative p-4">
                       <a
@@ -998,13 +956,14 @@ const DarkVersionFour = () => {
         </div>
         {/*end container*/}
 
+        {/* Social Media News */}
         <div className="container mt-100 mt-60">
           <div className="row justify-content-center">
             <div className="col">
-              <div className="section-title text-center mb-4 pb-2">
+              <div className="section-title mb-4 pb-2">
                 <h4 className="title mb-4">Social Media News</h4>
-                <p className="text-muted para-desc mb-0 mx-auto">
-                  check out the latest news and updates from our social media
+                <p className="text-muted para-desc mb-0 ">
+                  Check out the latest news and updates from our social media
                 </p>
               </div>
             </div>
@@ -1012,78 +971,161 @@ const DarkVersionFour = () => {
           </div>
           {/*end row*/}
 
-          <div className="row">
-            <div className="col-lg-3 col-md-6 col-12 mt-4 pt-2">
-              <div className="card border-0 text-center features feature-primary feature-clean">
-                <div
-                  className="icons text-center mx-auto"
-                  style={{ cursor: "pointer" }}
-                >
-                  {/* <i className="uil uil-card-atm d-block rounded-md h3 mb-0"></i> */}
-                  <i className="uil uil-facebook-f d-block rounded-md h3 mb-0"></i>
-                </div>
-
-                <div className="content mt-4 pt-2">
-                  <h5 className="mb-3">Facebook</h5>
-                  <p className="text-muted mb-0">
-                    News and updates from our facebook page
-                  </p>
-                </div>
+          <div className="row justify-content-center mb-5">
+            <div className="col filters-group-wrap">
+              <div className="filters-group">
+                <ul className="container-filter mb-0 categories-filter list-unstyled">
+                  <li
+                    className={`list-inline-item categories position-relative text-dark ${
+                      type === "all" ? "active" : ""
+                    }`}
+                    // data-group="games"
+                    onClick={() => setFilter("all")}
+                  >
+                    All
+                  </li>
+                  <li
+                    className={`list-inline-item categories position-relative text-dark ${
+                      type === "games" ? "active" : ""
+                    }`}
+                    // data-group="games"
+                    onClick={() => setFilter("Facebook")}
+                  >
+                    <i className="uil uil-facebook-f"></i> Facebook
+                  </li>
+                  <li
+                    className={`list-inline-item categories position-relative text-dark ${
+                      type === "art" ? "active" : ""
+                    }`}
+                    // data-group="art"
+                    onClick={() => setFilter("Instagram")}
+                  >
+                    <i className="uil uil-instagram"></i> Instagram
+                  </li>
+                  <li
+                    className={`list-inline-item categories position-relative text-dark ${
+                      type === "music" ? "active" : ""
+                    }`}
+                    // data-group="music"
+                    onClick={() => setFilter("TikTok")}
+                  >
+                    <i className="uil uil-music"></i> TikTok
+                  </li>
+                  <li
+                    className={`list-inline-item categories position-relative text-dark ${
+                      type === "video" ? "active" : ""
+                    }`}
+                    // data-group="video"
+                    onClick={() => setFilter("Twitter")}
+                  >
+                    <i className="uil uil-twitter"></i> Twitter
+                  </li>
+                </ul>
               </div>
             </div>
             {/*end col*/}
+          </div>
+          {/*end row*/}
 
-            <div className="col-lg-3 col-md-6 col-12 mt-4 pt-2">
-              <div className="card border-0 text-center features feature-primary feature-clean">
-                <div
-                  className="icons text-center mx-auto"
-                  style={{ cursor: "pointer" }}
-                >
-                  <i className="uil uil-instagram d-block rounded-md h3 mb-0"></i>
-                </div>
+          <div className="row g-4">
+            {NewsData?.filter((data) => data?.type?.includes(type))?.map(
+              (data, index) => {
+                return (
+                  <div className="col-lg-4 col-md-6" key={index * 5}>
+                    <div className="card blog blog-primary shadow rounded-md overflow-hidden">
+                      <div className="position-relative">
+                        <img
+                          src={data?.image}
+                          className="img-fluid rounded-md"
+                          alt=""
+                        />
+                        {/* <div className="position-absolute top-0 end-0 m-3">
+                          <span className="like-icon shadow-sm">
+                            <a
+                              href=""
+                              onClick={(e) => e.preventDefault()}
+                              className="text-muted icon"
+                            >
+                              <i className="mdi mdi-18px mdi-heart mb-0"></i>
+                            </a>
+                          </span>
+                        </div> */}
+                      </div>
+                      <div className="card-body position-relative p-4">
+                        <a
+                          href=""
+                          className="badge tag gradient rounded-md fw-bold"
+                        >
+                          {data?.type}
+                        </a>
 
-                <div className="content mt-4 pt-2">
-                  <h5 className="mb-3">Instagram</h5>
-                  <p className="text-muted mb-0">
-                    News and updates from our instagram page
-                  </p>
-                </div>
-              </div>
-            </div>
+                        <ul className="list-unstyled mt-2">
+                          <li className="list-inline-item text-muted small me-3">
+                            <i className="uil uil-calendar-alt text-dark h6 me-1"></i>
+                            20th January, 2022
+                          </li>
+                          <li className="list-inline-item text-muted small">
+                            <i className="uil uil-clock text-dark h6 me-1"></i>5
+                            min read
+                          </li>
+                        </ul>
+                        <a
+                          href="/blog-detail"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigate("/blog-detail");
+                          }}
+                          className="text-dark title h5 mt-3"
+                        >
+                          {data?.title}
+                        </a>
+
+                        <div className="mt-3 d-flex justify-content-between align-items-center">
+                          <a
+                            href="/blog-detail"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate("/blog-detail");
+                            }}
+                            className="btn btn-link text-muted"
+                          >
+                            Read more <FiArrowRight className="fea icon-sm" />
+                          </a>
+                          <span className="text-muted fs-6">
+                            by{" "}
+                            <a
+                              href="/creator-profile"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/creator-profile");
+                              }}
+                              className="link"
+                            >
+                              {data?.createdBy}
+                            </a>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+            )}
+
             {/*end col*/}
+          </div>
+        </div>
+        {/*end container*/}
 
-            <div className="col-lg-3 col-md-6 col-12 mt-4 pt-2">
-              <div className="card border-0 text-center features feature-primary feature-clean">
-                <div
-                  className="icons text-center mx-auto"
-                  style={{ cursor: "pointer" }}
-                >
-                  <i className="uil uil-twitter d-block rounded-md h3 mb-0"></i>
-                </div>
-
-                <div className="content mt-4 pt-2">
-                  <h5 className="mb-3">Twitter</h5>
-                  <p className="text-muted mb-0">
-                    News and updates from our twitter page
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/*end col*/}
-
-            <div className="col-lg-3 col-md-6 col-12 mt-4 pt-2">
-              <div className="card border-0 text-center features feature-primary feature-clean">
-                <div
-                  className="icons text-center mx-auto"
-                  style={{ cursor: "pointer" }}
-                >
-                  <i className="uil uil-linkedin d-block rounded-md h3 mb-0"></i>
-                </div>
-
-                <div className="content mt-4 pt-2">
-                  <h5 className="mb-3">LinkedIn</h5>
-                  <p className="text-muted mb-0">
-                    News and updates from our linkedin page
+        {/* Event News */}
+        <div className="container mt-100 mt-60">
+          <div className="row justify-content-center">
+            <div className="col">
+              <div className="col">
+                <div className="section-title mb-4 pb-2">
+                  <h4 className="title mb-4">Event News</h4>
+                  <p className="text-muted para-desc mb-0 ">
+                    Check out the latest news and updates from our events
                   </p>
                 </div>
               </div>
@@ -1091,9 +1133,79 @@ const DarkVersionFour = () => {
             {/*end col*/}
           </div>
           {/*end row*/}
-        </div>
-        {/*end container*/}
 
+          <div className="row ">
+            <div className="col-md-6 mt-4 pt-2">
+              <div
+                className="card p-4 rounded-md shadow bg-white"
+                style={{ textAlign: "left !important" }}
+              >
+                <h4 className="mb-4">Join our community</h4>
+                <p className="text-muted mb-0">
+                  We are a huge marketplace dedicated to connecting great
+                  artists of all Superex.
+                </p>
+
+                <div className="mt-3">
+                  <a
+                    href="/aboutus"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/aboutus");
+                    }}
+                    className="btn btn-link primary text-dark"
+                  >
+                    Read More <i className="uil uil-arrow-right"></i>
+                  </a>
+                </div>
+                <div className="py-4"></div>
+                <div className="position-absolute bottom-0 end-0">
+                  <img
+                    src={community}
+                    className="avatar avatar-medium opacity-05"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </div>
+            {/*end col*/}
+
+            <div className="col-md-6 mt-4 pt-2">
+              <div className="card p-4 rounded-md shadow bg-white">
+                <h4 className="mb-4">Learn more about Superex</h4>
+                <p className="text-muted mb-0">
+                  We are a huge marketplace dedicated to connecting great
+                  artists of all Superex.
+                </p>
+
+                <div className="mt-3">
+                  <a
+                    href="/aboutus"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/aboutus");
+                    }}
+                    className="btn btn-link primary text-dark"
+                  >
+                    Read More <i className="uil uil-arrow-right"></i>
+                  </a>
+                </div>
+                <div className="py-4"></div>
+                <div className="position-absolute bottom-0 end-0">
+                  <img
+                    src={united}
+                    className="avatar avatar-medium opacity-05"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </div>
+            {/*end col*/}
+          </div>
+          {/*end row*/}
+        </div>
+
+        {/* Upcoming Bd */}
         <div className="container mt-100 mt-60">
           <div className="row">
             <div className="col-12">
@@ -1147,7 +1259,7 @@ const DarkVersionFour = () => {
                             {data?.name}
                           </a>
                         </h6>
-                        <small className="text-muted">{data?.eth}</small>
+                        <small className="text-muted">{data?.bd}</small>
                       </div>
                     </div>
                   </div>
@@ -1165,7 +1277,7 @@ const DarkVersionFour = () => {
       <Footer />
 
       {/* Style switcher  */}
-      <StyleSwitcher />
+      {/* <StyleSwitcher /> */}
     </>
   );
 };

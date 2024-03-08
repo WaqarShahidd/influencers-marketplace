@@ -40,6 +40,7 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import ChangeLog from "./pages/ChangeLog";
 import PrivateRoutes from "./constants/PrivateRoutes";
+import AddJob from "./pages/AddJob/Index";
 
 export default function Router() {
   return (
@@ -52,6 +53,7 @@ export default function Router() {
         <Route exact path="/lock-screen" element={<LockScreen />} />
 
         {/* special router page  */}
+        <Route path="*" element={<Error />} />
         <Route exact path="/error" element={<Error />} />
         <Route exact path="/comingsoon" element={<ComingSoon />} />
         <Route exact path="/maintenance" element={<Maintenance />} />
@@ -70,6 +72,7 @@ export default function Router() {
           <Route exact path="/blog-sidebar" element={<BlogSidebar />} />
           <Route exact path="/contact" element={<Contact />} />
           <Route exact path="/upload-work" element={<UploadWork />} />
+          <Route exact path="/post-job" element={<AddJob />} />
           <Route exact path="/collections" element={<Collections />} />
           <Route exact path="/become-creator" element={<BecomeCreator />} />
           <Route exact path="/creator-profile" element={<CreateProfile />} />
@@ -92,7 +95,7 @@ export default function Router() {
           <Route exact path="/index-dark" element={<DarkVersionOne />} />
           <Route exact path="/index-dark-rtl" element={<DarkVersionOne />} />
           <Route exact path="/index" element={<DarkVersionOne />} />
-          <Route exact path="/" element={<DarkVersionOne />} />
+          <Route exact path="/" element={<DarkVersionFour />} />
           <Route exact path="/index-rtl" element={<DarkVersionOne />} />
 
           <Route exact path="/index-two-dark" element={<DarkVersionTwo />} />

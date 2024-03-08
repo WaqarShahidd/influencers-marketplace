@@ -2,10 +2,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
-import StyleSwitcher from "../../components/StyleSwitcher";
 import { work1, client01, bg01 } from "../../components/imageImport";
 
-const UploadWork = () => {
+const AddJob = () => {
   const navigate = useNavigate();
   const handleChange = () => {
     const fileUploader = document.querySelector("#input-file");
@@ -42,10 +41,10 @@ const UploadWork = () => {
             <div className="col-12">
               <div className="title-heading text-center">
                 <h5 className="heading fw-semibold sub-heading text-white title-dark">
-                  Upload Your Work
+                  Hire Influencer
                 </h5>
                 <p className="text-white-50 para-desc mx-auto mb-0">
-                  Add your digital art and work
+                  Post a job and get the best influencer for your brand.
                 </p>
               </div>
             </div>
@@ -71,7 +70,7 @@ const UploadWork = () => {
                   </a>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
-                  Upload Work
+                  Hire influencer
                 </li>
               </ul>
             </nav>
@@ -114,10 +113,10 @@ const UploadWork = () => {
                   />
 
                   <div className="content text-center pt-2 p-4">
-                    <h6 className="mb-0">Steven Townsend</h6>
-                    <small className="text-muted">@StreetBoy</small>
+                    <h6 className="mb-0">Brand XYZ</h6>
+                    <small className="text-muted">Category</small>
 
-                    <ul className="list-unstyled mb-0 mt-3" id="navmenu-nav">
+                    {/* <ul className="list-unstyled mb-0 mt-3" id="navmenu-nav">
                       <li className="px-0">
                         <a
                           href="/creator-profile"
@@ -171,7 +170,7 @@ const UploadWork = () => {
                           </small>
                         </a>
                       </li>
-                    </ul>
+                    </ul> */}
                   </div>
                 </div>
               </div>
@@ -259,14 +258,14 @@ const UploadWork = () => {
                           <div className="col-md-6 mb-4">
                             <label className="form-label fw-bold">
                               {" "}
-                              Audience Engagement :{" "}
+                              Salary:{" "}
                             </label>
                             <input
                               name="time"
                               type="text"
                               className="form-control"
                               id="time"
-                              defaultValue="500k"
+                              defaultValue="100k - 500k"
                             />
                           </div>
                           {/*end col*/}
@@ -308,7 +307,7 @@ const UploadWork = () => {
                               type="submit"
                               className="btn btn-primary rounded-md"
                             >
-                              Upload Work
+                              Post Job
                             </button>
                           </div>
                           {/*end col*/}
@@ -336,4 +335,4 @@ const UploadWork = () => {
   );
 };
 
-export default UploadWork;
+export default AddJob;

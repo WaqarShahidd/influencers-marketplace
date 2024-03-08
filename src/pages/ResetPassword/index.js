@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
-import { whiteLogo } from "../../components/imageImport";
+import { logo, whiteLogo } from "../../components/imageImport";
 import StyleSwitcher from "../../components/StyleSwitcher";
 
 function ResetPassword() {
@@ -21,7 +21,7 @@ function ResetPassword() {
       {/*  Hero Start */}
       <section className="position-relative">
         <div className="bg-video-wrapper">
-          <iframe src="https://player.vimeo.com/video/502163294?background=1&autoplay=1&loop=1&byline=0&title=0"></iframe>
+          {/* <iframe src="https://player.vimeo.com/video/502163294?background=1&autoplay=1&loop=1&byline=0&title=0"></iframe> */}
           {/* Note: Vimeo Embed Background Video*/}
 
           {/*  <iframe src="https://www.youtube.com/embed/yba7hPeTSjk?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&mute=1"></iframe> */}
@@ -34,8 +34,8 @@ function ResetPassword() {
               <div className="d-flex flex-column min-vh-100 p-4">
                 {/*  Start Logo */}
                 <div className="text-center">
-                  <a href="">
-                    <img src={whiteLogo} alt="" />
+                  <a href="" onClick={() => navigate("/")}>
+                    <img src={logo} alt="" />
                   </a>
                 </div>
                 {/*  End Logo */}
@@ -59,6 +59,7 @@ function ResetPassword() {
                               className="form-control"
                               id="floatingInput"
                               placeholder="name@example.com"
+                              style={{ backgroundColor: "transparent" }}
                             />
                             <label htmlFor="floatingInput">Email address</label>
                           </div>
@@ -101,13 +102,13 @@ function ResetPassword() {
                 {/*  End Content */}
 
                 {/*  Start Footer */}
-                <div className="text-center">
+                {/* <div className="text-center">
                   <small className="mb-0 text-light title-dark">
                     © <script>document.write(new Date().getFullYear())</script>{" "}
                     Superex. Design & Develop with{" "}
                     <i className="mdi mdi-heart text-danger"></i> by
                   </small>
-                </div>
+                </div> */}
                 {/*  End Footer */}
               </div>
             </div>
@@ -119,9 +120,6 @@ function ResetPassword() {
       </section>
       {/* end section*/}
       {/*  Hero End */}
-
-      {/* Style switcher  */}
-      <StyleSwitcher />
     </>
   );
 }

@@ -1,90 +1,112 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import Footer from '../../components/Footer'
-import Navbar from '../../components/Navbar'
-import StyleSwitcher from '../../components/StyleSwitcher'
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
+import StyleSwitcher from "../../components/StyleSwitcher";
 import {
-  client01, client02, client03, client04, client05, client06, client07, client08,
-  client09, client10, client11, client12, bg01,
-  work1, work2, work3, work4, work5, work6, work7, work8, work9, work10, work11, work12,
-} from '../../components/imageImport'
+  client01,
+  client02,
+  client03,
+  client04,
+  client05,
+  client06,
+  client07,
+  client08,
+  client09,
+  client10,
+  client11,
+  client12,
+  bg01,
+  work1,
+  work2,
+  work3,
+  work4,
+  work5,
+  work6,
+  work7,
+  work8,
+  work9,
+  work10,
+  work11,
+  work12,
+} from "../../components/imageImport";
 
 const Creator = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const creatorData = [
     {
       image: client01,
       backgroundImage: work1,
-      name: 'Steven Townsend',
-      author: 'StreetBoy',
+      name: "Steven Townsend",
+      author: "StreetBoy",
     },
     {
       image: client02,
       backgroundImage: work2,
-      name: 'Tiffany Betancourt',
-      author: 'CutieGirl',
+      name: "Tiffany Betancourt",
+      author: "CutieGirl",
     },
     {
       image: client03,
       backgroundImage: work3,
-      name: 'Mari Harrington',
-      author: 'NorseQueen',
+      name: "Mari Harrington",
+      author: "NorseQueen",
     },
     {
       image: client04,
       backgroundImage: work4,
-      name: 'Floyd Glasgow',
-      author: 'BigBull',
+      name: "Floyd Glasgow",
+      author: "BigBull",
     },
     {
       image: client05,
       backgroundImage: work5,
-      name: 'Donna Schultz',
-      author: 'Angel',
+      name: "Donna Schultz",
+      author: "Angel",
     },
     {
       image: client06,
       backgroundImage: work6,
-      name: 'Joshua Morris',
-      author: 'CrazyAnyone',
+      name: "Joshua Morris",
+      author: "CrazyAnyone",
     },
     {
       image: client07,
       backgroundImage: work7,
-      name: 'Carl Williams',
-      author: 'LooserBad',
+      name: "Carl Williams",
+      author: "LooserBad",
     },
     {
       image: client08,
       backgroundImage: work8,
-      name: 'Eugene Green',
-      author: 'KristyHoney',
+      name: "Eugene Green",
+      author: "KristyHoney",
     },
     {
       image: client09,
       backgroundImage: work9,
-      name: 'Julius Canale',
-      author: 'PandaOne',
+      name: "Julius Canale",
+      author: "PandaOne",
     },
     {
       image: client10,
       backgroundImage: work10,
-      name: 'Michael Williams',
-      author: 'FunnyGuy',
+      name: "Michael Williams",
+      author: "FunnyGuy",
     },
     {
       image: client11,
       backgroundImage: work11,
-      name: 'Jacqueline Burns',
-      author: 'ButterFly',
+      name: "Jacqueline Burns",
+      author: "ButterFly",
     },
     {
       image: client12,
       backgroundImage: work12,
-      name: 'Rosaria Vargas',
-      author: 'Princess',
+      name: "Rosaria Vargas",
+      author: "Princess",
     },
-  ]
+  ];
   return (
     <>
       {/* Navbar */}
@@ -116,17 +138,17 @@ const Creator = () => {
             <nav aria-label="breadcrumb" className="d-block">
               <ul
                 className="breadcrumb breadcrumb-muted mb-0 p-0"
-                style={{ backgroundColor: 'transparent' }}
+                style={{ backgroundColor: "transparent" }}
               >
                 <li className="breadcrumb-item">
                   <a
-                    href="/index"
-                    onClick={e => {
-                      e.preventDefault()
-                      navigate('/index')
+                    href="/"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/");
                     }}
                   >
-                    Superex
+                    Faimos
                   </a>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
@@ -177,9 +199,9 @@ const Creator = () => {
                       <div className="content text-center pt-2 p-4">
                         <a
                           href="/creator-profile"
-                          onClick={e => {
-                            e.preventDefault()
-                            navigate('/creator-profile')
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigate("/creator-profile");
                           }}
                           className="text-dark h6 name d-block mb-0"
                         >
@@ -190,7 +212,7 @@ const Creator = () => {
                         <div className="mt-3">
                           <a
                             href=""
-                            onClick={e => e.preventDefault()}
+                            onClick={(e) => e.preventDefault()}
                             className="btn btn-pills btn-soft-primary"
                           >
                             Follow
@@ -200,7 +222,7 @@ const Creator = () => {
                     </div>
                   </div>
                 </div>
-              )
+              );
             })}
             {/*-end col*/}
           </div>
@@ -250,11 +272,8 @@ const Creator = () => {
       {/*- End Section */}
       {/* footer */}
       <Footer />
-
-      {/* Style switcher  */}
-      <StyleSwitcher />
     </>
-  )
-}
+  );
+};
 
-export default Creator
+export default Creator;
