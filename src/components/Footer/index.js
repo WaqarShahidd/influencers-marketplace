@@ -193,10 +193,10 @@ const Footer = () => {
                       </li>
                       <li>
                         <a
-                          href="/wallet"
+                          href="/jobs"
                           onClick={(e) => {
                             e.preventDefault();
-                            navigate("/wallet");
+                            navigate("/jobs");
                           }}
                           className="text-foot"
                         >
@@ -205,10 +205,10 @@ const Footer = () => {
                       </li>
                       <li>
                         <a
-                          href="/explore-one"
+                          href="/pitch-board"
                           onClick={(e) => {
                             e.preventDefault();
-                            navigate("/explore-one");
+                            navigate("/pitch-board");
                           }}
                           className="text-foot"
                         >
@@ -438,7 +438,7 @@ const Footer = () => {
               </button>
             </div>
 
-            <div className="modal-body p-4 text-center">
+            {/* <div className="modal-body p-4 text-center">
               <img
                 src={MetaMask_Fox}
                 className="avatar avatar-md-md rounded-circle shadow-sm "
@@ -461,7 +461,7 @@ const Footer = () => {
                   MetaMask
                 </a>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

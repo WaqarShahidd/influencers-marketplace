@@ -163,7 +163,10 @@ import job1 from "../../assets/images/custom/jobs (1).png";
 import job2 from "../../assets/images/custom/jobs (2).png";
 import job3 from "../../assets/images/custom/jobs (3).png";
 
+import defaultImage from "../../assets/images/custom/default.jpg";
+
 export {
+  defaultImage,
   logo,
   logoS,
   banner,

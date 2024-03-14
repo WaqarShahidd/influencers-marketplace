@@ -10,7 +10,7 @@ import {
 } from "../../components/imageImport";
 import axios from "axios";
 import { BASE_URL } from "../../constants/config";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Backdrop, CircularProgress, Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 
@@ -18,8 +18,10 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const AddJob = () => {
+const CreatePitch = () => {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const { userData } = useSelector((state) => state.user);
 
@@ -42,17 +44,6 @@ const AddJob = () => {
 
       reader.readAsDataURL(uploadedFile);
     }
-  };
-
-  const [createJobForm, setcreateJobForm] = useState({
-    title: "",
-    description: "",
-    type: "",
-    salary: "",
-  });
-
-  const changeHandler = (e) => {
-    setcreateJobForm({ ...createJobForm, [e.target.name]: e.target.value });
   };
 
   const [dataUri, setDataUri] = useState(null);
@@ -99,9 +90,26 @@ const AddJob = () => {
       });
   }
 
+  const [pitchData, setpitchData] = useState({
+    name: "",
+    creative: "",
+    price: "",
+    facebook: "",
+    facebookRange: "",
+    insta: "",
+    instaRange: "",
+    tiktok: "",
+    tiktokRange: "",
+    yt: "",
+    ytRange: "",
+  });
+
+  const changeHandler = (e) => {
+    setpitchData({ ...pitchData, [e.target.name]: e.target.value });
+  };
+
   const [loading, setloading] = useState(false);
   const [error, seterror] = useState(false);
-  const [errorMsg, seterrorMsg] = useState("");
 
   const [open, setOpen] = useState(false);
 
@@ -113,52 +121,67 @@ const AddJob = () => {
     setOpen(false);
   };
 
-  const handleCloseError = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
+  const AddPitch = () => {
+    const token = JSON.parse(localStorage.getItem("token"));
     seterror(false);
-  };
-
-  const CreateJob = (data) => {
-    seterror(false);
-    console.log(data, "data");
     if (
-      createJobForm.title === "" ||
-      createJobForm.type === "" ||
-      createJobForm.salary === ""
+      pitchData.name === "" ||
+      pitchData.creative === "" ||
+      pitchData.price === "" ||
+      URL === ""
     ) {
       seterror(true);
-      seterrorMsg("Please fill all the fields");
-    } else if (URL === "") {
-      seterror(true);
-      seterrorMsg("Please upload image");
     } else {
       setloading(true);
       axios
-        .post(`${BASE_URL}/api/job/createJob`, {
-          title: createJobForm.title,
-          description: createJobForm.description,
-          job_type: createJobForm.type,
-          salary: createJobForm.salary,
-          image_url: createJobForm.image,
-        })
+        .post(
+          `${BASE_URL}/api/pitch/createPitch`,
+          {
+            user_id: userData.id,
+            title: pitchData.name,
+            creative_idea: pitchData.creative,
+            price_range: pitchData.price,
+            twitter_channel: "",
+            snapchat_channel: "",
+            tiktok_channel: pitchData.tiktok,
+            instagram_channel: pitchData.instagram,
+            facebook_channel: pitchData.facebook,
+            youtube_channel: pitchData.yt,
+            twitter_reach: "",
+            snapchat_reach: "",
+            tiktok_reach: pitchData.tiktokRange,
+            instagram_reach: pitchData.instaRange,
+            facebook_reach: pitchData.facebookRange,
+            youtube_reach: pitchData.ytRange,
+            image_url: URL,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
         .then((res) => {
           setloading(false);
-          setOpen(true);
-          setcreateJobForm({
-            title: "",
-            description: "",
-            type: "",
-            salary: "",
+          console.log(res.data, "res");
+          setpitchData({
+            name: "",
+            creative: "",
+            price: "",
+            facebook: "",
+            facebookRange: "",
+            insta: "",
+            instaRange: "",
+            tiktok: "",
+            tiktokRange: "",
+            yt: "",
+            ytRange: "",
           });
-          setURL("");
+          setDataUri("");
+          setOpen(true);
         })
         .catch((error) => {
           console.log(error);
-          seterror(true);
-          seterrorMsg(error.response.data.message);
           setloading(false);
         });
     }
@@ -168,6 +191,7 @@ const AddJob = () => {
     <>
       {/* Navbar */}
       <Navbar />
+
       <Backdrop
         sx={{
           color: "#fff",
@@ -179,16 +203,7 @@ const AddJob = () => {
       </Backdrop>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          Account Created Successfully
-        </Alert>
-      </Snackbar>
-      <Snackbar open={error} autoHideDuration={6000} onClose={handleCloseError}>
-        <Alert
-          onClose={handleCloseError}
-          severity="error"
-          sx={{ width: "100%" }}
-        >
-          {errorMsg}
+          Pitch Created Successfully
         </Alert>
       </Snackbar>
 
@@ -203,10 +218,11 @@ const AddJob = () => {
             <div className="col-12">
               <div className="title-heading text-center">
                 <h5 className="heading fw-semibold sub-heading text-white title-dark">
-                  Hire Influencer
+                  Create a Pitch
                 </h5>
                 <p className="text-white-50 para-desc mx-auto mb-0">
-                  Post a job and get the best influencer for your brand.
+                  Start working with{" "}
+                  <span className="text-primary fw-bold">Faimos</span>
                 </p>
               </div>
             </div>
@@ -232,7 +248,7 @@ const AddJob = () => {
                   </a>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
-                  Hire influencer
+                  Create Pitch
                 </li>
               </ul>
             </nav>
@@ -284,10 +300,18 @@ const AddJob = () => {
                   )}
 
                   <div className="content text-center pt-2 p-4">
-                    <h6 className="mb-0">{userData?.first_name}</h6>
+                    <a
+                      href="/creator-profile"
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                      className="text-dark h6 name d-block mb-0"
+                    >
+                      {userData?.first_name}
+                    </a>
                     {userData?.display_name && (
                       <small className="text-muted">
-                        {userData?.display_name}
+                        @{userData?.display_name}
                       </small>
                     )}
 
@@ -358,12 +382,7 @@ const AddJob = () => {
                   <div className="col-lg-5">
                     <div className="d-grid">
                       {dataUri ? (
-                        <img
-                          src={dataUri}
-                          className="img-fluid"
-                          alt=""
-                          style={{ marginBottom: "20px" }}
-                        />
+                        <img src={dataUri} className="img-fluid" alt="" />
                       ) : (
                         <p className="fw-semibold mb-4">
                           Upload your image here
@@ -398,16 +417,16 @@ const AddJob = () => {
                         <div className="row">
                           <div className="col-12 mb-4">
                             <label className="form-label fw-bold">
-                              Job Title <span className="text-danger">*</span>
+                              Title <span className="text-danger">*</span>
                             </label>
                             <input
-                              name="title"
+                              name="name"
                               id="name"
                               type="text"
                               className="form-control"
-                              placeholder="Job Title:"
+                              placeholder="Title:"
+                              value={pitchData.name}
                               onChange={changeHandler}
-                              value={createJobForm.title}
                             />
                           </div>
                           {/*end col*/}
@@ -415,30 +434,27 @@ const AddJob = () => {
                           <div className="col-12 mb-4">
                             <label className="form-label fw-bold">
                               {" "}
-                              Description :{" "}
+                              Creative Idea :{" "}
                             </label>
                             <textarea
-                              name="description"
+                              name="creative"
                               id="comments"
                               rows="4"
                               className="form-control"
-                              placeholder="Description:"
+                              placeholder="Write your creative idea here..."
                               onChange={changeHandler}
-                              value={createJobForm.description}
+                              value={pitchData.creative}
                             ></textarea>
                           </div>
                           {/*end col*/}
 
                           {/* <div className="col-md-6 mb-4">
-                            <label className="form-label fw-bold">
-                              Category:
-                            </label>
+                            <label className="form-label fw-bold">Type :</label>
                             <select
                               className="form-control"
                               defaultValue="Select Type"
-                              onChange={changeHandler}
                             >
-                              <option>Choose any category</option>
+                              <option>Choose any type</option>
                               <option>Fashion Photoshoots</option>
                               <option>Food Blog</option>
                               <option>Tech Review</option>
@@ -447,39 +463,150 @@ const AddJob = () => {
                           </div> */}
                           {/*end col*/}
 
-                          <div className="col-md-6 mb-4">
-                            <label className="form-label fw-bold">
-                              Job Type:
-                            </label>
-                            <select
-                              className="form-control"
-                              defaultValue="Select Type"
-                              onChange={changeHandler}
-                            >
-                              <option>Choose any type</option>
-                              <option>Full-time</option>
-                              <option>Part-time</option>
-                              <option>Freelancer</option>
-                            </select>
-                          </div>
-                          {/*end col*/}
-
-                          <div className="col-md-6 mb-4">
+                          <div className="col-12 mb-4">
                             <label className="form-label fw-bold">
                               {" "}
-                              Salary:{" "}
+                              Price Range:{" "}
                             </label>
                             <input
-                              name="salary"
+                              name="price"
                               type="text"
                               className="form-control"
                               id="time"
-                              placeholder="Salary:"
+                              placeholder="Enter Price Range"
                               onChange={changeHandler}
-                              value={createJobForm.salary}
+                              value={pitchData.price}
                             />
                           </div>
                           {/*end col*/}
+
+                          {/* Facebook */}
+                          <div className="col-md-8 mb-4">
+                            <label className="form-label fw-bold">
+                              {" "}
+                              Facebook:{" "}
+                            </label>
+                            <input
+                              name="facebook"
+                              type="text"
+                              className="form-control"
+                              id="time"
+                              placeholder="Enter Facebook URL"
+                              onChange={changeHandler}
+                              value={pitchData.facebook}
+                            />
+                          </div>
+                          <div className="col-md-4 mb-4">
+                            <label className="form-label fw-bold">
+                              {" "}
+                              Reach:{" "}
+                            </label>
+                            <input
+                              name="facebookRange"
+                              type="text"
+                              className="form-control"
+                              id="time"
+                              placeholder="Enter Reach"
+                              onChange={changeHandler}
+                              value={pitchData.facebookRange}
+                            />
+                          </div>
+
+                          {/* Instagram */}
+                          <div className="col-md-8 mb-4">
+                            <label className="form-label fw-bold">
+                              {" "}
+                              Instagram:{" "}
+                            </label>
+                            <input
+                              name="insta"
+                              type="text"
+                              className="form-control"
+                              id="time"
+                              placeholder="Enter Instagram URL"
+                              onChange={changeHandler}
+                              value={pitchData.insta}
+                            />
+                          </div>
+                          <div className="col-md-4 mb-4">
+                            <label className="form-label fw-bold">
+                              {" "}
+                              Reach:{" "}
+                            </label>
+                            <input
+                              name="instaRange"
+                              type="text"
+                              className="form-control"
+                              id="time"
+                              placeholder="Enter Reach"
+                              onChange={changeHandler}
+                              value={pitchData.instaRange}
+                            />
+                          </div>
+
+                          {/* TikTok */}
+                          <div className="col-md-8 mb-4">
+                            <label className="form-label fw-bold">
+                              {" "}
+                              TikTok:{" "}
+                            </label>
+                            <input
+                              name="tiktok"
+                              type="text"
+                              className="form-control"
+                              id="time"
+                              placeholder="Enter TikTok URL"
+                              onChange={changeHandler}
+                              value={pitchData.tiktok}
+                            />
+                          </div>
+                          <div className="col-md-4 mb-4">
+                            <label className="form-label fw-bold">
+                              {" "}
+                              Reach:{" "}
+                            </label>
+                            <input
+                              name="tiktokRange"
+                              type="text"
+                              className="form-control"
+                              id="time"
+                              placeholder="Enter Reach"
+                              onChange={changeHandler}
+                              value={pitchData.tiktokRange}
+                            />
+                          </div>
+
+                          {/* YouTube */}
+                          <div className="col-md-8 mb-4">
+                            <label className="form-label fw-bold">
+                              {" "}
+                              YouTube:{" "}
+                            </label>
+                            <input
+                              name="yt"
+                              type="text"
+                              className="form-control"
+                              id="time"
+                              placeholder="Enter YouTube URL"
+                              onChange={changeHandler}
+                              value={pitchData.yt}
+                            />
+                          </div>
+                          <div className="col-md-4 mb-4">
+                            <label className="form-label fw-bold">
+                              {" "}
+                              Reach:{" "}
+                            </label>
+                            <input
+                              name="ytRange"
+                              type="text"
+                              className="form-control"
+                              id="time"
+                              placeholder="Enter Reach"
+                              onChange={changeHandler}
+                              value={pitchData.ytRange}
+                            />
+                          </div>
 
                           {/* <div className="col-12">
                             <h6>Auction :</h6>
@@ -520,10 +647,10 @@ const AddJob = () => {
                               className="btn btn-primary rounded-md"
                               onClick={(e) => {
                                 e.preventDefault();
-                                CreateJob();
+                                AddPitch();
                               }}
                             >
-                              Post Job
+                              Create Pitch
                             </button>
                           </div>
                           {/*end col*/}
@@ -551,4 +678,4 @@ const AddJob = () => {
   );
 };
 
-export default AddJob;
+export default CreatePitch;

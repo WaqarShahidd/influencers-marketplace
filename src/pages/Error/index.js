@@ -76,9 +76,6 @@ const Error = () => {
       </section>
       {/* end section */}
       {/* End  */}
-
-      {/* Style switcher  */}
-      <StyleSwitcher />
     </>
   );
 };

@@ -1,13 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { character, client01, lightLogo, logo, logoDark } from "../imageImport";
+import { client01, defaultImage, logo } from "../imageImport";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const [myPublicAddress, setMyPublicAddress] = useState("qhut0...hfteh45");
   const location = useLocation();
   const navigate = useNavigate();
   const url = useMemo(() => location?.pathname === "/blog-detail", []);
+
   const templatePage = [
     "/become-creator",
     "/creator-profile",
@@ -21,16 +22,7 @@ const Navbar = () => {
   ];
   const becomeUrl = templatePage.includes(location?.pathname);
   const [mobile, setMobile] = useState([]);
-  const toggleSwitcher = () => {
-    var i = document.getElementById("style-switcher");
-    if (i) {
-      if (i.style.left === "-189px") {
-        i.style.left = "0px";
-      } else {
-        i.style.left = "-189px";
-      }
-    }
-  };
+
   const mobileHandler = (e, panel) => {
     e.preventDefault();
     const dataIndex = mobile?.findIndex((data) => data === panel);
@@ -39,136 +31,6 @@ const Navbar = () => {
     } else {
       const updateRecord = mobile?.filter((data, index) => index !== dataIndex);
       setMobile(updateRecord);
-    }
-  };
-
-  const closeModal = () => {
-    //   metamask modal
-    const modal = document.getElementById("modal-metamask");
-
-    modal.classList.remove("show");
-    modal.style.display = "none";
-  };
-
-  const isMetaMaskInstalled = useCallback(() => {
-    //Have to check the ethereum binding on the window object to see if it's installed
-    const { ethereum } = window;
-    return Boolean(ethereum && ethereum.isMetaMask);
-  }, []);
-
-  const checkWalletConnet = useCallback(async () => {
-    if (isMetaMaskInstalled()) {
-      const accounts = await window.ethereum.request({
-        method: "eth_accounts",
-      });
-      if (!!accounts[0]) {
-        const walletAddress =
-          accounts[0].split("").slice(0, 6).join("") +
-          "..." +
-          accounts[0]
-            .split("")
-            .slice(accounts[0].length - 7, accounts[0].length)
-            .join("");
-        setMyPublicAddress(walletAddress);
-      }
-    }
-  }, [isMetaMaskInstalled]);
-
-  useEffect(() => {
-    checkWalletConnet();
-  }, [checkWalletConnet]);
-
-  const _handleConnectWallet = useCallback(async () => {
-    const modal = document.getElementById("modal-metamask");
-
-    if (!isMetaMaskInstalled()) {
-      //meta mask not installed
-      modal.classList.add("show");
-      modal.style.display = "block";
-      return;
-    }
-    try {
-      await window.ethereum.request({ method: "eth_requestAccounts" });
-      const accounts = await window.ethereum.request({
-        method: "eth_accounts",
-      });
-      const walletAddress =
-        accounts[0].split("").slice(0, 6).join("") +
-        "..." +
-        accounts[0]
-          .split("")
-          .slice(accounts[0].length - 7, accounts[0].length)
-          .join("");
-      setMyPublicAddress(walletAddress);
-    } catch (error) {
-      console.error(error);
-    }
-  }, [isMetaMaskInstalled]);
-
-  const getClosest = (elem, selector) => {
-    // Element.matches() polyfill
-    if (!Element.prototype.matches) {
-      Element.prototype.matches =
-        Element.prototype.matchesSelector ||
-        Element.prototype.mozMatchesSelector ||
-        Element.prototype.msMatchesSelector ||
-        Element.prototype.oMatchesSelector ||
-        Element.prototype.webkitMatchesSelector ||
-        function (s) {
-          var matches = (this.document || this.ownerDocument).querySelectorAll(
-              s
-            ),
-            i = matches.length;
-          while (--i >= 0 && matches.item(i) !== this) {}
-          return i > -1;
-        };
-    }
-
-    // Get the closest matching element
-    for (; elem && elem !== document; elem = elem.parentNode) {
-      if (elem.matches(selector)) return elem;
-    }
-    return null;
-  };
-
-  const activateMenu = () => {
-    var menuItems = document.getElementsByClassName("sub-menu-item");
-    if (menuItems) {
-      var matchingMenuItem = null;
-      for (var idx = 0; idx < menuItems.length; idx++) {
-        if (menuItems[idx].href === window.location.href) {
-          matchingMenuItem = menuItems[idx];
-        }
-      }
-
-      if (matchingMenuItem) {
-        matchingMenuItem.classList.add("active");
-        var immediateParent = getClosest(matchingMenuItem, "li");
-        if (immediateParent) {
-          immediateParent.classList.add("active");
-        }
-
-        var parent = getClosest(matchingMenuItem, ".parent-menu-item");
-        if (parent) {
-          parent.classList.add("active");
-          var parentMenuitem = parent.querySelector(".menu-item");
-          if (parentMenuitem) {
-            parentMenuitem.classList.add("active");
-          }
-          var parentOfParent = getClosest(parent, ".parent-parent-menu-item");
-          if (parentOfParent) {
-            parentOfParent.classList.add("active");
-          }
-        } else {
-          var parentOfParent = getClosest(
-            matchingMenuItem,
-            ".parent-parent-menu-item"
-          );
-          if (parentOfParent) {
-            parentOfParent.classList.add("active");
-          }
-        }
-      }
     }
   };
 
@@ -181,6 +43,9 @@ const Navbar = () => {
       isOpen.style.display = "block";
     }
   };
+
+  const { userData } = useSelector((state) => state.user);
+
   return (
     <>
       {/* Navbar STart */}
@@ -196,10 +61,6 @@ const Navbar = () => {
             onClick={(e) => {
               e.preventDefault();
               navigate("/");
-              setTimeout(() => {
-                activateMenu();
-                toggleSwitcher(false);
-              }, 1000);
             }}
           >
             <span className="">
@@ -244,7 +105,7 @@ const Navbar = () => {
           <ul className="buy-button list-inline mb-0">
             <li className="list-inline-item mb-0 me-1">
               <div className="dropdown">
-                <button
+                {/* <button
                   type="button"
                   className="btn dropdown-toggle p-0"
                   data-bs-toggle="dropdown"
@@ -260,7 +121,7 @@ const Navbar = () => {
                       <i className="uil uil-search text-dark btn-icon-dark fs-5 align-middle"></i>
                     </>
                   )}
-                </button>
+                </button> */}
                 <div
                   className="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 p-0"
                   style={{ width: 300 }}
@@ -324,11 +185,21 @@ const Navbar = () => {
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  <img
-                    src={client01}
-                    className="rounded-pill avatar avatar-sm-sm"
-                    alt=""
-                  />
+                  {userData?.avatar === null ? (
+                    <img
+                      src={defaultImage}
+                      className="rounded-pill avatar avatar-sm-sm"
+                      alt=""
+                      style={{ objectFit: "contain" }}
+                    />
+                  ) : (
+                    <img
+                      src={userData?.avatar}
+                      className="rounded-pill avatar avatar-sm-sm"
+                      alt=""
+                      style={{ objectFit: "conver" }}
+                    />
+                  )}
                 </button>
                 <div
                   className="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 pb-3 pt-0 overflow-hidden rounded"
@@ -338,50 +209,42 @@ const Navbar = () => {
                     <div className="pt-5 pb-3 bg-gradient-primary"></div>
                     <div className="px-3">
                       <div className="d-flex align-items-end mt-n4">
-                        <img
-                          src={client01}
-                          className="rounded-pill avatar avatar-md-sm img-thumbnail shadow-md"
-                          alt=""
-                        />
+                        {userData?.avatar === null ? (
+                          <img
+                            src={defaultImage}
+                            className="rounded-pill avatar avatar-md-sm img-thumbnail shadow-md"
+                            alt=""
+                            style={{ objectFit: "contain" }}
+                          />
+                        ) : (
+                          <img
+                            src={userData?.avatar}
+                            className="rounded-pill avatar avatar-md-sm img-thumbnail shadow-md"
+                            alt=""
+                          />
+                        )}
                         <h6 className="text-dark fw-bold mb-0 ms-1">
-                          Calvin Carlo
+                          {userData?.first_name}
                         </h6>
                       </div>
-                      {/* <div className="mt-2">
-                        <small className="text-start text-dark d-block fw-bold">
-                          Wallet:
-                        </small>
-                        <div className="d-flex justify-content-between align-items-center">
-                          <small id="myPublicAddress" className="text-muted">
-                            {myPublicAddress}
-                          </small>
-                          <a
-                            href=""
-                            onClick={(e) => e.preventDefault()}
-                            className="text-primary"
-                          >
-                            <span className="uil uil-copy"></span>
-                          </a>
-                        </div>
-                      </div> */}
 
-                      {/* <div className="mt-2">
+                      <div className="mt-2">
                         <small className="text-dark">
-                          Balance:{" "}
+                          Email:{" "}
                           <span className="text-primary fw-bold">
-                            0.00045ETH
+                            {userData?.email}
                           </span>
                         </small>
-                      </div> */}
+                      </div>
                     </div>
                   </div>
                   <div className="mt-2">
                     <a
                       className="dropdown-item small fw-semibold text-dark d-flex align-items-center"
-                      href="/creator-profile"
+                      href={`/creator-profile/${userData?.id}`}
                       onClick={(e) => {
                         e.preventDefault();
-                        navigate("/creator-profile");
+                        navigate(`/creator-profile/${userData?.id}`);
                       }}
                     >
                       <span className="mb-0 d-inline-block me-1">
@@ -394,10 +257,7 @@ const Navbar = () => {
                       href="/creator-profile-edit"
                       onClick={(e) => {
                         e.preventDefault();
-                        setTimeout(() => {
-                          activateMenu();
-                          toggleSwitcher(false);
-                        }, 1000);
+
                         navigate("/creator-profile-edit");
                       }}
                     >
@@ -406,50 +266,61 @@ const Navbar = () => {
                       </span>{" "}
                       Settings
                     </a>
-                    <a
-                      className="dropdown-item small fw-semibold text-dark d-flex align-items-center"
-                      href="/upload-work"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setTimeout(() => {
-                          activateMenu();
-                          toggleSwitcher(false);
-                        }, 1000);
-                        navigate("/upload-work");
-                      }}
-                    >
-                      <span className="mb-0 d-inline-block me-1">
-                        <i className="uil uil-upload align-middle h6 mb-0 me-1"></i>
-                      </span>{" "}
-                      Upload Your Work
-                    </a>
-                    <a
-                      className="dropdown-item small fw-semibold text-dark d-flex align-items-center"
-                      href="/post-job"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setTimeout(() => {
-                          activateMenu();
-                          toggleSwitcher(false);
-                        }, 1000);
-                        navigate("/post-job");
-                      }}
-                    >
-                      <span className="mb-0 d-inline-block me-1">
-                        <i className="uil uil-upload align-middle h6 mb-0 me-1"></i>
-                      </span>{" "}
-                      Post a Job
-                    </a>
+                    {userData?.role === "influencer" && (
+                      <a
+                        className="dropdown-item small fw-semibold text-dark d-flex align-items-center"
+                        href="/upload-work"
+                        onClick={(e) => {
+                          e.preventDefault();
+
+                          navigate("/upload-work");
+                        }}
+                      >
+                        <span className="mb-0 d-inline-block me-1">
+                          <i className="uil uil-upload align-middle h6 mb-0 me-1"></i>
+                        </span>{" "}
+                        Upload Your Work
+                      </a>
+                    )}
+                    {userData?.role === "brands" && (
+                      <a
+                        className="dropdown-item small fw-semibold text-dark d-flex align-items-center"
+                        href="/post-job"
+                        onClick={(e) => {
+                          e.preventDefault();
+
+                          navigate("/post-job");
+                        }}
+                      >
+                        <span className="mb-0 d-inline-block me-1">
+                          <i className="uil uil-upload align-middle h6 mb-0 me-1"></i>
+                        </span>{" "}
+                        Post a Job
+                      </a>
+                    )}
+                    {userData?.role === "influencer" && (
+                      <a
+                        className="dropdown-item small fw-semibold text-dark d-flex align-items-center"
+                        href="/create-pitch"
+                        onClick={(e) => {
+                          e.preventDefault();
+
+                          navigate("/create-pitch");
+                        }}
+                      >
+                        <span className="mb-0 d-inline-block me-1">
+                          <i className="uil uil-upload align-middle h6 mb-0 me-1"></i>
+                        </span>{" "}
+                        Create a Pitch
+                      </a>
+                    )}
                     <div className="dropdown-divider border-top"></div>
                     <a
                       className="dropdown-item small fw-semibold text-dark d-flex align-items-center"
                       href="/login"
                       onClick={(e) => {
                         e.preventDefault();
-                        setTimeout(() => {
-                          activateMenu();
-                          toggleSwitcher(false);
-                        }, 1000);
+
                         navigate("/login");
                       }}
                     >
@@ -495,9 +366,7 @@ const Navbar = () => {
                           onClick={(e) => {
                             e.preventDefault();
                             navigate("/index");
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                           }}
                           className="sub-menu-item"
@@ -515,9 +384,7 @@ const Navbar = () => {
                           onClick={(e) => {
                             e.preventDefault();
                             navigate("/index-two");
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                           }}
                           className="sub-menu-item"
@@ -534,9 +401,7 @@ const Navbar = () => {
                           href="/index-three"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/index-three");
                           }}
@@ -554,9 +419,7 @@ const Navbar = () => {
                           href="/index-four"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/index-four");
                           }}
@@ -574,9 +437,7 @@ const Navbar = () => {
                           href="/index-five"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/index-five");
                           }}
@@ -601,9 +462,7 @@ const Navbar = () => {
                           href="/index-dark"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/index-dark");
                           }}
@@ -623,9 +482,7 @@ const Navbar = () => {
                           href="/index-two-dark"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/index-two-dark");
                           }}
@@ -645,9 +502,7 @@ const Navbar = () => {
                           href="/index-three-dark"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/index-three-dark");
                           }}
@@ -667,9 +522,7 @@ const Navbar = () => {
                           href="/index-four-dark"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/index-four-dark");
                           }}
@@ -689,9 +542,7 @@ const Navbar = () => {
                           href="/index-five-dark"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/index-five-dark");
                           }}
@@ -715,9 +566,7 @@ const Navbar = () => {
                           href="/index-rtl"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/index-rtl");
                           }}
@@ -737,9 +586,7 @@ const Navbar = () => {
                           href="/index-two-rtl"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/index-two-rtl");
                           }}
@@ -759,9 +606,7 @@ const Navbar = () => {
                           href="/index-three-rtl"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/index-three-rtl");
                           }}
@@ -781,9 +626,7 @@ const Navbar = () => {
                           href="/index-four-rtl"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/index-four-rtl");
                           }}
@@ -803,9 +646,7 @@ const Navbar = () => {
                           href="/index-five-rtl"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/index-five-rtl");
                           }}
@@ -831,9 +672,7 @@ const Navbar = () => {
                           href="/index-dark-rtl"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/index-dark-rtl");
                           }}
@@ -853,9 +692,7 @@ const Navbar = () => {
                           href="/index-two-dark-rtl"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/index-two-dark-rtl");
                           }}
@@ -875,9 +712,7 @@ const Navbar = () => {
                           href="/index-three-dark-rtl"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/index-three-dark-rtl");
                           }}
@@ -897,9 +732,7 @@ const Navbar = () => {
                           href="/index-four-dark-rtl"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/index-four-dark-rtl");
                           }}
@@ -919,9 +752,7 @@ const Navbar = () => {
                           href="/index-five-dark-rtl"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/index-five-dark-rtl");
                           }}
@@ -948,10 +779,7 @@ const Navbar = () => {
                   href="/creators"
                   onClick={(e) => {
                     e.preventDefault();
-                    setTimeout(() => {
-                      activateMenu();
-                      toggleSwitcher(false);
-                    }, 1000);
+
                     navigate("/creators");
                   }}
                   className="sub-menu-item"
@@ -962,14 +790,11 @@ const Navbar = () => {
               </li>
               <li>
                 <a
-                  href="/blog-sidebar"
+                  href="/blogs"
                   onClick={(e) => {
                     e.preventDefault();
-                    setTimeout(() => {
-                      activateMenu();
-                      toggleSwitcher(false);
-                    }, 1000);
-                    navigate("/blog-sidebar");
+
+                    navigate("/blogs");
                   }}
                   className="sub-menu-item"
                 >
@@ -980,14 +805,11 @@ const Navbar = () => {
 
               <li>
                 <a
-                  href="/wallet"
+                  href="/jobs"
                   onClick={(e) => {
                     e.preventDefault();
-                    setTimeout(() => {
-                      activateMenu();
-                      toggleSwitcher(false);
-                    }, 1000);
-                    navigate("/wallet");
+
+                    navigate("/jobs");
                   }}
                   className="sub-menu-item"
                 >
@@ -996,14 +818,11 @@ const Navbar = () => {
               </li>
               <li>
                 <a
-                  href="/explore-one"
+                  href="/pitch-board"
                   onClick={(e) => {
                     e.preventDefault();
-                    setTimeout(() => {
-                      activateMenu();
-                      toggleSwitcher(false);
-                    }, 1000);
-                    navigate("/explore-one");
+
+                    navigate("/pitch-board");
                   }}
                   className="sub-menu-item"
                 >
@@ -1023,14 +842,12 @@ const Navbar = () => {
                 >
                   <li>
                     <a
-                      href="/explore-one"
+                      href="/pitch-board"
                       onClick={(e) => {
                         e.preventDefault();
-                        setTimeout(() => {
-                          activateMenu();
-                          toggleSwitcher(false);
+                       
                         }, 1000);
-                        navigate("/explore-one");
+                        navigate("/pitch-board");
                       }}
                       className="sub-menu-item"
                     >
@@ -1043,9 +860,7 @@ const Navbar = () => {
                       href="/explore-two"
                       onClick={(e) => {
                         e.preventDefault();
-                        setTimeout(() => {
-                          activateMenu();
-                          toggleSwitcher(false);
+                       
                         }, 1000);
                         navigate("/explore-two");
                       }}
@@ -1060,9 +875,7 @@ const Navbar = () => {
                       href="/explore-three"
                       onClick={(e) => {
                         e.preventDefault();
-                        setTimeout(() => {
-                          activateMenu();
-                          toggleSwitcher(false);
+                       
                         }, 1000);
                         navigate("/explore-three");
                       }}
@@ -1077,9 +890,7 @@ const Navbar = () => {
                       href="/explore-four"
                       onClick={(e) => {
                         e.preventDefault();
-                        setTimeout(() => {
-                          activateMenu();
-                          toggleSwitcher(false);
+                       
                         }, 1000);
                         navigate("/explore-four");
                       }}
@@ -1094,9 +905,7 @@ const Navbar = () => {
                       href="/auction"
                       onClick={(e) => {
                         e.preventDefault();
-                        setTimeout(() => {
-                          activateMenu();
-                          toggleSwitcher(false);
+                       
                         }, 1000);
                         navigate("/auction");
                       }}
@@ -1110,9 +919,7 @@ const Navbar = () => {
                       href="/item-detail-one"
                       onClick={(e) => {
                         e.preventDefault();
-                        setTimeout(() => {
-                          activateMenu();
-                          toggleSwitcher(false);
+                       
                         }, 1000);
                         navigate("/item-detail-one");
                       }}
@@ -1127,9 +934,7 @@ const Navbar = () => {
                       href="/item-detail-two"
                       onClick={(e) => {
                         e.preventDefault();
-                        setTimeout(() => {
-                          activateMenu();
-                          toggleSwitcher(false);
+                       
                         }, 1000);
                         navigate("/item-detail-two");
                       }}
@@ -1147,10 +952,7 @@ const Navbar = () => {
                   href="/contact"
                   onClick={(e) => {
                     e.preventDefault();
-                    setTimeout(() => {
-                      activateMenu();
-                      toggleSwitcher(false);
-                    }, 1000);
+
                     navigate("/contact");
                   }}
                   className="sub-menu-item"
@@ -1173,10 +975,7 @@ const Navbar = () => {
                       href="/aboutus"
                       onClick={(e) => {
                         e.preventDefault();
-                        setTimeout(() => {
-                          activateMenu();
-                          toggleSwitcher(false);
-                        }, 1000);
+
                         navigate("/aboutus");
                       }}
                       className="sub-menu-item"
@@ -1200,9 +999,7 @@ const Navbar = () => {
                           href="/creators"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/creators");
                           }}
@@ -1217,9 +1014,7 @@ const Navbar = () => {
                           href="/creator-profile"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/creator-profile");
                           }}
@@ -1234,9 +1029,7 @@ const Navbar = () => {
                           href="/creator-profile-edit"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/creator-profile-edit");
                           }}
@@ -1251,9 +1044,7 @@ const Navbar = () => {
                           href="/become-creator"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/become-creator");
                           }}
@@ -1270,9 +1061,7 @@ const Navbar = () => {
                       href="/collections"
                       onClick={(e) => {
                         e.preventDefault();
-                        setTimeout(() => {
-                          activateMenu();
-                          toggleSwitcher(false);
+                       
                         }, 1000);
                         navigate("/collections");
                       }}
@@ -1297,9 +1086,7 @@ const Navbar = () => {
                           href="/blogs"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/blogs");
                           }}
@@ -1314,9 +1101,7 @@ const Navbar = () => {
                           href="/blog-sidebar"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/blog-sidebar");
                           }}
@@ -1331,9 +1116,7 @@ const Navbar = () => {
                           href="/blog-detail"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/blog-detail");
                           }}
@@ -1361,9 +1144,7 @@ const Navbar = () => {
                             href="/login"
                             onClick={(e) => {
                               e.preventDefault();
-                              setTimeout(() => {
-                                activateMenu();
-                                toggleSwitcher(false);
+                             
                               }, 1000);
                               navigate("/login");
                             }}
@@ -1378,9 +1159,7 @@ const Navbar = () => {
                             href="/signup"
                             onClick={(e) => {
                               e.preventDefault();
-                              setTimeout(() => {
-                                activateMenu();
-                                toggleSwitcher(false);
+                             
                               }, 1000);
                               navigate("/signup");
                             }}
@@ -1395,9 +1174,7 @@ const Navbar = () => {
                             href="/reset-password"
                             onClick={(e) => {
                               e.preventDefault();
-                              setTimeout(() => {
-                                activateMenu();
-                                toggleSwitcher(false);
+                             
                               }, 1000);
                               navigate("/reset-password");
                             }}
@@ -1412,9 +1189,7 @@ const Navbar = () => {
                             href="/lock-screen"
                             onClick={(e) => {
                               e.preventDefault();
-                              setTimeout(() => {
-                                activateMenu();
-                                toggleSwitcher(false);
+                             
                               }, 1000);
                               navigate("/lock-screen");
                             }}
@@ -1443,9 +1218,7 @@ const Navbar = () => {
                           href="/comingsoon"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/comingsoon");
                           }}
@@ -1460,9 +1233,7 @@ const Navbar = () => {
                           href="/maintenance"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/maintenance");
                           }}
@@ -1491,9 +1262,7 @@ const Navbar = () => {
                           href="/helpcenter-overview"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/helpcenter-overview");
                           }}
@@ -1508,9 +1277,7 @@ const Navbar = () => {
                           href="/helpcenter-faqs"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/helpcenter-faqs");
                           }}
@@ -1525,9 +1292,7 @@ const Navbar = () => {
                           href="/helpcenter-guides"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/helpcenter-guides");
                           }}
@@ -1542,9 +1307,7 @@ const Navbar = () => {
                           href="/helpcenter-support-request"
                           onClick={(e) => {
                             e.preventDefault();
-                            setTimeout(() => {
-                              activateMenu();
-                              toggleSwitcher(false);
+                           
                             }, 1000);
                             navigate("/helpcenter-support-request");
                           }}
@@ -1561,9 +1324,7 @@ const Navbar = () => {
                       href="/upload-work"
                       onClick={(e) => {
                         e.preventDefault();
-                        setTimeout(() => {
-                          activateMenu();
-                          toggleSwitcher(false);
+                       
                         }, 1000);
                         navigate("/upload-work");
                       }}
@@ -1577,10 +1338,7 @@ const Navbar = () => {
                       href="/terms"
                       onClick={(e) => {
                         e.preventDefault();
-                        setTimeout(() => {
-                          activateMenu();
-                          toggleSwitcher(false);
-                        }, 1000);
+
                         navigate("/terms");
                       }}
                       className="sub-menu-item"
@@ -1593,10 +1351,7 @@ const Navbar = () => {
                       href="/privacy"
                       onClick={(e) => {
                         e.preventDefault();
-                        setTimeout(() => {
-                          activateMenu();
-                          toggleSwitcher(false);
-                        }, 1000);
+
                         navigate("/privacy");
                       }}
                       className="sub-menu-item"
@@ -1609,10 +1364,7 @@ const Navbar = () => {
                       href="/changelog"
                       onClick={(e) => {
                         e.preventDefault();
-                        setTimeout(() => {
-                          activateMenu();
-                          toggleSwitcher(false);
-                        }, 1000);
+
                         navigate("/changelog");
                       }}
                       className="sub-menu-item"

@@ -2,10 +2,48 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import { logo, whiteLogo } from "../../components/imageImport";
-import StyleSwitcher from "../../components/StyleSwitcher";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { BASE_URL } from "../../constants/config";
+import { getProfilebyId } from "../../redux/dispatchers/profile";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+
+  const [loading, setloading] = useState(false);
+  const [error, seterror] = useState(false);
+  const [errorMsg, seterrorMsg] = useState("");
+
+  const OnSubmit = () => {
+    seterror(false);
+    if (email === "" || password === "") {
+      seterror(true);
+      seterrorMsg("Please fill all the fields");
+    } else {
+      setloading(true);
+      axios
+        .post(`${BASE_URL}/api/user/login`, {
+          email: email,
+          password: password,
+        })
+        .then((res) => {
+          setloading(false);
+          localStorage.setItem("token", JSON.stringify(res.data.token));
+          navigate("/");
+          dispatch(getProfilebyId(res.data.user.id));
+        })
+        .catch((error) => {
+          seterror(true);
+          seterrorMsg(error.response.data.message);
+          setloading(false);
+        });
+    }
+  };
+
   return (
     <>
       <div className="back-to-home">
@@ -53,7 +91,11 @@ const Login = () => {
                               className="form-control"
                               id="LoginEmail"
                               placeholder="name@example.com"
-                              style={{ backgroundColor: "transparent" }}
+                              style={{
+                                backgroundColor: "transparent",
+                                color: "#fff",
+                              }}
+                              onChange={(e) => setemail(e.target.value)}
                             />
                             <label htmlFor="LoginEmail">Email Address:</label>
                           </div>
@@ -67,7 +109,11 @@ const Login = () => {
                               className="form-control"
                               id="LoginPassword"
                               placeholder="Password"
-                              style={{ backgroundColor: "transparent" }}
+                              style={{
+                                backgroundColor: "transparent",
+                                color: "#fff",
+                              }}
+                              onChange={(e) => setpassword(e.target.value)}
                             />
                             <label htmlFor="LoginPassword">Password:</label>
                           </div>
@@ -110,7 +156,10 @@ const Login = () => {
                         <div className="col-lg-12">
                           <button
                             className="btn btn-primary rounded-md w-100"
-                            type="submit"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              OnSubmit();
+                            }}
                           >
                             Sign in
                           </button>
@@ -122,18 +171,32 @@ const Login = () => {
                             <span className="text-muted me-2">
                               Don't have an account ?
                             </span>{" "}
-                            <a
-                              href="/signup"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                navigate("/signup");
-                              }}
-                              className="text-dark fw-bold"
-                            >
-                              Sign Up
-                            </a>
                           </small>
                         </div>
+                        <small>
+                          <a
+                            href="/signup/influencer"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate("/signup/influencer");
+                            }}
+                            className="text-dark fw-bold"
+                          >
+                            Sign Up as an influencer
+                          </a>
+                        </small>
+                        <small>
+                          <a
+                            href="/signup/brands"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate("/signup/brands");
+                            }}
+                            className="text-dark fw-bold"
+                          >
+                            Sign Up as a Brand
+                          </a>
+                        </small>
                         {/* end col */}
                       </div>
                       {/* end row */}

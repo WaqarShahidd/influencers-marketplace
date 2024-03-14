@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { FiArrowRight, FiCamera } from "react-icons/fi";
 import Countdown from "react-countdown";
 import Footer from "../../components/Footer";
@@ -53,198 +53,15 @@ import {
   job1,
   job2,
   job3,
+  defaultImage,
 } from "../../components/imageImport";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
+import { getAllWork } from "../../redux/dispatchers/work.dispatch";
 
 const CreateProfile = () => {
   const navigate = useNavigate();
-
-  const createdData = [
-    {
-      image: gif1,
-      title: "Deep Sea Phantasy",
-      type: "GIFs",
-      id: "May 29, 2022 6:0:0",
-    },
-    {
-      image: item1,
-      title: "CyberPrimal 042 LAN",
-      type: "Arts",
-      id: "",
-    },
-    {
-      image: gif2,
-      title: "Crypto Egg Stamp #5",
-      type: "Games",
-      id: "",
-    },
-    {
-      image: item2,
-      title: "Colorful Abstract Painting",
-      type: "",
-      id: "June 03, 2022 5:3:1",
-    },
-    {
-      image: item3,
-      title: "Liquid Forest Princess",
-      type: "",
-      id: "",
-    },
-    {
-      image: gif3,
-      title: "Spider Eyes Modern Art",
-      type: "GIFs",
-      id: "June 10, 2022 1:0:1",
-    },
-    {
-      image: item4,
-      title: "Synthwave Painting",
-      type: "",
-      id: "",
-    },
-    {
-      image: gif4,
-      title: "Contemporary Abstract",
-      type: "GIFs",
-      id: "",
-    },
-  ];
-  const onSaleData = [
-    {
-      image: gif1,
-      title: "Deep Sea Phantasy",
-      type: "GIFs",
-      id: "May 29, 2022 6:0:0",
-    },
-    {
-      image: item1,
-      title: "CyberPrimal 042 LAN",
-      type: "Arts",
-      id: "",
-    },
-    {
-      image: gif2,
-      title: "Crypto Egg Stamp #5",
-      type: "Games",
-      id: "",
-    },
-  ];
-
-  const followerData = [
-    {
-      name: "CutieGirl",
-      location: "Brookfield, WI",
-      image: client02,
-      subMenu: [item1, item2, item3, item4, item5, gif4],
-    },
-    {
-      name: "FunnyGuy",
-      location: "Brookfield, WI",
-      image: client13,
-      subMenu: [item3, gif1, item9, item6, item1, gif2],
-    },
-    {
-      name: "NorseQueen",
-      location: "Brookfield, WI",
-      image: client03,
-      subMenu: [gif5, item2, gif6, item4, item5],
-    },
-    {
-      name: "BigBull",
-      location: "Brookfield, WI",
-      image: client04,
-      subMenu: [item7, item8, item9, item10],
-    },
-    {
-      name: "KristyHoney",
-      location: "Brookfield, WI",
-      image: client10,
-      subMenu: [item1, item2, item3, item4, item5, item6],
-    },
-    {
-      name: "Princess",
-      location: "Brookfield, WI",
-      image: client12,
-      subMenu: [item5, item8, item4, item7, item5, item10],
-    },
-  ];
-
-  const activityData = [
-    {
-      title: "Digital Art Collection",
-      author: "Panda",
-      time: "1 hours ago",
-      favorite: "Started Following",
-      image: item1,
-    },
-    {
-      title: "Skrrt Cobain Official",
-      author: "ButterFly",
-      time: "2 hours ago",
-      favorite: "Liked by",
-      image: gif1,
-    },
-    {
-      title: "Wow! That Brain Is Floating",
-      author: "ButterFly",
-      time: "2 hours ago",
-      favorite: "Liked by",
-      image: item2,
-    },
-    {
-      title: "Our Journey Start",
-      author: "CalvinCarlo",
-      time: "5 hours ago",
-      favorite: "Listed by",
-      image: item3,
-    },
-    {
-      title: "BitBears",
-      author: "ButterFly",
-      time: "8 hours ago",
-      favorite: "Liked by",
-      image: gif2,
-    },
-    {
-      title: "Little Kokeshi #13",
-      author: "ButterFly",
-      time: "10 hours ago",
-      favorite: "Liked by",
-      image: item4,
-    },
-    {
-      title: "EVOL Floater",
-      author: "CutieGirl",
-      time: "13 hours ago",
-      favorite: "Started Following",
-      image: gif3,
-    },
-    {
-      title: "Smart Ape Club (SAC) - Limited Edition",
-      author: "CalvinCarlo",
-      time: "18 hours ago",
-      favorite: "Listed by",
-      image: gif4,
-    },
-    {
-      title: "THE SECRET SOCIETY XX #775",
-      author: "CalvinCarlo",
-      time: "23 hours ago",
-      favorite: "Listed by",
-      image: gif5,
-    },
-    {
-      title: "Create Your Own World",
-      author: "ButterFly",
-      time: "24 hours ago",
-      favorite: "Liked by",
-      image: item5,
-    },
-  ];
-
-  const loadFile = function (event) {
-    var image = document.getElementById(event.target.name);
-    image.src = URL.createObjectURL(event.target.files[0]);
-  };
+  const { id } = useParams();
 
   const relatedNews = [
     {
@@ -320,6 +137,13 @@ const CreateProfile = () => {
     setAllData(newOne);
   };
 
+  const { userData } = useSelector((state) => state.user);
+  const { allWorks } = useSelector((state) => state.work);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllWork(userData?.id));
+  }, []);
+
   return (
     <>
       {/* Navbar */}
@@ -343,41 +167,57 @@ const CreateProfile = () => {
                   style={{ background: `url(${work1})` }}
                 ></div>
                 <div className="position-relative mt-n5">
-                  <img
-                    src={client01}
-                    className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
-                    alt=""
-                  />
+                  {userData?.avatar === null ? (
+                    <img
+                      src={defaultImage}
+                      className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
+                      alt=""
+                    />
+                  ) : (
+                    <img
+                      src={userData?.avatar}
+                      className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
+                      alt=""
+                      style={{ objectFit: "contain" }}
+                    />
+                  )}
 
                   <div className="content text-center pt-2 p-4">
                     <a
                       href="/creator-profile"
                       onClick={(e) => {
                         e.preventDefault();
-                        navigate("/creator-profile");
                       }}
                       className="text-dark h6 name d-block mb-0"
                     >
-                      Solomon
+                      {userData?.first_name}
                     </a>
-                    <small className="text-muted">@Solo</small>
+                    {userData?.display_name && (
+                      <small className="text-muted">
+                        @{userData?.display_name}
+                      </small>
+                    )}
 
-                    <div className="mt-3">
-                      <a
-                        href=""
-                        onClick={(e) => e.preventDefault()}
-                        className="btn btn-pills btn-soft-primary"
-                      >
-                        Follow
-                      </a>
-                    </div>
+                    {parseInt(id) !== userData?.id && (
+                      <div className="mt-3">
+                        <a
+                          href=""
+                          onClick={(e) => {
+                            e.preventDefault();
+                          }}
+                          className="btn btn-pills btn-soft-primary"
+                        >
+                          Follow
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "space-evenly",
+                    justifyContent: "center",
                   }}
                 >
                   <div
@@ -386,7 +226,7 @@ const CreateProfile = () => {
                       flexDirection: "row",
                     }}
                   >
-                    <img src={profileIcon1} style={{ height: 20, width: 20 }} />
+                    {/* <img src={profileIcon1} style={{ height: 20, width: 20 }} />
                     <p
                       style={{
                         lineHeight: 1,
@@ -395,7 +235,7 @@ const CreateProfile = () => {
                       }}
                     >
                       2.3M
-                    </p>
+                    </p> */}
                   </div>
                   <div
                     style={{
@@ -411,10 +251,10 @@ const CreateProfile = () => {
                         marginLeft: "5px",
                       }}
                     >
-                      3 June
+                      {moment(userData?.dob).format("DD MMM")}
                     </p>
                   </div>
-                  <div
+                  {/* <div
                     style={{
                       display: "flex",
                       flexDirection: "row",
@@ -430,28 +270,24 @@ const CreateProfile = () => {
                     >
                       Fashion
                     </p>
+                  </div> */}
+                </div>
+                {userData?.bio && (
+                  <div
+                    style={{
+                      paddingTop: "20px",
+                      borderTopWidth: "1px",
+                      borderTopStyle: "groove",
+                      borderTopColor: "#3310A4",
+                      marginLeft: "30px",
+                      marginRight: "30px",
+                      marginTop: "20px",
+                    }}
+                  >
+                    <h5 style={{ fontWeight: "700" }}>Bio</h5>
+                    <p style={{ fontSize: "14px" }}>{userData?.bio}</p>
                   </div>
-                </div>
-                <div
-                  style={{
-                    paddingTop: "20px",
-                    borderTopWidth: "1px",
-                    borderTopStyle: "groove",
-                    borderTopColor: "#3310A4",
-                    marginLeft: "30px",
-                    marginRight: "30px",
-                    marginTop: "20px",
-                  }}
-                >
-                  <h5 style={{ fontWeight: "700" }}>Bio</h5>
-                  <p style={{ fontSize: "14px" }}>
-                    I have started my career as a trainee and prove my self and
-                    achieve all the milestone with good guidance and reach up to
-                    the project manager. In this journey, I understand all the
-                    procedure which make me a good developer, team leader, and a
-                    project manager.
-                  </p>
-                </div>
+                )}
                 <div
                   style={{
                     paddingTop: "20px",
@@ -466,138 +302,143 @@ const CreateProfile = () => {
                   <h5 style={{ fontWeight: "700", marginBottom: "25px" }}>
                     Social Channels
                   </h5>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <img src={social1} style={{ height: 20, width: 20 }} />
-                    <p style={{ lineHeight: 1, marginLeft: "15px" }}>
-                      facebook.com/lizhales_5864
-                    </p>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <img src={social4} style={{ height: 20, width: 20 }} />
-                    <p style={{ lineHeight: 1, marginLeft: "15px" }}>
-                      instagram.com/lizhales_5864
-                    </p>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <img src={social3} style={{ height: 20, width: 20 }} />
-                    <p style={{ lineHeight: 1, marginLeft: "15px" }}>
-                      tiktok.com/lizhales_5864
-                    </p>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <img src={social2} style={{ height: 20, width: 20 }} />
-                    <p style={{ lineHeight: 1, marginLeft: "15px" }}>
-                      youtube.com/lizhales_5864
-                    </p>
-                  </div>
+                  {userData?.facebook_url && (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                      }}
+                    >
+                      <img src={social1} style={{ height: 20, width: 20 }} />
+                      <p style={{ lineHeight: 1, marginLeft: "15px" }}>
+                        {userData?.facebook_url}
+                      </p>
+                    </div>
+                  )}
+                  {userData?.instagram_url && (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                      }}
+                    >
+                      <img src={social4} style={{ height: 20, width: 20 }} />
+                      <p style={{ lineHeight: 1, marginLeft: "15px" }}>
+                        {userData?.instagram_url}
+                      </p>
+                    </div>
+                  )}
+                  {userData?.tiktok_url && (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                      }}
+                    >
+                      <img src={social3} style={{ height: 20, width: 20 }} />
+                      <p style={{ lineHeight: 1, marginLeft: "15px" }}>
+                        {userData?.tiktok_url}
+                      </p>
+                    </div>
+                  )}
+                  {userData?.youtube_url && (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                      }}
+                    >
+                      <img src={social2} style={{ height: 20, width: 20 }} />
+                      <p style={{ lineHeight: 1, marginLeft: "15px" }}>
+                        youtube.com/lizhales_5864
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
             {/*end col*/}
 
-            <div
-              style={{
-                width: "65%",
-                borderRadius: "10px",
-                padding: "20px",
-                paddingTop: "0px",
-              }}
-              className="col-lg-9 col-md-8 order-1 order-md-2"
-            >
-              <h2 className="title" style={{ fontWeight: "bold" }}>
-                Related News
-              </h2>
-              {relatedNews?.map((data, index) => (
-                <div
-                  key={index}
-                  className=""
-                  style={{
-                    paddingBottom: "25px",
-                    paddingTop: "25px",
-                    borderBottomWidth: "1px",
-                    borderBottomStyle: "groove",
-                    borderBottomColor: "#888595",
-                  }}
-                >
+            {allWorks?.length > 0 && (
+              <div
+                style={{
+                  width: "65%",
+                  borderRadius: "10px",
+                  padding: "20px",
+                  paddingTop: "0px",
+                }}
+                className="col-lg-9 col-md-8 order-1 order-md-2"
+              >
+                <h2 className="title" style={{ fontWeight: "bold" }}>
+                  Your Work
+                </h2>
+                {allWorks?.map((data, index) => (
                   <div
-                    className="card wallet wallet-primary rounded-md"
+                    key={index}
+                    className=""
                     style={{
-                      width: "100%",
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
+                      paddingBottom: "25px",
+                      paddingTop: "25px",
+                      borderBottomWidth: "1px",
+                      borderBottomStyle: "groove",
+                      borderBottomColor: "#888595",
                     }}
                   >
-                    <img
-                      src={data.image}
+                    <div
+                      className="card wallet wallet-primary rounded-md"
                       style={{
-                        height: "175px",
-                        width: "200px",
-                        borderRadius: "8px",
-                        objectFit: "cover",
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
                       }}
-                    />
-                    <div className="" style={{ marginLeft: "25px" }}>
-                      <div
+                    >
+                      <img
+                        src={data?.image_url}
                         style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                          marginBottom: "10px",
+                          height: "175px",
+                          width: "200px",
+                          borderRadius: "8px",
+                          objectFit: "cover",
                         }}
-                      >
-                        <p
+                      />
+                      <div className="" style={{ marginLeft: "25px" }}>
+                        <div
                           style={{
-                            lineHeight: 1,
-                            marginTop: "0px",
-                            marginBottom: "0px",
-                            marginRight: "30px",
-                            letterSpacing: 2,
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            marginBottom: "10px",
                           }}
                         >
-                          Influencer
+                          <p
+                            style={{
+                              lineHeight: 1,
+                              marginTop: "0px",
+                              marginBottom: "0px",
+                              marginRight: "30px",
+                              letterSpacing: 2,
+                            }}
+                          >
+                            {data?.type}
+                          </p>
+                          <li className="list-inline-item text-muted small me-3">
+                            <i className="uil uil-calendar-alt text-dark h6 me-1"></i>
+                            {moment(data?.created_at).format("DD MMM YYYY")}
+                          </li>
+                        </div>
+                        <h5 className="mb-0">{data?.title}</h5>
+                        <p className="text-muted mt-3 mb-0">
+                          {data?.description}
                         </p>
-                        <li className="list-inline-item text-muted small me-3">
-                          <i className="uil uil-calendar-alt text-dark h6 me-1"></i>
-                          20th January, 2022
-                        </li>
+                        <p style={{ marginTop: "10px" }}>
+                          Audience Engagement:{"  "}
+                          <a className="link fw-semibold">
+                            {data?.audience_enagagement}
+                          </a>
+                        </p>
                       </div>
-                      <h5 className="mb-0">{data.title}</h5>
-                      <p className="text-muted mt-3 mb-0">{data.description}</p>
-                      <a
-                        href=""
-                        onClick={(e) => {
-                          e.preventDefault();
-                          navigate("/blog-detail");
-                        }}
-                        data-bs-toggle="modal"
-                        data-bs-target="#LoginForm"
-                        className="link fw-semibold"
-                      >
-                        Read here <i className="uil uil-arrow-right"></i>
-                      </a>
-                    </div>
-                    {/* <div className="position-relative">
+                      {/* <div className="position-relative">
                     <div className="position-absolute top-0 start-50 translate-middle">
                       <img
                         src={client01}
@@ -622,12 +463,13 @@ const CreateProfile = () => {
                       </p>
                     </div>
                   </div> */}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
 
-              {/*end row*/}
-            </div>
+                {/*end row*/}
+              </div>
+            )}
             {/*end col*/}
           </div>
         </div>

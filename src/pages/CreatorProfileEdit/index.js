@@ -2,30 +2,161 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
-import { bg01, client01 } from "../../components/imageImport";
+import { bg01, client01, defaultImage } from "../../components/imageImport";
 import StyleSwitcher from "../../components/StyleSwitcher";
 import { FiCamera } from "react-icons/fi";
+import axios from "axios";
+import { BASE_URL } from "../../constants/config";
+import { useDispatch, useSelector } from "react-redux";
+import { getProfilebyId } from "../../redux/dispatchers/profile";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { Backdrop, CircularProgress, Snackbar } from "@mui/material";
+
+const CustomInput = React.forwardRef((props, ref) => {
+  return (
+    <input
+      ref={ref}
+      className="form-control dob-input"
+      onClick={props.onClick}
+      value={props.value}
+      placeholder="Select Date of Birth"
+      type="text"
+      readOnly={true}
+    />
+  );
+});
 
 const CreatorProfileEdit = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState("streetboyyy");
-  const [url, setUrl] = useState("https://superex.exe/streetboyyy");
-  const [twitter, _twitter] = useState("https://twitter.com/streetboyyy");
-  const [website, setWebsite] = useState("https://streetboyyy.com/");
-  const [email, setEmail] = useState("streetboyyy@example.com");
+
+  const { userData } = useSelector((state) => state.user);
+
+  const [displayName, setdisplayName] = useState(
+    userData?.display_name === undefined ? "" : userData?.display_name
+  );
+  const [fullName, setfullName] = useState(userData?.first_name);
+  const [email, setEmail] = useState(userData?.email);
+  const [bio, setbio] = useState(userData?.bio || "");
+
+  const [twitter, setTwitter] = useState(userData?.twitter_url || "");
+  const [snapchat, setsnapchat] = useState(userData?.snapchat_url || "");
+  const [tiktok, settiktok] = useState(userData?.tiktok_url || "");
+  const [instagram, setinstagram] = useState(userData?.instagram_url || "");
+  const [facebook, setfacebook] = useState(userData?.facebook_url || "");
+  const [youtube, setyoutube] = useState(userData?.youtube_url || "");
+
+  const [dob, setdob] = useState(userData?.dob);
+
+  const handleDateChange = (date) => {
+    setdob(date);
+  };
+
   const [follow, setFollow] = useState(true);
   const [job, setJob] = useState(true);
   const [unsubscribe, setUnsubscribe] = useState(true);
 
-  const loadFile = function (event) {
-    var image = document.getElementById(event.target.name);
-    image.src = URL.createObjectURL(event.target.files[0]);
+  const [dataUri, setDataUri] = useState(null);
+  const [URL, setURL] = useState("");
+
+  const onImageChange = (file) => {
+    console.log("image change", file);
+    if (!file) {
+      setDataUri("");
+      return;
+    }
+    if (file.type === "image/png" || file.type === "image/jpeg") {
+      fileToDataUri(file).then((dataUri) => {
+        setDataUri(dataUri);
+        dataURItoBlob(file);
+      });
+    } else {
+      console.log("Please select only png/jpeg format of image.");
+    }
+  };
+
+  const fileToDataUri = (file) =>
+    new Promise((resolve, reject) => {
+      console.log("file", file);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        resolve(event.target.result);
+      };
+      reader.readAsDataURL(file);
+    });
+
+  function dataURItoBlob(dataURI) {
+    console.log("dataURI", dataURI);
+    let formData = new FormData();
+    formData.append("file", dataURI);
+    axios
+      .post(`${BASE_URL}/api/aws/file`, formData)
+      .then((res) => {
+        setURL(res.data.url);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log("image", err);
+      });
+  }
+
+  const dispatch = useDispatch();
+
+  const [loading, setloading] = useState(false);
+
+  const UpdateProfile = () => {
+    setloading(true);
+    const token = JSON.parse(localStorage.getItem("token"));
+    axios
+      .post(
+        `${BASE_URL}/api/user/updateUser`,
+        {
+          userId: userData?.id,
+          firstName: fullName,
+          lastName: "",
+          displayName: displayName,
+          email: email,
+          dob: dob,
+          bio: bio,
+          twitter_url: twitter,
+          snapchat_url: snapchat,
+          tiktok_url: tiktok,
+          instagram_url: instagram,
+          facebook_url: facebook,
+          youtube_url: youtube,
+          avatar: URL,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        setloading(false);
+        navigate("/creator-profile/" + userData?.id);
+        dispatch(getProfilebyId(userData?.id));
+      })
+      .catch((error) => {
+        console.log("error", error.response.data.message);
+        setloading(false);
+      });
   };
 
   return (
     <>
       {/* Navbar */}
       <Navbar />
+
+      <Backdrop
+        sx={{
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
+        open={loading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
 
       {/* Start Home */}
       <section
@@ -120,8 +251,56 @@ const CreatorProfileEdit = () => {
                           id="first"
                           type="text"
                           className="form-control"
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
+                          value={displayName}
+                          placeholder="Display Name"
+                          onChange={(e) => setdisplayName(e.target.value)}
+                          style={{ paddingLeft: "20px" }}
+                        />
+                      </div>
+                      {/*end col*/}
+
+                      <div className="col-12 mb-4">
+                        <label className="form-label h6">Full Name</label>
+                        <input
+                          name="name"
+                          id="first"
+                          type="text"
+                          className="form-control"
+                          value={fullName}
+                          placeholder="Full Name"
+                          onChange={(e) => setfullName(e.target.value)}
+                          style={{ paddingLeft: "20px" }}
+                        />
+                      </div>
+                      {/*end col*/}
+                      <div className="col-12 mb-4">
+                        <label className="form-label h6">Email</label>
+                        <input
+                          name="email"
+                          id="email"
+                          type="email"
+                          className="form-control"
+                          value={email}
+                          placeholder="Email Address"
+                          onChange={(e) => setEmail(e.target.value)}
+                          style={{ paddingLeft: "20px" }}
+                        />
+                      </div>
+                      {/*end col*/}
+
+                      <div className="col-12 mb-4">
+                        <label className="form-label h6">Date of Birth</label>
+                        <DatePicker
+                          selected={dob}
+                          onChange={(date) => handleDateChange(date)}
+                          dateFormat="MM/dd/yyyy"
+                          peekNextMonth
+                          showMonthDropdown
+                          showYearDropdown
+                          dropdownMode="select"
+                          className="form-control dob-input"
+                          popperPlacement="top"
+                          customInput={<CustomInput />}
                           style={{ paddingLeft: "20px" }}
                         />
                       </div>
@@ -135,16 +314,21 @@ const CreatorProfileEdit = () => {
                           rows="3"
                           className="form-control"
                           placeholder="Bio."
+                          value={bio}
+                          onChange={(e) => setbio(e.target.value)}
                           style={{ paddingLeft: "20px" }}
                         ></textarea>
                       </div>
                       {/*end col*/}
 
+                      {/* Social Media */}
                       <div className="col-12 mb-4">
-                        <label className="form-label h6">Twitter Account</label>
+                        <label className="form-label h6">
+                          Social Media Accounts
+                        </label>
                         <p className="text-muted">
-                          Link your twitter account to gain more trust on the
-                          Marketplace
+                          Link your social media accounts to gain more trust on
+                          the Marketplace
                         </p>
                         <div className="form-icon">
                           <input
@@ -153,14 +337,90 @@ const CreatorProfileEdit = () => {
                             type="url"
                             className="form-control"
                             value={twitter}
-                            onChange={(e) => _twitter(e.target.value)}
+                            placeholder="Twitter URL"
+                            onChange={(e) => setTwitter(e.target.value)}
+                            style={{
+                              paddingLeft: "20px",
+                              marginBottom: "20px",
+                            }}
+                          />
+                        </div>
+                        <div className="form-icon">
+                          <input
+                            name="url"
+                            id="twitter-url"
+                            type="url"
+                            className="form-control"
+                            value={snapchat}
+                            placeholder="Snapchat URL"
+                            onChange={(e) => setsnapchat(e.target.value)}
+                            style={{
+                              paddingLeft: "20px",
+                              marginBottom: "20px",
+                            }}
+                          />
+                        </div>
+                        <div className="form-icon">
+                          <input
+                            name="url"
+                            id="twitter-url"
+                            type="url"
+                            className="form-control"
+                            value={instagram}
+                            placeholder="Instagram URL"
+                            onChange={(e) => setinstagram(e.target.value)}
+                            style={{
+                              paddingLeft: "20px",
+                              marginBottom: "20px",
+                            }}
+                          />
+                        </div>
+                        <div className="form-icon">
+                          <input
+                            name="url"
+                            id="twitter-url"
+                            type="url"
+                            className="form-control"
+                            value={facebook}
+                            placeholder="Facebook URL"
+                            onChange={(e) => setfacebook(e.target.value)}
+                            style={{
+                              paddingLeft: "20px",
+                              marginBottom: "20px",
+                            }}
+                          />
+                        </div>
+                        <div className="form-icon">
+                          <input
+                            name="url"
+                            id="twitter-url"
+                            type="url"
+                            className="form-control"
+                            value={tiktok}
+                            placeholder="TikTok URL"
+                            onChange={(e) => settiktok(e.target.value)}
+                            style={{
+                              paddingLeft: "20px",
+                              marginBottom: "20px",
+                            }}
+                          />
+                        </div>
+                        <div className="form-icon">
+                          <input
+                            name="url"
+                            id="twitter-url"
+                            type="url"
+                            className="form-control"
+                            value={youtube}
+                            placeholder="YouTube URL"
+                            onChange={(e) => setyoutube(e.target.value)}
                             style={{ paddingLeft: "20px" }}
                           />
                         </div>
                       </div>
                       {/*end col*/}
 
-                      <div className="col-12 mb-4">
+                      {/* <div className="col-12 mb-4">
                         <label className="form-label h6">Website</label>
                         <div className="form-icon">
                           <input
@@ -173,21 +433,7 @@ const CreatorProfileEdit = () => {
                             style={{ paddingLeft: "20px" }}
                           />
                         </div>
-                      </div>
-                      {/*end col*/}
-
-                      <div className="col-12 mb-4">
-                        <label className="form-label h6">Email</label>
-                        <input
-                          name="email"
-                          id="email"
-                          type="email"
-                          className="form-control"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          style={{ paddingLeft: "20px" }}
-                        />
-                      </div>
+                      </div> */}
                       {/*end col*/}
                     </div>
                     {/*end row*/}
@@ -199,6 +445,10 @@ const CreatorProfileEdit = () => {
                           id="submit"
                           name="send"
                           className="btn btn-primary rounded-md"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            UpdateProfile();
+                          }}
                         >
                           Update Profile
                         </button>
@@ -210,7 +460,8 @@ const CreatorProfileEdit = () => {
                 </div>
               </div>
 
-              <div className="rounded-md shadow mt-4">
+              {/* Account Notification checkbox */}
+              {/* <div className="rounded-md shadow mt-4">
                 <div className="p-4 border-bottom">
                   <h5 className="mb-0">Account Notifications :</h5>
                 </div>
@@ -279,9 +530,10 @@ const CreatorProfileEdit = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="rounded-md shadow mt-4">
+              {/* Marketing Notifications checkbox */}
+              {/* <div className="rounded-md shadow mt-4">
                 <div className="p-4 border-bottom">
                   <h5 className="mb-0">Marketing Notifications :</h5>
                 </div>
@@ -352,9 +604,10 @@ const CreatorProfileEdit = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="rounded-md shadow mt-4">
+              {/* Delete Account */}
+              {/* <div className="rounded-md shadow mt-4">
                 <div className="p-4 border-bottom">
                   <h5 className="mb-0 text-danger">Delete Account :</h5>
                 </div>
@@ -367,12 +620,12 @@ const CreatorProfileEdit = () => {
                   <div className="mt-4">
                     <button className="btn btn-danger">Delete Account</button>
                   </div>
-                  {/*end col*/}
                 </div>
-              </div>
+              </div> */}
             </div>
             {/*end col*/}
 
+            {/* Image upload */}
             <div className="col-lg-4 col-md-5 col-12 order-1 order-md-2 mt-4 pt-2">
               <div className="card ms-lg-5">
                 <div className="profile-pic">
@@ -381,15 +634,39 @@ const CreatorProfileEdit = () => {
                     name="profile-image"
                     type="file"
                     className="d-none"
-                    onChange={(e) => loadFile(e)}
+                    onChange={(event) =>
+                      onImageChange(event.target.files[0] || null)
+                    }
                   />
                   <div className="position-relative d-inline-block">
-                    <img
-                      src={client01}
-                      className="avatar avatar-medium img-thumbnail rounded-pill shadow-sm"
-                      id="profile-image"
-                      alt=""
-                    />
+                    {userData?.avatar === null ? (
+                      <>
+                        {dataUri ? (
+                          <img
+                            src={dataUri}
+                            className="avatar avatar-medium img-thumbnail rounded-pill shadow-sm"
+                            id="profile-image"
+                            alt=""
+                            style={{ objectFit: "cover" }}
+                          />
+                        ) : (
+                          <img
+                            src={defaultImage}
+                            className="avatar avatar-medium img-thumbnail rounded-pill shadow-sm"
+                            id="profile-image"
+                            alt=""
+                          />
+                        )}
+                      </>
+                    ) : (
+                      <img
+                        src={userData?.avatar}
+                        className="avatar avatar-medium img-thumbnail rounded-pill shadow-sm"
+                        id="profile-image"
+                        alt=""
+                        style={{ objectFit: "cover" }}
+                      />
+                    )}
                     <label
                       className="icons position-absolute bottom-0 end-0"
                       htmlFor="pro-img"

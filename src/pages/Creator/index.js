@@ -1,8 +1,8 @@
-import React from "react";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
-import StyleSwitcher from "../../components/StyleSwitcher";
 import {
   client01,
   client02,
@@ -29,7 +29,10 @@ import {
   work10,
   work11,
   work12,
+  defaultImage,
 } from "../../components/imageImport";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllInfluencers } from "../../redux/dispatchers/influencers.dispatch";
 
 const Creator = () => {
   const navigate = useNavigate();
@@ -107,6 +110,15 @@ const Creator = () => {
       author: "Princess",
     },
   ];
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllInfluencers());
+  }, []);
+
+  const { allInfluencers } = useSelector((state) => state.influencer);
+  const { userData } = useSelector((state) => state.user);
+
   return (
     <>
       {/* Navbar */}
@@ -181,43 +193,57 @@ const Creator = () => {
       <section className="section">
         <div className="container">
           <div className="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 g-4 justify-content-center">
-            {creatorData?.map((creator, index) => {
+            {allInfluencers?.map((creator, index) => {
               return (
                 <div className="col" key={index}>
                   <div className="card creators creators-two creator-primary rounded-md shadow overflow-hidden">
                     <div
                       className="py-5"
-                      style={{ background: `url(${creator?.backgroundImage})` }}
+                      style={{ background: `url(${work1})` }}
                     ></div>
                     <div className="position-relative mt-n5">
-                      <img
-                        src={creator?.image}
-                        className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
-                        alt=""
-                      />
+                      {creator?.avatar === null ? (
+                        <img
+                          src={defaultImage}
+                          className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
+                          alt=""
+                        />
+                      ) : (
+                        <img
+                          src={creator?.avatar}
+                          className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
+                          alt=""
+                          style={{ objectFit: "contain" }}
+                        />
+                      )}
 
                       <div className="content text-center pt-2 p-4">
                         <a
-                          href="/creator-profile"
+                          href={`/creator-profile/${creator?.id}`}
                           onClick={(e) => {
                             e.preventDefault();
-                            navigate("/creator-profile");
+                            navigate(`/creator-profile/${creator?.id}`);
                           }}
                           className="text-dark h6 name d-block mb-0"
                         >
-                          {creator?.name}
+                          {creator?.first_name}
                         </a>
-                        <small className="text-muted">@{creator?.author}</small>
-
-                        <div className="mt-3">
-                          <a
-                            href=""
-                            onClick={(e) => e.preventDefault()}
-                            className="btn btn-pills btn-soft-primary"
-                          >
-                            Follow
-                          </a>
-                        </div>
+                        {creator?.display_name && (
+                          <small className="text-muted">
+                            @{creator?.display_name}
+                          </small>
+                        )}
+                        {userData?.id !== creator?.id && (
+                          <div className="mt-3">
+                            <a
+                              href=""
+                              onClick={(e) => e.preventDefault()}
+                              className="btn btn-pills btn-soft-primary"
+                            >
+                              Follow
+                            </a>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -238,12 +264,12 @@ const Creator = () => {
                     </span>
                   </a>
                 </li>
-                <li className="page-item">
+                <li className="page-item active">
                   <a className="page-link" href="#">
                     1
                   </a>
                 </li>
-                <li className="page-item active">
+                {/* <li className="page-item active">
                   <a className="page-link" href="#">
                     2
                   </a>
@@ -252,7 +278,7 @@ const Creator = () => {
                   <a className="page-link" href="#">
                     3
                   </a>
-                </li>
+                </li> */}
                 <li className="page-item">
                   <a className="page-link" href="#" aria-label="Next">
                     <span aria-hidden="true">

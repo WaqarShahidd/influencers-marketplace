@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
-import StyleSwitcher from "../../components/StyleSwitcher";
 import {
   bg01,
   item1,
@@ -17,148 +17,30 @@ import {
   gif4,
   gif5,
   gif6,
-  cta,
-  client05,
-  client06,
-  client08,
   popular1,
   popular2,
   news4,
   job3,
   news1,
 } from "../../components/imageImport";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllPitches } from "../../redux/dispatchers/pitch.dispatch";
+import moment from "moment";
 
-const ExploreOne = () => {
+const PitchBoard = () => {
   const navigate = useNavigate();
-  const AuctionData = [
-    {
-      image: gif1,
-      title: "Deep Sea Phantasy",
-      type: "GIFs",
-      filter: ["all", "games"],
-    },
-    {
-      image: item1,
-      title: "CyberPrimal 042 LAN",
-      time: "",
-      type: "Arts",
-      filter: ["all", "art"],
-    },
-    {
-      image: gif2,
-      title: "Crypto Egg Stamp #5",
-      time: "",
-      type: "Games",
-      filter: ["all", "music", "meme"],
-    },
-    {
-      image: item2,
-      title: "Colorful Abstract Painting",
-      type: "",
-      filter: ["all", "video"],
-    },
-    {
-      image: item3,
-      title: "Liquid Forest Princess",
-      time: "",
-      type: "",
-      filter: ["all", "video", "meme"],
-    },
-    {
-      image: gif3,
-      title: "Spider Eyes Modern Art",
-      type: "GIFs",
-      filter: ["all", "games"],
-    },
-    {
-      image: item4,
-      title: "Synthwave Painting",
-      time: "",
-      type: "",
-      filter: ["all", "art"],
-    },
-    {
-      image: gif4,
-      title: "Contemporary Abstract",
-      time: "",
-      type: "GIFs",
-      filter: ["all", "music"],
-    },
-    {
-      image: item5,
-      title: "Valkyrie Abstract Art",
-      time: "",
-      type: "",
-      filter: ["all", "video", "meme"],
-    },
-    {
-      image: gif5,
-      title: "The girl with the firefly",
-      time: "",
-      type: "",
-      filter: ["all", "art"],
-    },
-    {
-      image: item6,
-      title: "Dodo hide the seek",
-      time: "",
-      type: "",
-      filter: ["all", "games"],
-    },
-    {
-      image: gif6,
-      title: "Pinky Ocean",
-      type: "",
-      filter: ["all", "music"],
-    },
-  ];
 
-  const activityData = [
-    {
-      title: "Fashion Idea for brand",
-      author: "Panda",
-      time: "1 hours ago",
-      category: "Fashion",
-      image: popular1,
-    },
-    {
-      title: "Unique Food Idea",
-      author: "ButterFly",
-      time: "2 hours ago",
-      category: "Food Influencer",
-      image: popular2,
-    },
-    {
-      title: "We need a fashion blogger",
-      author: "Brand XYZ",
-      time: "2 hours ago",
-      category: "Fashion Brand",
-      image: news1,
-    },
-    {
-      title: "The new way to cook",
-      author: "CalvinCarlo",
-      time: "5 hours ago",
-      category: "Cooking",
-      image: job3,
-    },
-    {
-      title: "Promote our new product",
-      author: "ButterFly",
-      time: "8 hours ago",
-      category: "Promotion Brand",
-      image: news4,
-    },
-  ];
+  const [search, setSearch] = useState("");
 
-  const [allData, setAllData] = useState(AuctionData);
-  const [type, setType] = useState("all");
-  const location = useLocation();
-  const setFilter = (type) => {
-    setType(type);
-    const newOne = AuctionData?.filter((data) => data?.filter?.includes(type));
-    setAllData(newOne);
-  };
+  const dispatch = useDispatch();
+
+  const { userData } = useSelector((state) => state.user);
+  const { allPitches } = useSelector((state) => state.pitch);
+
+  useEffect(() => {
+    dispatch(getAllPitches());
+  }, []);
+
   return (
     <>
       {/* Navbar */}
@@ -260,6 +142,8 @@ const ExploreOne = () => {
                                   className="form-control filter-input-box bg-light border-0"
                                   placeholder="Search here..."
                                   style={{ borderRadius: "8px" }}
+                                  value={search}
+                                  onChange={(e) => setSearch(e.target.value)}
                                 />
                               </div>
                             </div>
@@ -339,24 +223,26 @@ const ExploreOne = () => {
           className="row g-4"
           style={{ marginRight: "100px", marginLeft: "100px" }}
         >
-          {activityData?.map((data) => {
-            return (
-              <div className="col-12" key={data?.title}>
-                <div className="card activity activity-primary rounded-md shadow p-4">
-                  <div className="d-flex align-items-center">
-                    <div className="position-relative">
-                      <img
-                        src={data?.image}
-                        className="avatar avatar-md-md rounded-md shadow-md"
-                        alt=""
-                        style={{
-                          width: "175px",
-                          height: "175px",
-                          objectFit: "cover",
-                        }}
-                      />
+          {allPitches
+            ?.filter((val) => val?.title.includes(search))
+            ?.map((data) => {
+              return (
+                <div className="col-12" key={data?.title}>
+                  <div className="card activity activity-primary rounded-md shadow p-4">
+                    <div className="d-flex align-items-center">
+                      <div className="position-relative">
+                        <img
+                          src={data?.image_url}
+                          className="avatar avatar-md-md rounded-md shadow-md"
+                          alt=""
+                          style={{
+                            width: "175px",
+                            height: "175px",
+                            objectFit: "cover",
+                          }}
+                        />
 
-                      {/* <div className="position-absolute top-0 start-0 translate-middle px-1 rounded-lg shadow-md bg-white">
+                        {/* <div className="position-absolute top-0 start-0 translate-middle px-1 rounded-lg shadow-md bg-white">
                         {data?.favorite === "Started Following" ? (
                           <i className="mdi mdi-account-check mdi-18px text-success"></i>
                         ) : data?.favorite === "Liked by" ? (
@@ -365,43 +251,99 @@ const ExploreOne = () => {
                           <i className="mdi mdi-format-list-bulleted mdi-18px text-warning"></i>
                         )}
                       </div> */}
-                      <div className="position-absolute top-0 start-0 translate-middle px-1 rounded-lg shadow-md bg-white"></div>
-                      <div className="position-absolute top-0 start-0 translate-middle px-1 rounded-lg shadow-md bg-white"></div>
-                    </div>
+                        <div className="position-absolute top-0 start-0 translate-middle px-1 rounded-lg shadow-md bg-white"></div>
+                        <div className="position-absolute top-0 start-0 translate-middle px-1 rounded-lg shadow-md bg-white"></div>
+                      </div>
 
-                    <span className="content" style={{ marginLeft: "30px" }}>
-                      <a
-                        href="/item-detail-one"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          navigate("/item-detail-one");
-                        }}
-                        className="text-dark title d-block"
-                        style={{ fontSize: "24px", marginBottom: "10px" }}
-                      >
-                        {data?.title}
-                      </a>
-                      <small className="text-muted d-block mt-1">
-                        {data?.category}
-                        {"  "}
+                      <span className="content" style={{ marginLeft: "30px" }}>
                         <a
-                          href=""
-                          onClick={(e) => e.preventDefault()}
-                          className="link fw-bold"
+                          // href="/item-detail-one"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            // navigate("/item-detail-one");
+                          }}
+                          className="text-dark title d-block"
+                          style={{ fontSize: "24px", marginBottom: "10px" }}
                         >
-                          @{data?.author}
+                          {data?.title}
                         </a>
-                      </small>
+                        <small
+                          className="text-muted d-block"
+                          style={{
+                            marginTop: "10px",
+                            marginBottom: "10px",
+                          }}
+                        >
+                          Price Range:{" "}
+                          <a
+                            href=""
+                            onClick={(e) => e.preventDefault()}
+                            className="link fw-bold"
+                            style={{ cursor: "default" }}
+                          >
+                            {data?.price_range}
+                          </a>
+                        </small>
+                        <span
+                          className="creative-idea"
+                          style={{
+                            marginTop: "10px",
+                            display: "-webkit-box",
+                            WebkitBoxOrient: "vertical",
+                            WebkitLineClamp: 2,
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {data?.creative_idea}
+                        </span>
 
-                      <small className="text-muted d-block mt-1">
-                        {data?.time}
-                      </small>
-                    </span>
+                        <div className="social-icons">
+                          {data?.user?.twitter_url && (
+                            <a href="#" className="social-icon facebook">
+                              <i className="uil uil-facebook-f"></i>
+                            </a>
+                          )}
+                          {data?.user?.instagram_url && (
+                            <a href="#" className="social-icon instagram">
+                              <i className="uil uil-instagram"></i>
+                            </a>
+                          )}
+                          {data?.user?.snapchat_url && (
+                            <a href="#" className="social-icon snapchat">
+                              <i className="uil uil-snapchat-ghost"></i>
+                            </a>
+                          )}
+                          {data?.user?.youtube_url && (
+                            <a href="#" className="social-icon youtube">
+                              <i className="uil uil-youtube"></i>
+                            </a>
+                          )}
+                        </div>
+
+                        <small className="text-muted d-block mt-3">
+                          {data?.user?.first_name}
+                          {"   "}
+                          <a
+                            href=""
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(`/creator-profile/${data?.user?.id}`);
+                            }}
+                            className="link fw-bold"
+                          >
+                            @{data?.user?.display_name}
+                          </a>
+                          {"  "}&#8226;{"     "}
+                          {"  "}
+                          {moment(data?.createdAt).fromNow()}
+                        </small>
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </section>
       {/*end section*/}
@@ -413,4 +355,4 @@ const ExploreOne = () => {
   );
 };
 
-export default ExploreOne;
+export default PitchBoard;

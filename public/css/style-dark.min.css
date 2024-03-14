@@ -4,6 +4,24 @@
     max-width: 1140px !important;
   }
 }
+
+.search-bar-homepage {
+  width: 70%;
+}
+
+.search-btn-homepage {
+  width: 25%;
+}
+
+@media screen and (max-width: 768px) {
+  .search-bar-homepage {
+    width: 100%;
+  }
+  .search-btn-homepage {
+    width: 100%;
+  }
+}
+
 .row > * {
   position: relative;
 }
@@ -1685,10 +1703,18 @@ button:not(:disabled) {
     width: 0;
   }
 }
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
 .form-label,
 .form-check-label {
   font-size: 14px;
 }
+.dob-input {
+  padding-left: 20px !important;
+}
+
 .form-control {
   border: 1px solid #e9ecef;
   font-size: 14px;
@@ -1882,6 +1908,51 @@ button:not(:disabled) {
     transform: scale(1);
   }
 }
+.social-icons {
+  display: flex;
+}
+
+.social-icon {
+  display: inline-block;
+  margin-right: 25px; /* Adjust the margin to add gap */
+  font-size: 24px;
+  color: white; /* Default color */
+  transition: color 0.3s ease; /* Smooth transition */
+  text-decoration: none; /* Remove underline */
+  position: relative; /* For positioning reach text */
+}
+
+.social-icon span {
+  font-size: 18px; /* Adjust the font size for reach */
+  position: absolute;
+  bottom: -20px; /* Adjust distance from the icon */
+  left: 50%; /* Align text horizontally */
+  transform: translateX(-50%);
+  opacity: 0; /* Hide text by default */
+  transition: opacity 0.3s ease; /* Smooth transition */
+}
+
+.social-icon:hover span {
+  opacity: 1; /* Show text on hover */
+}
+
+/* Add specific colors for each social media */
+.facebook:hover .uil-facebook-f {
+  color: #4267b2;
+}
+.instagram:hover .uil-instagram {
+  color: #e4405f;
+}
+.tiktok:hover .uil-video {
+  color: #000;
+}
+.youtube:hover .uil-youtube {
+  color: #ff0000;
+}
+.snapchat:hover .uil-snapchat-ghost {
+  color: #fffc00;
+}
+
 .social-icon li a {
   color: #3c4858;
   border: 1px solid #3c4858;
@@ -1900,6 +1971,7 @@ button:not(:disabled) {
   border-color: #1066e7 !important;
   color: #fff !important;
 }
+
 .social-icon li a:hover .fea-social {
   fill: #1066e7;
 }
@@ -2052,10 +2124,10 @@ p {
 .bg-linear-gradient-2 {
   background: linear-gradient(
     to bottom,
-    rgba(22, 28, 45, 0) 0%,
-    rgba(22, 28, 45, 0.3) 50%,
-    rgba(22, 28, 45, 0.7) 75%,
-    #161c2d 100%
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.7) 75%,
+    #000 100%
   );
 }
 .bg-linear-gradient-3 {
@@ -4709,6 +4781,7 @@ p {
   background: #1066e7;
   color: #fff;
 }
+
 .error {
   margin: 8px 0px;
   display: none;
@@ -5256,6 +5329,9 @@ a.text-dark:focus {
 }
 .text-muted {
   color: #b9c6d8 !important;
+}
+.creative-idea {
+  color: #dadee4 !important;
 }
 .text-gradient-muted {
   background: linear-gradient(to right, #b9c6d8 0%, #ffa432 100%);
@@ -6701,7 +6777,7 @@ a.text-footer:focus {
     to bottom,
     rgba(0, 0, 0, 0) 0%,
     rgba(0, 0, 0, 0.3) 50%,
-    rgba(0, 0, 0, 0.7) 75%,
+    rgba(0, 0, 0, 0.5) 75%,
     #000 100%
   );
 }

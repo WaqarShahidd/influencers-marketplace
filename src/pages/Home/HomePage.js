@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/iframe-has-title */
 import React, { useState, useEffect } from "react";
@@ -8,7 +9,6 @@ import Choices from "choices.js";
 import Countdown from "react-countdown";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
-import StyleSwitcher from "../../components/StyleSwitcher";
 import {
   client01,
   client02,
@@ -72,11 +72,21 @@ import {
   job1,
   job2,
   job3,
+  defaultImage,
 } from "../../components/imageImport";
 import { FiArrowRight } from "react-icons/fi";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllInfluencers } from "../../redux/dispatchers/influencers.dispatch";
+import {
+  getAllNews,
+  getAllNewsByCategory,
+} from "../../redux/dispatchers/news.dispatch";
+import { getUpcomingBirthdays } from "../../redux/dispatchers/birthdays.dispatch";
+import moment from "moment";
 
-const DarkVersionFour = () => {
+const HomePage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (
@@ -116,359 +126,22 @@ const DarkVersionFour = () => {
     }
   }, []);
 
-  const toggleSwitcher = () => {
-    var i = document.getElementById("style-switcher");
-    if (i) {
-      if (i.style.left === "-189px") {
-        i.style.left = "0px";
-      } else {
-        i.style.left = "-189px";
-      }
-    }
-  };
-
-  const blogRecord = [
-    {
-      image: news4,
-      title: "The Cost of Living Crisis Is Changing Creator Strategies",
-      createdBy: "@callyjoe",
-      type: "Influencer",
-    },
-    {
-      image: news2,
-      title: "90% of Social Media Influencers Are Active on Instagram",
-      createdBy: "@kristyhoney",
-      type: "Influencer",
-    },
-    {
-      image: news3,
-      title: "How Brands Can Break Barriers and Empower Creators",
-      createdBy: "@pandaone",
-      type: "Influencer",
-    },
-  ];
-
-  const creator = [
-    {
-      background: work1,
-      Image: client01,
-      name: "Steven Townsend",
-      author: "StreetBoy",
-    },
-    {
-      background: work2,
-      Image: client02,
-      name: "Tiffany Betancourt",
-      author: "CutieGirl",
-    },
-    {
-      background: work3,
-      Image: client03,
-      name: "Mari Harrington",
-      author: "NorseQueen",
-    },
-    {
-      background: work4,
-      Image: client04,
-      name: "Floyd Glasgow",
-      author: "BigBull",
-    },
-    {
-      background: work5,
-      Image: client05,
-      name: "Donna Schultz",
-      author: "Angel",
-    },
-    {
-      background: work6,
-      Image: client06,
-      name: "Joshua Morris",
-      author: "CrazyAnyone",
-    },
-    {
-      background: work7,
-      Image: client07,
-      name: "Carl Williams",
-      author: "LooserBad",
-    },
-    {
-      background: work8,
-      Image: client08,
-      name: "Eugene Green",
-      author: "KristyHoney",
-    },
-    {
-      background: work9,
-      Image: client09,
-      name: "Julius Canale",
-      author: "PandaOne",
-    },
-    {
-      background: work10,
-      Image: client10,
-      name: "Michael Williams",
-      author: "FunnyGuy",
-    },
-    {
-      background: work11,
-      Image: client11,
-      name: "Jacqueline Burns",
-      author: "ButterFly",
-    },
-    {
-      background: work12,
-      Image: client12,
-      name: "Rosaria Vargas",
-      author: "Princess",
-    },
-  ];
-
-  const collectionData = [
-    {
-      title: "Digital Arts",
-      img1: c3,
-      img2: c1,
-      img3: c4,
-      img4: c10,
-      client: client01,
-    },
-    {
-      title: "Sports",
-      img1: c2,
-      img2: c5,
-      img3: c6,
-      img4: c7,
-      client: client10,
-    },
-    {
-      title: "Photography",
-      img1: c8,
-      img2: c9,
-      img3: c11,
-      img4: c12,
-      client: client12,
-    },
-  ];
-
-  const AuctionData = [
-    {
-      image: gif1,
-      title: "Deep Sea Phantasy",
-      id: "May 29, 2022 6:0:0",
-      type: "GIFs",
-      filter: ["all", "games"],
-    },
-    {
-      image: item1,
-      title: "CyberPrimal 042 LAN",
-      id: "",
-      type: "Arts",
-      filter: ["all", "art"],
-    },
-    {
-      image: gif2,
-      title: "Crypto Egg Stamp #5",
-      id: "",
-      type: "Games",
-      filter: ["all", "music", "meme"],
-    },
-    {
-      image: item2,
-      title: "Colorful Abstract Painting",
-      id: "June 03, 2022 5:3:1",
-      type: "",
-      filter: ["all", "video"],
-    },
-    {
-      image: item3,
-      title: "Liquid Forest Princess",
-      id: "",
-      type: "",
-      filter: ["all", "video", "meme"],
-    },
-    {
-      image: gif3,
-      title: "Spider Eyes Modern Art",
-      id: "June 10, 2022 1:0:1",
-      type: "GIFs",
-      filter: ["all", "games"],
-    },
-    {
-      image: item4,
-      title: "Synthwave Painting",
-      id: "",
-      type: "",
-      filter: ["all", "art"],
-    },
-    {
-      image: gif4,
-      title: "Contemporary Abstract",
-      id: "",
-      type: "GIFs",
-      filter: ["all", "music"],
-    },
-    {
-      image: item5,
-      title: "Valkyrie Abstract Art",
-      id: "",
-      type: "",
-      filter: ["all", "video", "meme"],
-    },
-    {
-      image: gif5,
-      title: "The girl with the firefly",
-      id: "",
-      type: "",
-      filter: ["all", "art"],
-    },
-    {
-      image: item6,
-      title: "Dodo hide the seek",
-      id: "",
-      type: "",
-      filter: ["all", "games"],
-    },
-    {
-      image: gif6,
-      title: "Pinky Ocean",
-      id: "June 10, 2022 1:0:1",
-      type: "",
-      filter: ["all", "music"],
-    },
-  ];
-
-  const CreatorBD = [
-    {
-      profileIcon: true,
-      image: client01,
-      name: "StreetBoy",
-      bd: "01 January 2023",
-    },
-    {
-      profileIcon: false,
-      image: client13,
-      name: "FunnyGuy",
-      bd: "01 January 2023",
-    },
-    {
-      profileIcon: true,
-      image: client02,
-      name: "CutieGirl",
-      bd: "01 January 2023",
-    },
-    {
-      profileIcon: true,
-      image: client09,
-      name: "PandaOne",
-      bd: "01 January 2023",
-    },
-    {
-      profileIcon: false,
-      image: client03,
-      name: "NorseQueen",
-      bd: "01 January 2023",
-    },
-    {
-      profileIcon: false,
-      image: client04,
-      name: "BigBull",
-      bd: "01 January 2023",
-    },
-    {
-      profileIcon: true,
-      image: client10,
-      name: "KristyHoney",
-      bd: "01 January 2023",
-    },
-    {
-      profileIcon: false,
-      image: client05,
-      name: "Angel",
-      bd: "01 January 2023",
-    },
-    {
-      profileIcon: true,
-      image: client11,
-      name: "ButterFly",
-      bd: "01 January 2023",
-    },
-    {
-      profileIcon: true,
-      image: client06,
-      name: "CrazyAnyone",
-      bd: "01 January 2023",
-    },
-    {
-      profileIcon: false,
-      image: client07,
-      name: "LooserBad",
-      bd: "01 January 2023",
-    },
-    {
-      profileIcon: true,
-      image: client12,
-      name: "Princess",
-      bd: "01 January 2023",
-    },
-  ];
-
-  const NewsData = [
-    {
-      image: job1,
-      title: "Influencer Is a Real Job. It’s Time to Act Like It and own it",
-      type: ["all", "Instagram"],
-      createdBy: "@callyjoe",
-      id: 1,
-    },
-    {
-      image: job2,
-      title: "The Ultimate Guide to Instagram Hashtags for 2022",
-      type: ["Twitter", "all"],
-      createdBy: "@kristyhoney",
-      id: 2,
-    },
-    {
-      image: job3,
-      title: "How Brands Can Break Barriers and Empower Creators",
-      type: ["Facebook", "all"],
-      createdBy: "@pandaone",
-      id: 3,
-    },
-  ];
-
-  const [allData, setAllData] = useState(AuctionData);
-  const [type, setType] = useState("all");
-  const location = useLocation();
-
-  // useEffect(() => {
-  //   new Choices("#choices-criteria");
-  //   var singleCategorie = document.getElementById("choices-type");
-  //   if (singleCategorie) {
-  //     var singleCategories = new Choices("#choices-type");
-  //   }
-  // }, []);
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (location?.pathname === "/index-four-dark-rtl") {
-        document.getElementById("theme-opt").href =
-          "./css/style-dark-rtl.min.css";
-      } else if (location?.pathname === "/index-four") {
-        document.getElementById("theme-opt").href = "./css/style.min.css";
-      } else if (location?.pathname === "/index-four-rtl") {
-        document.getElementById("theme-opt").href = "./css/style-rtl.min.css";
-      } else {
-        document.getElementById("theme-opt").href = "./css/style-dark.min.css";
-      }
-      toggleSwitcher(false);
-    }, 100);
-  }, [location?.pathname]);
+  const [type, setType] = useState("All");
 
   const setFilter = (type) => {
     setType(type);
-    const newOne = NewsData?.filter((data) => data?.filter?.includes(type));
-    setAllData(newOne);
   };
+
+  useEffect(() => {
+    dispatch(getAllInfluencers());
+    dispatch(getAllNewsByCategory("socialMediaNews"));
+    dispatch(getAllNews());
+    dispatch(getUpcomingBirthdays());
+  }, []);
+
+  const { allInfluencers } = useSelector((state) => state.influencer);
+  const { allNewsByCategory, allNews } = useSelector((state) => state.news);
+  const { upcomingBirthday } = useSelector((state) => state.upcoming);
 
   return (
     <>
@@ -555,10 +228,7 @@ const DarkVersionFour = () => {
                               alignItems: "flex-end",
                             }}
                           >
-                            <div
-                              className="col-lg-3 col-md-6"
-                              style={{ width: "70%" }}
-                            >
+                            <div className="col-lg-3 col-md-6 search-bar-homepage">
                               <div className="filter-search-form position-relative filter-border">
                                 <i className="uil uil-search icons"></i>
                                 <input
@@ -613,10 +283,7 @@ const DarkVersionFour = () => {
                             </div> */}
                             {/*end col*/}
 
-                            <div
-                              className="col-lg-3 col-md-6 mt-3 mt-lg-0"
-                              style={{ width: "25%" }}
-                            >
+                            <div className="col-lg-3 col-md-6 mt-3 mt-lg-0 search-btn-homepage">
                               <input
                                 type="submit"
                                 id="search"
@@ -677,7 +344,7 @@ const DarkVersionFour = () => {
           <div className="row">
             <div className="col-12 mt-3">
               <div className="tiny-five-item-nav-arrow">
-                {creator?.map((data, index) => {
+                {allInfluencers?.map((data, index) => {
                   return (
                     <div
                       className="tiny-slide"
@@ -687,18 +354,31 @@ const DarkVersionFour = () => {
                       <div className="card creators creators-two creator-primary rounded-md shadow overflow-hidden mx-2 my-3">
                         <div
                           className="py-5"
-                          style={{ background: `url(${data?.background})` }}
+                          style={{ background: `url(${work8})` }}
                         ></div>
                         <div className="position-relative mt-n5">
-                          <img
-                            src={data?.Image}
-                            className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
-                            alt=""
-                            onClick={(e) => {
-                              e.preventDefault();
-                              navigate("/creator-profile");
-                            }}
-                          />
+                          {data?.avatar === null ? (
+                            <img
+                              src={defaultImage}
+                              className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
+                              alt=""
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/creator-profile");
+                              }}
+                            />
+                          ) : (
+                            <img
+                              src={data?.avatar}
+                              className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
+                              alt=""
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/creator-profile");
+                              }}
+                              style={{ objectFit: "contain" }}
+                            />
+                          )}
 
                           <div className="content text-center pt-2 p-2">
                             <a
@@ -709,15 +389,26 @@ const DarkVersionFour = () => {
                               }}
                               className="text-dark h6 name d-block mb-0"
                             >
-                              {data?.name}
+                              {data?.first_name}
                             </a>
-                            <small className="text-muted">
-                              @{data?.author}
-                            </small>
+                            {data?.display_name && (
+                              <small className="text-muted">
+                                @{data?.display_name}
+                              </small>
+                            )}
                             <br />
-                            <p style={{ marginTop: "10px", color: "#b5bdc9" }}>
-                              Bring to the table win-win survival strategies to
-                              ensure proactive...
+                            <p
+                              style={{
+                                marginTop: "10px",
+                                color: "#b5bdc9",
+                                display: "-webkit-box",
+                                WebkitBoxOrient: "vertical",
+                                WebkitLineClamp: 2,
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                              }}
+                            >
+                              {data?.bio}
                             </p>
 
                             {/* <div className="mt-3">
@@ -850,35 +541,40 @@ const DarkVersionFour = () => {
         {/*end container*/}
 
         {/* Creator News */}
-        <div className="container mt-100 mt-60">
-          <div className="row justify-content-center">
-            <div className="col">
-              <div className="section-title mb-5 pb-3">
-                <h4 className="title mb-4">Creator News</h4>
-                <p
-                  className="text-muted para-desc mb-0 mx-auto"
-                  style={{ maxWidth: "100%" }}
-                >
-                  Influencer Is a Real Job. It’s Time to Act Like It and own it
-                </p>
+        {allNews?.filter((data) => data?.category === "InfluencerNews")
+          ?.length > 0 && (
+          <div className="container mt-100 mt-60">
+            <div className="row justify-content-center">
+              <div className="col">
+                <div className="section-title mb-5 pb-3">
+                  <h4 className="title mb-4">Creator News</h4>
+                  <p
+                    className="text-muted para-desc mb-0 mx-auto"
+                    style={{ maxWidth: "100%" }}
+                  >
+                    Influencer Is a Real Job. It’s Time to Act Like It and own
+                    it
+                  </p>
+                </div>
               </div>
+              {/*end col*/}
             </div>
-            {/*end col*/}
-          </div>
-          {/*end row*/}
+            {/*end row*/}
 
-          <div className="row g-4">
-            {blogRecord?.map((data) => {
-              return (
-                <div className="col-lg-4 col-md-6" key={data?.type}>
-                  <div className="card blog blog-primary shadow rounded-md overflow-hidden">
-                    <div className="position-relative">
-                      <img
-                        src={data?.image}
-                        className="img-fluid rounded-md"
-                        alt=""
-                      />
-                      {/* <div className="position-absolute top-0 end-0 m-3">
+            <div className="row g-4">
+              {allNews
+                ?.filter((data) => data?.category === "InfluencerNews")
+                ?.map((data) => {
+                  return (
+                    <div className="col-lg-4 col-md-6" key={data?.type}>
+                      <div className="card blog blog-primary shadow rounded-md overflow-hidden">
+                        <div className="position-relative">
+                          <img
+                            src={data?.image_url}
+                            className="img-fluid rounded-md"
+                            alt=""
+                          />
+                          {/* <div className="position-absolute top-0 end-0 m-3">
                         <span className="like-icon shadow-sm">
                           <a
                             href=""
@@ -889,157 +585,156 @@ const DarkVersionFour = () => {
                           </a>
                         </span>
                       </div> */}
-                    </div>
-                    <div className="card-body position-relative p-4">
-                      <a
-                        href=""
-                        onClick={(e) => e.preventDefault()}
-                        className="badge tag gradient rounded-md fw-bold"
-                      >
-                        {data?.type}
-                      </a>
-
-                      <ul className="list-unstyled mt-2">
-                        <li className="list-inline-item text-muted small me-3">
-                          <i className="uil uil-calendar-alt text-dark h6 me-1"></i>
-                          20th January, 2022
-                        </li>
-                        <li className="list-inline-item text-muted small">
-                          <i className="uil uil-clock text-dark h6 me-1"></i>5
-                          min read
-                        </li>
-                      </ul>
-                      <a
-                        href="/blog-detail"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          navigate("/blog-detail");
-                        }}
-                        className="text-dark title h5 mt-3"
-                      >
-                        {data?.title}
-                      </a>
-
-                      <div className="mt-3 d-flex justify-content-between align-items-center">
-                        <a
-                          href="/blog-detail"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            navigate("/blog-detail");
-                          }}
-                          className="btn btn-link text-muted"
-                        >
-                          Read more <FiArrowRight className="fea icon-sm" />
-                        </a>
-                        <span className="text-muted fs-6">
-                          by{" "}
+                        </div>
+                        <div className="card-body position-relative p-4">
                           <a
-                            href="/creator-profile"
+                            href=""
+                            onClick={(e) => e.preventDefault()}
+                            className="badge tag gradient rounded-md fw-bold"
+                          >
+                            Influencer
+                          </a>
+
+                          <ul className="list-unstyled mt-2">
+                            <li className="list-inline-item text-muted small me-3">
+                              <i className="uil uil-calendar-alt text-dark h6 me-1"></i>
+                              {moment(data?.date).format("DD MMMM, YYYY")}
+                            </li>
+                            <li className="list-inline-item text-muted small">
+                              <i className="uil uil-clock text-dark h6 me-1"></i>
+                              5 min read
+                            </li>
+                          </ul>
+                          <a
+                            href="/blog-detail"
                             onClick={(e) => {
                               e.preventDefault();
-                              navigate("/creator-profile");
+                              navigate("/blog-detail");
                             }}
-                            className="link"
+                            className="text-dark title h5 mt-3"
                           >
-                            @{data?.createdBy}
+                            {data?.title}
                           </a>
-                        </span>
+
+                          <div className="mt-3 d-flex justify-content-between align-items-center">
+                            <a
+                              href={`/blog-detail/${data?.id}`}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate(`/blog-detail/${data?.id}`);
+                              }}
+                              className="btn btn-link text-muted"
+                            >
+                              Read more <FiArrowRight className="fea icon-sm" />
+                            </a>
+                            {/* <span className="text-muted fs-6">
+                            by{" "}
+                            <a
+                              href="/creator-profile"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/creator-profile");
+                              }}
+                              className="link"
+                            >
+                              @{data?.createdBy}
+                            </a>
+                          </span> */}
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              );
-            })}
-            {/*end col*/}
+                  );
+                })}
+              {/*end col*/}
+            </div>
+            {/*end row*/}
           </div>
-          {/*end row*/}
-        </div>
+        )}
         {/*end container*/}
 
         {/* Social Media News */}
-        <div className="container mt-100 mt-60">
-          <div className="row justify-content-center">
-            <div className="col">
-              <div className="section-title mb-4 pb-2">
-                <h4 className="title mb-4">Social Media News</h4>
-                <p className="text-muted para-desc mb-0 ">
-                  Check out the latest news and updates from our social media
-                </p>
+        {allNewsByCategory?.length > 0 && (
+          <div className="container mt-100 mt-60">
+            <div className="row justify-content-center">
+              <div className="col">
+                <div className="section-title mb-4 pb-2">
+                  <h4 className="title mb-4">Social Media News</h4>
+                  <p className="text-muted para-desc mb-0 ">
+                    Check out the latest news and updates from our social media
+                  </p>
+                </div>
               </div>
+              {/*end col*/}
             </div>
-            {/*end col*/}
-          </div>
-          {/*end row*/}
+            {/*end row*/}
 
-          <div className="row justify-content-center mb-5">
-            <div className="col filters-group-wrap">
-              <div className="filters-group">
-                <ul className="container-filter mb-0 categories-filter list-unstyled">
-                  <li
-                    className={`list-inline-item categories position-relative text-dark ${
-                      type === "all" ? "active" : ""
-                    }`}
-                    // data-group="games"
-                    onClick={() => setFilter("all")}
-                  >
-                    All
-                  </li>
-                  <li
-                    className={`list-inline-item categories position-relative text-dark ${
-                      type === "games" ? "active" : ""
-                    }`}
-                    // data-group="games"
-                    onClick={() => setFilter("Facebook")}
-                  >
-                    <i className="uil uil-facebook-f"></i> Facebook
-                  </li>
-                  <li
-                    className={`list-inline-item categories position-relative text-dark ${
-                      type === "art" ? "active" : ""
-                    }`}
-                    // data-group="art"
-                    onClick={() => setFilter("Instagram")}
-                  >
-                    <i className="uil uil-instagram"></i> Instagram
-                  </li>
-                  <li
-                    className={`list-inline-item categories position-relative text-dark ${
-                      type === "music" ? "active" : ""
-                    }`}
-                    // data-group="music"
-                    onClick={() => setFilter("TikTok")}
-                  >
-                    <i className="uil uil-music"></i> TikTok
-                  </li>
-                  <li
-                    className={`list-inline-item categories position-relative text-dark ${
-                      type === "video" ? "active" : ""
-                    }`}
-                    // data-group="video"
-                    onClick={() => setFilter("Twitter")}
-                  >
-                    <i className="uil uil-twitter"></i> Twitter
-                  </li>
-                </ul>
+            <div className="row justify-content-center mb-5">
+              <div className="col filters-group-wrap">
+                <div className="filters-group">
+                  <ul className="container-filter mb-0 categories-filter list-unstyled">
+                    <li
+                      className={`list-inline-item categories position-relative text-dark ${
+                        type === "All" ? "active" : ""
+                      }`}
+                      // data-group="games"
+                      onClick={() => setFilter("All")}
+                    >
+                      All
+                    </li>
+                    <li
+                      className={`list-inline-item categories position-relative text-dark ${
+                        type === "Facebook" ? "active" : ""
+                      }`}
+                      onClick={() => setFilter("Facebook")}
+                    >
+                      <i className="uil uil-facebook-f"></i> Facebook
+                    </li>
+                    <li
+                      className={`list-inline-item categories position-relative text-dark ${
+                        type === "Instagram" ? "active" : ""
+                      }`}
+                      onClick={() => setFilter("Instagram")}
+                    >
+                      <i className="uil uil-instagram"></i> Instagram
+                    </li>
+                    <li
+                      className={`list-inline-item categories position-relative text-dark ${
+                        type === "TikTok" ? "active" : ""
+                      }`}
+                      onClick={() => setFilter("TikTok")}
+                    >
+                      <i className="uil uil-music"></i> TikTok
+                    </li>
+                    <li
+                      className={`list-inline-item categories position-relative text-dark ${
+                        type === "Twitter" ? "active" : ""
+                      }`}
+                      onClick={() => setFilter("Twitter")}
+                    >
+                      <i className="uil uil-twitter"></i> Twitter
+                    </li>
+                  </ul>
+                </div>
               </div>
+              {/*end col*/}
             </div>
-            {/*end col*/}
-          </div>
-          {/*end row*/}
+            {/*end row*/}
 
-          <div className="row g-4">
-            {NewsData?.filter((data) => data?.type?.includes(type))?.map(
-              (data, index) => {
-                return (
-                  <div className="col-lg-4 col-md-6" key={index * 5}>
-                    <div className="card blog blog-primary shadow rounded-md overflow-hidden">
-                      <div className="position-relative">
-                        <img
-                          src={data?.image}
-                          className="img-fluid rounded-md"
-                          alt=""
-                        />
-                        {/* <div className="position-absolute top-0 end-0 m-3">
+            <div className="row g-4">
+              {allNewsByCategory
+                ?.filter((data) => data?.socialMediaNewsType?.includes(type))
+                ?.map((data, index) => {
+                  return (
+                    <div className="col-lg-4 col-md-6" key={index}>
+                      <div className="card blog blog-primary shadow rounded-md overflow-hidden">
+                        <div className="position-relative">
+                          <img
+                            src={data?.image_url}
+                            className="img-fluid rounded-md"
+                            alt=""
+                          />
+                          {/* <div className="position-absolute top-0 end-0 m-3">
                           <span className="like-icon shadow-sm">
                             <a
                               href=""
@@ -1050,48 +745,48 @@ const DarkVersionFour = () => {
                             </a>
                           </span>
                         </div> */}
-                      </div>
-                      <div className="card-body position-relative p-4">
-                        <a
+                        </div>
+                        <div className="card-body position-relative p-4">
+                          {/* <a
                           href=""
                           className="badge tag gradient rounded-md fw-bold"
                         >
-                          {data?.type}
-                        </a>
+                          {data?.type[1]}
+                        </a> */}
 
-                        <ul className="list-unstyled mt-2">
-                          <li className="list-inline-item text-muted small me-3">
-                            <i className="uil uil-calendar-alt text-dark h6 me-1"></i>
-                            20th January, 2022
-                          </li>
-                          <li className="list-inline-item text-muted small">
-                            <i className="uil uil-clock text-dark h6 me-1"></i>5
-                            min read
-                          </li>
-                        </ul>
-                        <a
-                          href="/blog-detail"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            navigate("/blog-detail");
-                          }}
-                          className="text-dark title h5 mt-3"
-                        >
-                          {data?.title}
-                        </a>
-
-                        <div className="mt-3 d-flex justify-content-between align-items-center">
+                          <ul className="list-unstyled mt-2">
+                            <li className="list-inline-item text-muted small me-3">
+                              <i className="uil uil-calendar-alt text-dark h6 me-1"></i>
+                              {moment(data?.date).format("DD MMMM, YYYY")}
+                            </li>
+                            <li className="list-inline-item text-muted small">
+                              <i className="uil uil-clock text-dark h6 me-1"></i>
+                              5 min read
+                            </li>
+                          </ul>
                           <a
                             href="/blog-detail"
                             onClick={(e) => {
                               e.preventDefault();
                               navigate("/blog-detail");
                             }}
-                            className="btn btn-link text-muted"
+                            className="text-dark title h5 mt-3"
                           >
-                            Read more <FiArrowRight className="fea icon-sm" />
+                            {data?.title}
                           </a>
-                          <span className="text-muted fs-6">
+
+                          <div className="mt-3 d-flex justify-content-between align-items-center">
+                            <a
+                              href={`/blog-detail/${data?.id}`}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate(`/blog-detail/${data?.id}`);
+                              }}
+                              className="btn btn-link text-muted"
+                            >
+                              Read more <FiArrowRight className="fea icon-sm" />
+                            </a>
+                            {/* <span className="text-muted fs-6">
                             by{" "}
                             <a
                               href="/creator-profile"
@@ -1103,18 +798,18 @@ const DarkVersionFour = () => {
                             >
                               {data?.createdBy}
                             </a>
-                          </span>
+                          </span> */}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                );
-              }
-            )}
+                  );
+                })}
 
-            {/*end col*/}
+              {/*end col*/}
+            </div>
           </div>
-        </div>
+        )}
         {/*end container*/}
 
         {/* Event News */}
@@ -1134,18 +829,104 @@ const DarkVersionFour = () => {
           </div>
           {/*end row*/}
 
-          <div className="row ">
+          <div className="row g-4">
+            {allNews
+              ?.filter((data) => data?.category === "eventNews")
+              ?.map((data, index) => {
+                return (
+                  <div className="col-lg-4 col-md-6" key={index}>
+                    <div className="card blog blog-primary shadow rounded-md overflow-hidden">
+                      <div
+                        className="position-relative"
+                        style={{ display: "flex", justifyContent: "center" }}
+                      >
+                        <img
+                          src={data?.image_url}
+                          className="img-fluid rounded-md"
+                          alt=""
+                        />
+                        {/* <div className="position-absolute top-0 end-0 m-3">
+                          <span className="like-icon shadow-sm">
+                            <a
+                              href=""
+                              onClick={(e) => e.preventDefault()}
+                              className="text-muted icon"
+                            >
+                              <i className="mdi mdi-18px mdi-heart mb-0"></i>
+                            </a>
+                          </span>
+                        </div> */}
+                      </div>
+                      <div className="card-body position-relative p-4">
+                        <ul className="list-unstyled mt-2">
+                          <li className="list-inline-item text-muted small me-3">
+                            <i className="uil uil-calendar-alt text-dark h6 me-1"></i>
+
+                            {moment(data?.date).format("DD MMMM, YYYY")}
+                          </li>
+                          <li className="list-inline-item text-muted small">
+                            <i className="uil uil-clock text-dark h6 me-1"></i>5
+                            min read
+                          </li>
+                        </ul>
+                        <a
+                          href={`/blog-detail/${data?.id}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/blog-detail/${data?.id}`);
+                          }}
+                          className="text-dark title h5 mt-3"
+                        >
+                          {data?.title}
+                        </a>
+
+                        <div className="mt-3 d-flex justify-content-between align-items-center">
+                          <a
+                            href={`/blog-detail/${data?.id}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(`/blog-detail/${data?.id}`);
+                            }}
+                            className="btn btn-link text-muted"
+                          >
+                            Read more <FiArrowRight className="fea icon-sm" />
+                          </a>
+                          {/* <span className="text-muted fs-6">
+                          by{" "}
+                          <a
+                            href="/creator-profile"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate("/creator-profile");
+                            }}
+                            className="link"
+                          >
+                            {data?.createdBy}
+                          </a>
+                        </span> */}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+
+            {/*end col*/}
+          </div>
+
+          {/* <div className="row ">
             <div className="col-md-6 mt-4 pt-2">
               <div
                 className="card p-4 rounded-md shadow bg-white"
                 style={{ textAlign: "left !important" }}
-              >
+              >import { getAllNews } from './../../redux/dispatchers/news.dispatch';
+import { getUpcomingBirthdays } from './../../redux/dispatchers/birthdays.dispatch';
+
                 <h4 className="mb-4">Join our community</h4>
                 <p className="text-muted mb-0">
                   We are a huge marketplace dedicated to connecting great
                   artists of all Superex.
                 </p>
-
                 <div className="mt-3">
                   <a
                     href="/aboutus"
@@ -1168,7 +949,6 @@ const DarkVersionFour = () => {
                 </div>
               </div>
             </div>
-            {/*end col*/}
 
             <div className="col-md-6 mt-4 pt-2">
               <div className="card p-4 rounded-md shadow bg-white">
@@ -1199,10 +979,8 @@ const DarkVersionFour = () => {
                   />
                 </div>
               </div>
-            </div>
-            {/*end col*/}
-          </div>
-          {/*end row*/}
+            </div>       
+          </div> */}
         </div>
 
         {/* Upcoming Bd */}
@@ -1221,27 +999,28 @@ const DarkVersionFour = () => {
           {/*end row*/}
 
           <div className="row">
-            {CreatorBD?.map((data) => {
+            {upcomingBirthday?.map((data, index) => {
               return (
                 <div className="col-lg-3 col-md-4 mt-5" key={data?.name}>
                   <div className="creators creator-primary d-flex align-items-center">
-                    <span className="fw-bold text-muted">01.</span>
+                    <span className="fw-bold text-muted">{index + 1}.</span>
 
                     <div className="d-flex align-items-center ms-3">
                       <div className="position-relative d-inline-flex">
                         <img
-                          src={data?.image}
+                          src={data?.avatar}
                           className="avatar avatar-md-sm shadow-md rounded-pill"
                           alt=""
+                          style={{ objectFit: "contain" }}
                         />
-                        {data?.profileIcon && (
+                        {data?.verified && (
                           <>
                             <span className="verified text-primary">
                               <i className="mdi mdi-check-decagram"></i>
                             </span>
-                            <span className="online text-success">
+                            {/* <span className="online text-success">
                               <i className="mdi mdi-circle"></i>
-                            </span>
+                            </span> */}
                           </>
                         )}
                       </div>
@@ -1249,17 +1028,19 @@ const DarkVersionFour = () => {
                       <div className="ms-3">
                         <h6 className="mb-0">
                           <a
-                            href="/creators"
+                            href={`/creator-profile/${data?.id}`}
                             onClick={(e) => {
                               e.preventDefault();
-                              navigate("/creators");
+                              navigate(`/creator-profile/${data?.id}`);
                             }}
                             className="text-dark name"
                           >
-                            {data?.name}
+                            {data?.first_name}
                           </a>
                         </h6>
-                        <small className="text-muted">{data?.bd}</small>
+                        <small className="text-muted">
+                          {moment(data?.dob).format("DD MMMM YYYY")}
+                        </small>
                       </div>
                     </div>
                   </div>
@@ -1282,4 +1063,4 @@ const DarkVersionFour = () => {
   );
 };
 
-export default DarkVersionFour;
+export default HomePage;

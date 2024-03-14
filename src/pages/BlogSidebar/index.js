@@ -1,31 +1,39 @@
-import React, { useEffect } from "react";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiArrowRight } from "react-icons/fi";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
-import StyleSwitcher from "../../components/StyleSwitcher";
-import {
-  bg02,
-  bg1,
-  bg2,
-  bg3,
-  bg4,
-  bg5,
-  bg6,
-  bg7,
-  bg8,
-  bg9,
-  bg10,
-  bg11,
-  bg12,
-  news1,
-  news2,
-  news3,
-  news4,
-} from "../../components/imageImport";
+import { bg02, news1, news3, news4, set } from "../../components/imageImport";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllNews } from "../../redux/dispatchers/news.dispatch";
+import moment from "moment";
+
+const newsTypes = [
+  {
+    name: "Social Media News",
+    value: "socialMediaNews",
+    id: 1,
+  },
+  {
+    name: "Event News",
+    value: "eventNews",
+    id: 2,
+  },
+  {
+    name: "Creator News",
+    value: "InfluencerNews",
+    id: 3,
+  },
+];
 
 const BlogSidebar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [search, setSearch] = useState("");
+  const [newsType, setnewsType] = useState("");
+  const [categorySelected, setcategorySelected] = useState("");
 
   const blogList = [
     {
@@ -57,6 +65,17 @@ const BlogSidebar = () => {
   useEffect(() => {
     document.getElementById("theme-opt").href = "./css/style-dark.min.css";
   }, []);
+
+  useEffect(() => {
+    dispatch(getAllNews());
+  }, []);
+
+  const { allNews } = useSelector((state) => state.news);
+
+  const filteredNews = allNews?.filter((blog) =>
+    blog?.category.includes(newsType)
+  );
+
   return (
     <>
       {/* Navbar */}
@@ -105,7 +124,7 @@ const BlogSidebar = () => {
                   </a>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
-                  Blogs
+                  News
                 </li>
               </ul>
             </nav>
@@ -136,16 +155,23 @@ const BlogSidebar = () => {
           <div className="row">
             <div className="col-lg-8 col-md-6">
               <div className="row g-4">
-                {blogList?.map((blog, index) => (
-                  <div className="col-lg-6" key={index}>
-                    <div className="card blog blog-primary shadow rounded-md overflow-hidden">
-                      <div className="position-relative">
-                        <img
-                          src={blog?.image}
-                          className="img-fluid rounded-md"
-                          alt=""
-                        />
-                        {/* <div className="position-absolute top-0 end-0 m-3">
+                {filteredNews
+                  ?.filter((blog) =>
+                    blog?.title?.toLowerCase().includes(search)
+                  )
+                  ?.map((blog, index) => (
+                    <div className="col-lg-6" key={index}>
+                      <div className="card blog blog-primary shadow rounded-md overflow-hidden">
+                        <div
+                          className="position-relative"
+                          style={{ display: "flex", justifyContent: "center" }}
+                        >
+                          <img
+                            src={blog?.image_url}
+                            className="img-fluid rounded-md"
+                            alt=""
+                          />
+                          {/* <div className="position-absolute top-0 end-0 m-3">
                           <span className="like-icon shadow-sm">
                             <a
                               href=""
@@ -156,49 +182,53 @@ const BlogSidebar = () => {
                             </a>
                           </span>
                         </div> */}
-                      </div>
-                      <div className="card-body position-relative p-4">
-                        <a
-                          href=""
-                          onClick={(e) => e.preventDefault()}
-                          className="badge tag gradient rounded-md fw-bold"
-                        >
-                          {blog?.type}
-                        </a>
-
-                        <ul className="list-unstyled mt-2">
-                          <li className="list-inline-item text-muted small me-3">
-                            <i className="uil uil-calendar-alt text-dark h6 me-1"></i>
-                            20th January, 2022
-                          </li>
-                          <li className="list-inline-item text-muted small">
-                            <i className="uil uil-clock text-dark h6 me-1"></i>5
-                            min read
-                          </li>
-                        </ul>
-                        <a
-                          href="/blog-detail"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            navigate("/blog-detail");
-                          }}
-                          className="text-dark title h5 mt-3"
-                        >
-                          {blog?.title}
-                        </a>
-
-                        <div className="mt-3 d-flex justify-content-between align-items-center">
+                        </div>
+                        <div className="card-body position-relative p-4">
                           <a
-                            href="/blog-detail"
+                            href=""
+                            onClick={(e) => e.preventDefault()}
+                            className="badge tag gradient rounded-md fw-bold"
+                          >
+                            {blog?.category === "InfluencerNews"
+                              ? "Creator News"
+                              : blog?.category === "socialMediaNews"
+                              ? "Social Media News"
+                              : "Event News"}
+                          </a>
+
+                          <ul className="list-unstyled mt-2">
+                            <li className="list-inline-item text-muted small me-3">
+                              <i className="uil uil-calendar-alt text-dark h6 me-1"></i>
+                              {moment(blog?.date).format("DD MMMM, YYYY")}
+                            </li>
+                            <li className="list-inline-item text-muted small">
+                              <i className="uil uil-clock text-dark h6 me-1"></i>
+                              5 min read
+                            </li>
+                          </ul>
+                          <a
+                            href={`/blog-detail/${blog?.id}`}
                             onClick={(e) => {
                               e.preventDefault();
-                              navigate("/blog-detail");
+                              navigate(`/blog-detail/${blog?.id}`);
                             }}
-                            className="btn btn-link text-muted"
+                            className="text-dark title h5 mt-3"
                           >
-                            Read more <FiArrowRight className="fea icon-sm" />
+                            {blog?.title}
                           </a>
-                          <span className="text-muted fs-6">
+
+                          <div className="mt-3 d-flex justify-content-between align-items-center">
+                            <a
+                              href={`/blog-detail/${blog?.id}`}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate(`/blog-detail/${blog?.id}`);
+                              }}
+                              className="btn btn-link text-muted"
+                            >
+                              Read more <FiArrowRight className="fea icon-sm" />
+                            </a>
+                            {/* <span className="text-muted fs-6">
                             by{" "}
                             <a
                               href="/creator-profile"
@@ -210,12 +240,12 @@ const BlogSidebar = () => {
                             >
                               {blog?.createdBy}
                             </a>
-                          </span>
+                          </span> */}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
                 {/*end col*/}
               </div>
               {/*end row*/}
@@ -263,6 +293,7 @@ const BlogSidebar = () => {
                           name="s"
                           id="s"
                           placeholder="Search Keywords..."
+                          onChange={(e) => setSearch(e.target.value)}
                         />
                         <input type="submit" id="searchsubmit" value="Search" />
                       </div>
@@ -355,27 +386,32 @@ const BlogSidebar = () => {
                     Tags Cloud
                   </h6>
                   <div className="tagcloud mt-4">
-                    <a
-                      href=""
-                      onClick={(e) => e.preventDefault()}
-                      className="rounded text-capitalize fw-normal"
-                    >
-                      Social Media News
-                    </a>
-                    <a
-                      href=""
-                      onClick={(e) => e.preventDefault()}
-                      className="rounded text-capitalize fw-normal"
-                    >
-                      Event News
-                    </a>
-                    <a
-                      href=""
-                      onClick={(e) => e.preventDefault()}
-                      className="rounded text-capitalize fw-normal"
-                    >
-                      Creator News
-                    </a>
+                    {newsTypes.map((tag, index) => (
+                      <a
+                        href=""
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (
+                            categorySelected === tag.name ||
+                            newsType === tag.value
+                          ) {
+                            setnewsType("");
+                            setcategorySelected("");
+                            return;
+                          }
+                          setnewsType(tag.value);
+                          setcategorySelected(tag.name);
+                        }}
+                        className="rounded text-capitalize fw-normal"
+                        style={{
+                          cursor: "pointer",
+                          backgroundColor:
+                            categorySelected === tag.name ? "#e40066" : "#000",
+                        }}
+                      >
+                        {tag.name}
+                      </a>
+                    ))}
                   </div>
                 </div>
                 {/* TAG CLOUDS */}

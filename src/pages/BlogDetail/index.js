@@ -1,20 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
-import StyleSwitcher from "../../components/StyleSwitcher";
-import {
-  bg10,
-  single,
-  logo48,
-  logoS,
-  news4,
-  news1,
-  news2,
-} from "../../components/imageImport";
+import { logoS } from "../../components/imageImport";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { BASE_URL } from "./../../constants/config";
 
 const BlogDetail = () => {
+  const { id } = useParams();
+
+  const [loading, setloading] = useState(false);
+  const [error, seterror] = useState(false);
+  const [errorMsg, seterrorMsg] = useState("");
+
+  const [newsData, setNewsData] = useState([]);
+
+  const GetNews = () => {
+    seterror(false);
+
+    setloading(true);
+    axios
+      .get(`${BASE_URL}/api/news/getOneNews?newsId=${id}`)
+      .then((res) => {
+        setloading(false);
+        setNewsData(res.data.allNews);
+      })
+      .catch((error) => {
+        seterror(true);
+        seterrorMsg(error.response.data.message);
+        setloading(false);
+      });
+  };
+
   useEffect(() => {
-    window.Tobii();
+    GetNews();
   }, []);
 
   return (
@@ -32,16 +51,8 @@ const BlogDetail = () => {
                   className="heading sub-heading fw-bold mb-3"
                   style={{ color: "#fff" }}
                 >
-                  90% of Social Media Influencers Are Active on Instagram
+                  {newsData.title}
                 </h4>
-                <p className="text-muted fs-5 mb-0">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu.
-                </p>
 
                 <div className="d-flex align-items-center mt-4">
                   <img src={logoS} className="rounded-pill shadow-md" alt="" />
@@ -85,65 +96,31 @@ const BlogDetail = () => {
             {/*end col*/}
 
             <div className="col-lg-8 mt-5">
-              <p className="text-muted">
-                In today's digital age, influencer marketing has become a
-                powerful tool for brands to reach their target audience
-                authentically. Similarly, influencers are constantly seeking
-                meaningful partnerships with brands that align with their values
-                and aspirations. At our marketplace, we bring together the best
-                of both worlds, creating a vibrant ecosystem where brands and
-                influencers can seamlessly connect and collaborate.
-              </p>
-
-              <p className="text-muted">
-                Our platform serves as a bridge, connecting brands with a
-                diverse range of influencers spanning various niches and
-                demographics. Whether you're a burgeoning startup or an
-                established brand, our marketplace provides you with
-                unparalleled access to a curated network of influencers ready to
-                amplify your message.
-              </p>
-
-              <p className="text-muted">
-                For influencers, our platform offers a gateway to explore
-                exciting brand collaborations tailored to their unique voice and
-                audience. With access to a myriad of brands across industries,
-                influencers can discover partnership opportunities that resonate
-                with their personal brand ethos.
-              </p>
-
-              <p className="text-muted mb-0">
-                At the heart of our marketplace lies the belief in the power of
-                authentic connections. We prioritize transparency, ensuring that
-                brands and influencers have full control over their
-                partnerships. Our intuitive platform streamlines the
-                collaboration process, allowing both parties to communicate
-                effectively and negotiate terms that meet their mutual goals.
-              </p>
+              <p className="text-muted">{newsData?.text}</p>
 
               <div className="px-4 py-5 rounded-md bg-soft-primary text-center mt-4">
-                <h4 className="mb-0">
-                  " Where Brands Meet Influence, and Influence Meets Brands -
-                  Unleash Your Potential Today! "
-                </h4>
+                <h4 className="mb-0">"{newsData?.tagline}"</h4>
               </div>
 
-              <div className="mt-4">
+              <div
+                className="mt-4"
+                style={{ display: "flex", justifyContent: "center" }}
+              >
                 <img
-                  src={news1}
+                  src={newsData?.image_url}
                   className="img-fluid rounded-md shadow"
                   alt=""
-                  style={{ width: "100%" }}
+                  style={{ width: "50%" }}
                 />
               </div>
 
-              <p className="text-muted mt-4">
+              {/* <p className="text-muted mt-4">
                 Whether you're a brand looking to expand your reach or an
                 influencer seeking meaningful partnerships, our marketplace is
                 your gateway to success. Join us in revolutionizing the way
                 brands and influencers collaborate, and together, let's create
                 impactful campaigns that resonate with audiences worldwide.
-              </p>
+              </p> */}
             </div>
             {/*end col*/}
           </div>

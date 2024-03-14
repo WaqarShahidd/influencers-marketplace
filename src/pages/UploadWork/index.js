@@ -1,36 +1,142 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
-import StyleSwitcher from "../../components/StyleSwitcher";
-import { work1, client01, bg01 } from "../../components/imageImport";
+import { work1, bg01, defaultImage } from "../../components/imageImport";
+import axios from "axios";
+import { BASE_URL } from "../../constants/config";
+import { useDispatch, useSelector } from "react-redux";
+import { Backdrop, CircularProgress, Snackbar } from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const UploadWork = () => {
   const navigate = useNavigate();
-  const handleChange = () => {
-    const fileUploader = document.querySelector("#input-file");
-    const getFile = fileUploader.files;
-    if (getFile.length !== 0) {
-      const uploadedFile = getFile[0];
-      readFile(uploadedFile);
+
+  const { userData } = useSelector((state) => state.user);
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [type, setType] = useState("");
+  const [engagement, setEngagement] = useState("");
+
+  const [dataUri, setDataUri] = useState(null);
+  const [URL, setURL] = useState("");
+
+  const [open, setOpen] = useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const onImageChange = (file) => {
+    console.log("image change", file);
+    if (!file) {
+      setDataUri("");
+      return;
+    }
+    if (file.type === "image/png" || file.type === "image/jpeg") {
+      fileToDataUri(file).then((dataUri) => {
+        setDataUri(dataUri);
+        dataURItoBlob(file);
+      });
+    } else {
+      console.log("Please select only png/jpeg format of image.");
     }
   };
 
-  const readFile = (uploadedFile) => {
-    if (uploadedFile) {
+  const fileToDataUri = (file) =>
+    new Promise((resolve, reject) => {
+      console.log("file", file);
       const reader = new FileReader();
-      reader.onload = () => {
-        const parent = document.querySelector(".preview-box");
-        parent.innerHTML = `<img className="preview-content" src=${reader.result} />`;
+      reader.onload = (event) => {
+        resolve(event.target.result);
       };
+      reader.readAsDataURL(file);
+    });
 
-      reader.readAsDataURL(uploadedFile);
-    }
+  function dataURItoBlob(dataURI) {
+    console.log("dataURI", dataURI);
+    let formData = new FormData();
+    formData.append("file", dataURI);
+    axios
+      .post(`${BASE_URL}/api/aws/file`, formData)
+      .then((res) => {
+        setURL(res.data.url);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log("image", err);
+      });
+  }
+
+  const dispatch = useDispatch();
+
+  const [loading, setloading] = useState(false);
+
+  const AddWork = () => {
+    setloading(true);
+    const token = JSON.parse(localStorage.getItem("token"));
+    axios
+      .post(
+        `${BASE_URL}/api/work/createWork`,
+        {
+          user_id: userData?.id,
+          title: title,
+          description: description,
+          type: type,
+          audience_enagagement: engagement,
+          image_url: URL,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        setloading(false);
+        setOpen(true);
+        setTitle("");
+        setDescription("");
+        setType("");
+        setEngagement("");
+        setDataUri("");
+        setURL("");
+      })
+      .catch((error) => {
+        console.log("error", error.response.data.message);
+        setloading(false);
+      });
   };
+
   return (
     <>
       {/* Navbar */}
       <Navbar />
+
+      <Backdrop
+        sx={{
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
+        open={loading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Work Uploaded Successfully
+        </Alert>
+      </Snackbar>
+
       {/* Start Home */}
       <section
         className="bg-half-170 d-table w-100"
@@ -107,17 +213,30 @@ const UploadWork = () => {
                   style={{ background: `url(${work1})` }}
                 ></div>
                 <div className="position-relative mt-n5">
-                  <img
-                    src={client01}
-                    className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
-                    alt=""
-                  />
+                  {userData?.avatar === null ? (
+                    <img
+                      src={defaultImage}
+                      className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
+                      alt=""
+                    />
+                  ) : (
+                    <img
+                      src={userData?.avatar}
+                      className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
+                      alt=""
+                      style={{ objectFit: "contain" }}
+                    />
+                  )}
 
                   <div className="content text-center pt-2 p-4">
-                    <h6 className="mb-0">Steven Townsend</h6>
-                    <small className="text-muted">@StreetBoy</small>
+                    <h6 className="mb-0">{userData?.first_name}</h6>
+                    {userData?.display_name && (
+                      <small className="text-muted">
+                        @{userData?.display_name}
+                      </small>
+                    )}
 
-                    <ul className="list-unstyled mb-0 mt-3" id="navmenu-nav">
+                    {/* <ul className="list-unstyled mb-0 mt-3" id="navmenu-nav">
                       <li className="px-0">
                         <a
                           href="/creator-profile"
@@ -171,7 +290,7 @@ const UploadWork = () => {
                           </small>
                         </a>
                       </li>
-                    </ul>
+                    </ul> */}
                   </div>
                 </div>
               </div>
@@ -183,6 +302,9 @@ const UploadWork = () => {
                 <div className="row">
                   <div className="col-lg-5">
                     <div className="d-grid">
+                      {dataUri && (
+                        <img src={dataUri} className="img-fluid" alt="" />
+                      )}
                       <p className="fw-semibold mb-4">
                         Upload your work here, Please click "Upload Image"
                         Button.
@@ -195,7 +317,9 @@ const UploadWork = () => {
                         id="input-file"
                         name="input-file"
                         accept="image/*"
-                        onChange={() => handleChange()}
+                        onChange={(event) =>
+                          onImageChange(event.target.files[0] || null)
+                        }
                         hidden
                       />
                       <label
@@ -221,7 +345,9 @@ const UploadWork = () => {
                               id="name"
                               type="text"
                               className="form-control"
-                              placeholder="Title :"
+                              placeholder="Title:"
+                              onChange={(e) => setTitle(e.target.value)}
+                              value={title}
                             />
                           </div>
                           {/*end col*/}
@@ -236,16 +362,19 @@ const UploadWork = () => {
                               id="comments"
                               rows="4"
                               className="form-control"
-                              placeholder="Description :"
+                              placeholder="Description:"
+                              onChange={(e) => setDescription(e.target.value)}
+                              value={description}
                             ></textarea>
                           </div>
                           {/*end col*/}
 
                           <div className="col-md-6 mb-4">
-                            <label className="form-label fw-bold">Type :</label>
+                            <label className="form-label fw-bold">Type:</label>
                             <select
                               className="form-control"
                               defaultValue="Select Type"
+                              onChange={(e) => setType(e.target.value)}
                             >
                               <option>Choose any type</option>
                               <option>Fashion Photoshoots</option>
@@ -259,14 +388,16 @@ const UploadWork = () => {
                           <div className="col-md-6 mb-4">
                             <label className="form-label fw-bold">
                               {" "}
-                              Audience Engagement :{" "}
+                              Audience Engagement:{" "}
                             </label>
                             <input
                               name="time"
                               type="text"
                               className="form-control"
                               id="time"
-                              defaultValue="500k"
+                              placeholder="10k+ Reach"
+                              onChange={(e) => setEngagement(e.target.value)}
+                              value={engagement}
                             />
                           </div>
                           {/*end col*/}
@@ -307,6 +438,11 @@ const UploadWork = () => {
                             <button
                               type="submit"
                               className="btn btn-primary rounded-md"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                AddWork();
+                              }}
+                              style={{ width: "100%" }}
                             >
                               Upload Work
                             </button>

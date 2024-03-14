@@ -48,147 +48,33 @@ import {
   news4,
 } from "../../components/imageImport";
 
-const Wallet = () => {
+const Jobs = () => {
   const navigate = useNavigate();
-  const walletData = [
-    {
-      title: "MetaMask",
-      description: "Learn about how to get the wallet and much more clicking ",
-      image: MetaMask_Fox,
-      background: "bg-gradient-primary",
-      popular: true,
-    },
-    {
-      title: "Aave",
-      description: "Learn about how to get the wallet and much more clicking ",
-      image: aave,
-      background: "bg-gradient-primary",
-      popular: false,
-    },
-    {
-      title: "Airswap",
-      description: "Learn about how to get the wallet and much more clicking ",
-      image: Airswap,
-      background: "bg-gradient-warning",
-      popular: false,
-    },
-    {
-      title: "Compound",
-      description: "Learn about how to get the wallet and much more clicking ",
-      image: Compound,
-      background: "bg-gradient-danger",
-      popular: false,
-    },
-    {
-      title: "DDEX",
-      description: "Learn about how to get the wallet and much more clicking ",
-      image: DDEX,
-      background: "bg-gradient-info",
-      popular: false,
-    },
-    {
-      title: "Defi Saver",
-      description: "Learn about how to get the wallet and much more clicking ",
-      image: defiSaver,
-      background: "bg-gradient-primary",
-      popular: false,
-    },
-    {
-      title: "DYDX",
-      description: "Learn about how to get the wallet and much more clicking ",
-      image: dYdX,
-      background: "bg-gradient-primary",
-      popular: false,
-    },
-    {
-      title: "IDEX",
-      description: "Learn about how to get the wallet and much more clicking ",
-      image: IDEX,
-      background: "bg-gradient-warning",
-      popular: false,
-    },
-    {
-      title: "Kyber",
-      description: "Learn about how to get the wallet and much more clicking ",
-      image: Kyber,
-      background: "bg-gradient-danger",
-      popular: false,
-    },
-    {
-      title: "Maker",
-      description: "Learn about how to get the wallet and much more clicking ",
-      image: Maker,
-      background: "bg-gradient-info",
-      popular: false,
-    },
-    {
-      title: "NUO",
-      description: "Learn about how to get the wallet and much more clicking ",
-      image: NUO,
-      background: "bg-gradient-primary",
-      popular: false,
-    },
-    {
-      title: "PoolTogether",
-      description: "Learn about how to get the wallet and much more clicking ",
-      image: PoolTogether,
-      background: "bg-gradient-primary",
-      popular: false,
-    },
-    {
-      title: "Sablier",
-      description: "Learn about how to get the wallet and much more clicking ",
-      image: Sablier,
-      background: "bg-gradient-warning",
-      popular: false,
-    },
-    {
-      title: "Set",
-      description: "Learn about how to get the wallet and much more clicking ",
-      image: set,
-      background: "bg-gradient-danger",
-      popular: false,
-    },
-    {
-      title: "Uniswap",
-      description: "Learn about how to get the wallet and much more clicking ",
-      image: Uniswap,
-      background: "bg-gradient-info",
-      popular: false,
-    },
-    {
-      title: "Zerion",
-      description: "Learn about how to get the wallet and much more clicking ",
-      image: Zerion,
-      background: "bg-gradient-secondary",
-      popular: false,
-    },
-  ];
 
   const AuctionData = [
     {
       image: news1,
       title: "Brand X",
       id: "May 29, 2022 6:0:0",
-      type: "Editor",
+      type: "Full-time",
     },
     {
       image: news2,
       title: "Brand Y",
       id: "",
-      type: "Videographer",
+      type: "Part-time",
     },
     {
       image: news3,
       title: "Brand Z",
       id: "",
-      type: "Photographer",
+      type: "Internship",
     },
     {
       image: news4,
       title: "Brand W",
       id: "June 03, 2022 5:3:1",
-      type: "Designer",
+      type: "Freelance",
     },
   ];
   return (
@@ -814,4 +700,4 @@ const Wallet = () => {
   );
 };
 
-export default Wallet;
+export default Jobs;
