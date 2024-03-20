@@ -1918,7 +1918,7 @@ button:not(:disabled) {
 
 @media (max-width: 991px) {
   #topnav {
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
     -webkit-box-shadow: 0 0 3px rgba(22, 28, 45, 0.15);
     box-shadow: 0 0 3px rgba(22, 28, 45, 0.15);
     min-height: 74px;

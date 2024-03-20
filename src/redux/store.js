@@ -6,6 +6,7 @@ import { newsReducer } from "./reducers/news.reducer";
 import { pitchReducer } from "./reducers/pitch.reducer";
 import { workReducer } from "./reducers/work.reducer";
 import { upcomingReducer } from "./reducers/birthdays.reducer";
+import { jobReducer } from "./reducers/jobs.reducer";
 
 const { configureStore, combineReducers } = require("@reduxjs/toolkit");
 const rootPersistConfig = {
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   pitch: pitchReducer,
   work: workReducer,
   upcoming: upcomingReducer,
+  jobs: jobReducer,
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);

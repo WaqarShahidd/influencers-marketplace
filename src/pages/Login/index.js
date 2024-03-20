@@ -6,6 +6,12 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { BASE_URL } from "../../constants/config";
 import { getProfilebyId } from "../../redux/dispatchers/profile";
+import { Backdrop, CircularProgress, Snackbar } from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,6 +19,24 @@ const Login = () => {
 
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
+
+  const [open, setOpen] = useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const handleCloseError = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    seterror(false);
+  };
 
   const [loading, setloading] = useState(false);
   const [error, seterror] = useState(false);
@@ -33,6 +57,7 @@ const Login = () => {
         .then((res) => {
           setloading(false);
           localStorage.setItem("token", JSON.stringify(res.data.token));
+
           navigate("/");
           dispatch(getProfilebyId(res.data.user.id));
         })
@@ -46,6 +71,24 @@ const Login = () => {
 
   return (
     <>
+      <Backdrop
+        sx={{
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
+        open={loading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <Snackbar open={error} autoHideDuration={6000} onClose={handleCloseError}>
+        <Alert
+          onClose={handleCloseError}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          {errorMsg}
+        </Alert>
+      </Snackbar>
       <div className="back-to-home">
         <a
           href=""
@@ -138,7 +181,7 @@ const Login = () => {
                                 </label>
                               </div>
                             </div>
-                            <small className="text-muted mb-0">
+                            {/* <small className="text-muted mb-0">
                               <a
                                 href="/reset-password"
                                 onClick={(e) => {
@@ -149,7 +192,7 @@ const Login = () => {
                               >
                                 Forgot password ?
                               </a>
-                            </small>
+                            </small> */}
                           </div>
                         </div>
                         {/* end col */}

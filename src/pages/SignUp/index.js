@@ -22,11 +22,14 @@ const CustomInput = React.forwardRef((props, ref) => {
       className="form-control bg-transparent form-control-datepicker"
       onClick={props.onClick}
       value={props.value}
+      name="dob"
       placeholder={
         role === "brands" ? "Brand Creation Date" : "Select Date of Birth"
       }
-      name="dob"
-      style={{ "::placeholder": { color: "white" } }}
+      style={{
+        backgroundColor: "transparent",
+        color: "#fff",
+      }}
       readOnly={true}
     />
   );

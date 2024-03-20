@@ -181,10 +181,10 @@ const Footer = () => {
                       </li>
                       <li>
                         <a
-                          href="/blog-sidebar"
+                          href="/news"
                           onClick={(e) => {
                             e.preventDefault();
-                            navigate("/blog-sidebar");
+                            navigate("/news");
                           }}
                           className="text-foot"
                         >

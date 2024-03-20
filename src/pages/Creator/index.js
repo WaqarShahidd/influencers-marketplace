@@ -1,123 +1,70 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
-import {
-  client01,
-  client02,
-  client03,
-  client04,
-  client05,
-  client06,
-  client07,
-  client08,
-  client09,
-  client10,
-  client11,
-  client12,
-  bg01,
-  work1,
-  work2,
-  work3,
-  work4,
-  work5,
-  work6,
-  work7,
-  work8,
-  work9,
-  work10,
-  work11,
-  work12,
-  defaultImage,
-} from "../../components/imageImport";
+import { bg01, work1, defaultImage, work8 } from "../../components/imageImport";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllInfluencers } from "../../redux/dispatchers/influencers.dispatch";
+import { tns } from "tiny-slider";
 
 const Creator = () => {
   const navigate = useNavigate();
-  const creatorData = [
-    {
-      image: client01,
-      backgroundImage: work1,
-      name: "Steven Townsend",
-      author: "StreetBoy",
-    },
-    {
-      image: client02,
-      backgroundImage: work2,
-      name: "Tiffany Betancourt",
-      author: "CutieGirl",
-    },
-    {
-      image: client03,
-      backgroundImage: work3,
-      name: "Mari Harrington",
-      author: "NorseQueen",
-    },
-    {
-      image: client04,
-      backgroundImage: work4,
-      name: "Floyd Glasgow",
-      author: "BigBull",
-    },
-    {
-      image: client05,
-      backgroundImage: work5,
-      name: "Donna Schultz",
-      author: "Angel",
-    },
-    {
-      image: client06,
-      backgroundImage: work6,
-      name: "Joshua Morris",
-      author: "CrazyAnyone",
-    },
-    {
-      image: client07,
-      backgroundImage: work7,
-      name: "Carl Williams",
-      author: "LooserBad",
-    },
-    {
-      image: client08,
-      backgroundImage: work8,
-      name: "Eugene Green",
-      author: "KristyHoney",
-    },
-    {
-      image: client09,
-      backgroundImage: work9,
-      name: "Julius Canale",
-      author: "PandaOne",
-    },
-    {
-      image: client10,
-      backgroundImage: work10,
-      name: "Michael Williams",
-      author: "FunnyGuy",
-    },
-    {
-      image: client11,
-      backgroundImage: work11,
-      name: "Jacqueline Burns",
-      author: "ButterFly",
-    },
-    {
-      image: client12,
-      backgroundImage: work12,
-      name: "Rosaria Vargas",
-      author: "Princess",
-    },
-  ];
+
+  const location = useLocation();
+  const textReceived = location?.state?.filter;
+  console.log("textReceived", textReceived);
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllInfluencers());
   }, []);
 
-  const { allInfluencers } = useSelector((state) => state.influencer);
+  const { allInfluencers, allTrendingInfluencers } = useSelector(
+    (state) => state.influencer
+  );
   const { userData } = useSelector((state) => state.user);
+  const [search, setsearch] = useState(
+    textReceived === undefined ? "" : textReceived
+  );
+
+  useEffect(() => {
+    if (
+      document.getElementsByClassName("tiny-five-item-nav-arrow").length > 0
+    ) {
+      var slider6 = tns({
+        container: ".tiny-five-item-nav-arrow",
+        controls: true,
+        mouseDrag: true,
+        loop: true,
+        rewind: true,
+        autoplay: true,
+        autoplayButtonOutput: false,
+        autoplayTimeout: 3000,
+        navPosition: "bottom",
+        controlsText: [
+          '<i class="mdi mdi-chevron-left "></i>',
+          '<i class="mdi mdi-chevron-right"></i>',
+        ],
+        nav: false,
+        speed: 400,
+        gutter: 10,
+        responsive: {
+          992: {
+            items: 5,
+          },
+
+          767: {
+            items: 3,
+          },
+
+          320: {
+            items: 1,
+          },
+        },
+      });
+    }
+  }, []);
 
   return (
     <>
@@ -192,64 +139,244 @@ const Creator = () => {
       {/*- Start Section */}
       <section className="section">
         <div className="container">
-          <div className="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 g-4 justify-content-center">
-            {allInfluencers?.map((creator, index) => {
-              return (
-                <div className="col" key={index}>
-                  <div className="card creators creators-two creator-primary rounded-md shadow overflow-hidden">
-                    <div
-                      className="py-5"
-                      style={{ background: `url(${work1})` }}
-                    ></div>
-                    <div className="position-relative mt-n5">
-                      {creator?.avatar === null ? (
-                        <img
-                          src={defaultImage}
-                          className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
-                          alt=""
-                        />
-                      ) : (
-                        <img
-                          src={creator?.avatar}
-                          className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
-                          alt=""
-                          style={{ objectFit: "contain" }}
-                        />
-                      )}
+          <div className="row justify-content-center">
+            <div className="col-12">
+              <div className="features-absolute">
+                <div className="row justify-content-center" id="reserve-form">
+                  <div className="col-xl-10 mt-lg-5">
+                    <div className="card bg-white feature-top border-0 shadow rounded p-3">
+                      <form>
+                        <div className="registration-form text-dark text-start">
+                          <div
+                            className="row g-lg-0"
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "flex-end",
+                            }}
+                          >
+                            <div className="col-lg-3 col-md-6 search-bar-homepage">
+                              <div className="filter-search-form position-relative filter-border">
+                                <i className="uil uil-search icons"></i>
+                                <input
+                                  name="name"
+                                  type="text"
+                                  id="search-keyword"
+                                  className="form-control filter-input-box bg-light border-0"
+                                  placeholder="Search here..."
+                                  style={{ borderRadius: "8px" }}
+                                  value={search}
+                                  onChange={(e) => setsearch(e.target.value)}
+                                />
+                              </div>
+                            </div>
+                            {/*end col*/}
 
-                      <div className="content text-center pt-2 p-4">
-                        <a
-                          href={`/creator-profile/${creator?.id}`}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            navigate(`/creator-profile/${creator?.id}`);
-                          }}
-                          className="text-dark h6 name d-block mb-0"
-                        >
-                          {creator?.first_name}
-                        </a>
-                        {creator?.display_name && (
-                          <small className="text-muted">
-                            @{creator?.display_name}
-                          </small>
-                        )}
-                        {userData?.id !== creator?.id && (
-                          <div className="mt-3">
-                            <a
-                              href=""
-                              onClick={(e) => e.preventDefault()}
-                              className="btn btn-pills btn-soft-primary"
-                            >
-                              Follow
-                            </a>
+                            <div className="col-lg-3 col-md-6 mt-3 mt-lg-0 search-btn-homepage">
+                              <input
+                                type="submit"
+                                id="search"
+                                name="search"
+                                style={{ height: 60 }}
+                                className="btn btn-primary rounded-md searchbtn submit-btn w-100"
+                                value="Search"
+                              />
+                            </div>
+                            {/*end col*/}
                           </div>
+                          {/*end row*/}
+                        </div>
+                        {/*end container*/}
+                      </form>
+                    </div>
+                  </div>
+                  {/*ed col*/}
+                </div>
+                {/*end row*/}
+              </div>
+            </div>
+            {/*end col*/}
+          </div>
+
+          <div className="container mt-50 mt-60">
+            <div className="title-heading">
+              <h5 className="heading fw-semibold sub-heading text-white title-dark">
+                Trending Creators
+              </h5>
+            </div>
+            <div className="row">
+              <div className="col-12 mt-3">
+                <div className="tiny-five-item-nav-arrow">
+                  {allTrendingInfluencers?.map((data, index) => {
+                    return (
+                      <div
+                        className="tiny-slide"
+                        key={index}
+                        style={{ cursor: "pointer" }}
+                      >
+                        <div className="card creators creators-two creator-primary rounded-md shadow overflow-hidden mx-2 my-3">
+                          <div
+                            className="py-5"
+                            style={{ background: `url(${work8})` }}
+                          ></div>
+                          <div className="position-relative mt-n5">
+                            {data?.avatar === null ? (
+                              <img
+                                src={defaultImage}
+                                className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
+                                alt=""
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigate(`/creator-profile/${data?.id}`);
+                                }}
+                              />
+                            ) : (
+                              <img
+                                src={data?.avatar}
+                                className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
+                                alt=""
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigate(`/creator-profile/${data?.id}`);
+                                }}
+                                style={{ objectFit: "contain" }}
+                              />
+                            )}
+
+                            <div className="content text-center pt-2 p-2">
+                              <a
+                                href={`/creator-profile/${data?.id}`}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigate(`/creator-profile/${data?.id}`);
+                                }}
+                                className="text-dark h6 name d-block mb-0"
+                              >
+                                {data?.first_name}
+                              </a>
+                              {data?.display_name && (
+                                <small className="text-muted">
+                                  @{data?.display_name}
+                                </small>
+                              )}
+                              <br />
+                              <p
+                                style={{
+                                  marginTop: "10px",
+                                  color: "#b5bdc9",
+                                  display: "-webkit-box",
+                                  WebkitBoxOrient: "vertical",
+                                  WebkitLineClamp: 2,
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  maxWidth: "95%",
+                                  textAlign: "center",
+                                }}
+                              >
+                                {data?.bio}
+                              </p>
+
+                              {/* <div className="mt-3">
+                              <a
+                                href=""
+                                onClick={(e) => e.preventDefault()}
+                                className="btn btn-pills btn-soft-primary"
+                              >
+                                Follow
+                              </a>
+                            </div> */}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  {/*end slide*/}
+                </div>
+              </div>
+              {/*end col*/}
+            </div>
+          </div>
+          <div
+            className="title-heading"
+            style={{ marginBottom: "50px", marginTop: "30px" }}
+          >
+            <h5 className="heading fw-semibold sub-heading text-white title-dark">
+              All Creators
+            </h5>
+          </div>
+          <div className="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 g-4 justify-content-center">
+            {allInfluencers
+              ?.filter(
+                (val) =>
+                  val.first_name
+                    ?.toLowerCase()
+                    .includes(search?.toLowerCase()) ||
+                  val.display_name
+                    ?.toLowerCase()
+                    .includes(search?.toLowerCase())
+              )
+              ?.map((creator, index) => {
+                return (
+                  <div className="col" key={index}>
+                    <div className="card creators creators-two creator-primary rounded-md shadow overflow-hidden">
+                      <div
+                        className="py-5"
+                        style={{ background: `url(${work1})` }}
+                      ></div>
+                      <div className="position-relative mt-n5">
+                        {creator?.avatar === null ? (
+                          <img
+                            src={defaultImage}
+                            className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
+                            alt=""
+                          />
+                        ) : (
+                          <img
+                            src={creator?.avatar}
+                            className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
+                            alt=""
+                            style={{ objectFit: "contain" }}
+                          />
                         )}
+
+                        <div className="content text-center pt-2 p-4">
+                          <a
+                            href={`/creator-profile/${creator?.id}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(`/creator-profile/${creator?.id}`);
+                            }}
+                            className="text-dark h6 name d-block mb-0"
+                          >
+                            {creator?.first_name}
+                          </a>
+                          {creator?.display_name && (
+                            <small className="text-muted">
+                              @{creator?.display_name}
+                            </small>
+                          )}
+                          <p
+                            style={{
+                              marginTop: "10px",
+                              color: "#b5bdc9",
+                              display: "-webkit-box",
+                              WebkitBoxOrient: "vertical",
+                              WebkitLineClamp: 2,
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              maxWidth: "95%",
+                              textAlign: "center",
+                            }}
+                          >
+                            {creator?.bio}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
             {/*-end col*/}
           </div>
           {/*-end row*/}
@@ -258,16 +385,14 @@ const Creator = () => {
             <div className="col-12 mt-4 pt-2">
               <ul className="pagination justify-content-center mb-0">
                 <li className="page-item">
-                  <a className="page-link" href="#" aria-label="Previous">
+                  <a className="page-link" aria-label="Previous">
                     <span aria-hidden="true">
                       <i className="uil uil-arrow-left fs-5"></i>
                     </span>
                   </a>
                 </li>
                 <li className="page-item active">
-                  <a className="page-link" href="#">
-                    1
-                  </a>
+                  <a className="page-link">1</a>
                 </li>
                 {/* <li className="page-item active">
                   <a className="page-link" href="#">
@@ -280,7 +405,7 @@ const Creator = () => {
                   </a>
                 </li> */}
                 <li className="page-item">
-                  <a className="page-link" href="#" aria-label="Next">
+                  <a className="page-link" aria-label="Next">
                     <span aria-hidden="true">
                       <i className="uil uil-arrow-right fs-5"></i>
                     </span>

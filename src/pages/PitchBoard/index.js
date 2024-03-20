@@ -3,38 +3,22 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
-import {
-  bg01,
-  item1,
-  item2,
-  item3,
-  item4,
-  item5,
-  item6,
-  gif1,
-  gif2,
-  gif3,
-  gif4,
-  gif5,
-  gif6,
-  popular1,
-  popular2,
-  news4,
-  job3,
-  news1,
-} from "../../components/imageImport";
+import { bg01 } from "../../components/imageImport";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPitches } from "../../redux/dispatchers/pitch.dispatch";
 import moment from "moment";
+import { Backdrop, CircularProgress, useMediaQuery } from "@mui/material";
 
 const PitchBoard = () => {
   const navigate = useNavigate();
+
+  const isMobile = useMediaQuery("(max-width:767px)");
 
   const [search, setSearch] = useState("");
 
   const dispatch = useDispatch();
 
-  const { userData } = useSelector((state) => state.user);
+  const { allJobs } = useSelector((state) => state.jobs);
   const { allPitches } = useSelector((state) => state.pitch);
 
   useEffect(() => {
@@ -129,10 +113,7 @@ const PitchBoard = () => {
                               alignItems: "flex-end",
                             }}
                           >
-                            <div
-                              className="col-lg-3 col-md-6"
-                              style={{ width: "70%" }}
-                            >
+                            <div className="col-lg-3 col-md-6 search-bar-homepage">
                               <div className="filter-search-form position-relative filter-border">
                                 <i className="uil uil-search icons"></i>
                                 <input
@@ -149,50 +130,7 @@ const PitchBoard = () => {
                             </div>
                             {/*end col*/}
 
-                            {/* <div className="col-lg-3 col-md-6 mt-3 mt-md-0">
-                              <div className="filter-search-form position-relative filter-border">
-                                <i className="uil uil-usd-circle icons"></i>
-                                <select
-                                  className="form-select"
-                                  data-trigger
-                                  name="choices-criteria"
-                                  id="choices-criteria"
-                                  aria-label="Default select example"
-                                  defaultValue={"Auction Product"}
-                                >
-                                  <option value="1">Auction Product</option>
-                                  <option value="2">On Sale</option>
-                                  <option value="3">Offers</option>
-                                </select>
-                              </div>
-                            </div> */}
-                            {/*end col*/}
-
-                            {/* <div className="col-lg-3 col-md-6 mt-3 mt-lg-0">
-                              <div className="filter-search-form position-relative filter-border">
-                                <i className="uil uil-window icons"></i>
-                                <select
-                                  className="form-select "
-                                  data-trigger
-                                  name="choices-type"
-                                  id="choices-type"
-                                  aria-label="Default select example"
-                                  defaultValue={"Art"}
-                                >
-                                  <option value="1">Art</option>
-                                  <option value="2">Games</option>
-                                  <option value="3">Music</option>
-                                  <option value="4">Videos</option>
-                                  <option value="5">Memes</option>
-                                </select>
-                              </div>
-                            </div> */}
-                            {/*end col*/}
-
-                            <div
-                              className="col-lg-3 col-md-6 mt-3 mt-lg-0"
-                              style={{ width: "25%" }}
-                            >
+                            <div className="col-lg-3 col-md-6 mt-3 mt-lg-0 search-btn-homepage">
                               <input
                                 type="submit"
                                 id="search"
@@ -221,22 +159,27 @@ const PitchBoard = () => {
         </div>
         <div
           className="row g-4"
-          style={{ marginRight: "100px", marginLeft: "100px" }}
+          style={{ marginRight: "5%", marginLeft: "5%" }}
         >
           {allPitches
-            ?.filter((val) => val?.title.includes(search))
+            ?.filter((val) =>
+              val?.title.toLowerCase().includes(search.toLowerCase())
+            )
             ?.map((data) => {
               return (
                 <div className="col-12" key={data?.title}>
                   <div className="card activity activity-primary rounded-md shadow p-4">
                     <div className="d-flex align-items-center">
-                      <div className="position-relative">
+                      <div
+                        className="position-relative"
+                        style={{ alignSelf: "flex-start", marginTop: "7.5px" }}
+                      >
                         <img
                           src={data?.image_url}
                           className="avatar avatar-md-md rounded-md shadow-md"
                           alt=""
                           style={{
-                            width: "175px",
+                            width: isMobile ? "175px" : "250px",
                             height: "175px",
                             objectFit: "cover",
                           }}
@@ -256,17 +199,37 @@ const PitchBoard = () => {
                       </div>
 
                       <span className="content" style={{ marginLeft: "30px" }}>
-                        <a
-                          // href="/item-detail-one"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            // navigate("/item-detail-one");
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
                           }}
-                          className="text-dark title d-block"
-                          style={{ fontSize: "24px", marginBottom: "10px" }}
                         >
-                          {data?.title}
-                        </a>
+                          <a
+                            // href="/item-detail-one"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate("/pitch-detail", {
+                                state: { filter: data },
+                              });
+                            }}
+                            className="text-dark title d-block"
+                            style={{
+                              fontSize: "24px",
+                              marginBottom: "10px",
+                              cursor: "pointer",
+                            }}
+                          >
+                            {data?.title}
+                          </a>
+                          <a
+                            href=""
+                            className="badge tag pitch-gradient rounded-md fw-bold"
+                          >
+                            Pitch
+                          </a>
+                        </div>
                         <small
                           className="text-muted d-block"
                           style={{
@@ -298,30 +261,7 @@ const PitchBoard = () => {
                           {data?.creative_idea}
                         </span>
 
-                        <div className="social-icons">
-                          {data?.user?.twitter_url && (
-                            <a href="#" className="social-icon facebook">
-                              <i className="uil uil-facebook-f"></i>
-                            </a>
-                          )}
-                          {data?.user?.instagram_url && (
-                            <a href="#" className="social-icon instagram">
-                              <i className="uil uil-instagram"></i>
-                            </a>
-                          )}
-                          {data?.user?.snapchat_url && (
-                            <a href="#" className="social-icon snapchat">
-                              <i className="uil uil-snapchat-ghost"></i>
-                            </a>
-                          )}
-                          {data?.user?.youtube_url && (
-                            <a href="#" className="social-icon youtube">
-                              <i className="uil uil-youtube"></i>
-                            </a>
-                          )}
-                        </div>
-
-                        <small className="text-muted d-block mt-3">
+                        <small className="text-muted d-block mt-3 mb-3">
                           {data?.user?.first_name}
                           {"   "}
                           <a
@@ -338,6 +278,251 @@ const PitchBoard = () => {
                           {"  "}
                           {moment(data?.createdAt).fromNow()}
                         </small>
+                        <div className="social-icons">
+                          {data?.user?.facebook_url && (
+                            <a
+                              href="#"
+                              className="social-icon facebook"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                window.open(data?.user?.facebook_url, "_blank");
+                              }}
+                            >
+                              <i className="uil uil-facebook-f"></i>
+                            </a>
+                          )}
+                          {data?.user?.instagram_url && (
+                            <a
+                              href="#"
+                              className="social-icon instagram"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                window.open(
+                                  data?.user?.instagram_url,
+                                  "_blank"
+                                );
+                              }}
+                            >
+                              <i className="uil uil-instagram"></i>
+                            </a>
+                          )}
+                          {data?.user?.snapchat_url && (
+                            <a
+                              href="#"
+                              className="social-icon snapchat"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                window.open(data?.user?.snapchat_url, "_blank");
+                              }}
+                            >
+                              <i className="uil uil-snapchat-ghost"></i>
+                            </a>
+                          )}
+                          {data?.user?.youtube_url && (
+                            <a
+                              href="#"
+                              className="social-icon youtube"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                window.open(data?.user?.youtube_url, "_blank");
+                              }}
+                            >
+                              <i className="uil uil-youtube"></i>
+                            </a>
+                          )}
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          {allJobs
+            ?.filter((val) =>
+              val?.title.toLowerCase().includes(search.toLowerCase())
+            )
+            ?.map((data) => {
+              return (
+                <div className="col-12" key={data?.title}>
+                  <div className="card activity activity-primary rounded-md shadow p-4">
+                    <div className="d-flex align-items-center">
+                      <div
+                        className="position-relative"
+                        style={{ alignSelf: "flex-start", marginTop: "7.5px" }}
+                      >
+                        <img
+                          src={data?.image_url}
+                          className="avatar avatar-md-md rounded-md shadow-md"
+                          alt=""
+                          style={{
+                            width: isMobile ? "175px" : "250px",
+                            height: "175px",
+                            objectFit: "cover",
+                          }}
+                        />
+
+                        {/* <div className="position-absolute top-0 start-0 translate-middle px-1 rounded-lg shadow-md bg-white">
+                        {data?.favorite === "Started Following" ? (
+                          <i className="mdi mdi-account-check mdi-18px text-success"></i>
+                        ) : data?.favorite === "Liked by" ? (
+                          <i className="mdi mdi-heart mdi-18px text-danger"></i>
+                        ) : (
+                          <i className="mdi mdi-format-list-bulleted mdi-18px text-warning"></i>
+                        )}
+                      </div> */}
+                        <div className="position-absolute top-0 start-0 translate-middle px-1 rounded-lg shadow-md bg-white"></div>
+                        <div className="position-absolute top-0 start-0 translate-middle px-1 rounded-lg shadow-md bg-white"></div>
+                      </div>
+
+                      <span className="content" style={{ marginLeft: "30px" }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <a
+                            // href="/item-detail-one"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(`/job-detail/${data?.id}`);
+                            }}
+                            className="text-dark title d-block"
+                            style={{
+                              fontSize: "24px",
+                              marginBottom: "10px",
+                              cursor: "pointer",
+                            }}
+                          >
+                            {data?.title}
+                          </a>
+                          <a
+                            href=""
+                            className="badge tag pitch-gradient rounded-md fw-bold"
+                          >
+                            Job
+                          </a>
+                        </div>
+                        <small
+                          className="text-muted d-block"
+                          style={{
+                            marginTop: "10px",
+                            marginBottom: "10px",
+                          }}
+                        >
+                          Job Type:{" "}
+                          <a
+                            href=""
+                            onClick={(e) => e.preventDefault()}
+                            className="link fw-bold"
+                            style={{ cursor: "default" }}
+                          >
+                            {data?.job_type}
+                          </a>
+                        </small>
+
+                        <small
+                          className="text-muted d-block"
+                          style={{
+                            marginTop: "10px",
+                            marginBottom: "10px",
+                          }}
+                        >
+                          Salary Range:{" "}
+                          <a
+                            href=""
+                            onClick={(e) => e.preventDefault()}
+                            className="link fw-bold"
+                            style={{ cursor: "default" }}
+                          >
+                            {data?.salary}
+                          </a>
+                        </small>
+                        <span
+                          className="creative-idea"
+                          style={{
+                            marginTop: "10px",
+                            display: "-webkit-box",
+                            WebkitBoxOrient: "vertical",
+                            WebkitLineClamp: 2,
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {data?.description}
+                        </span>
+
+                        <small className="text-muted d-block mt-3 mb-3">
+                          {data?.user?.first_name}
+                          {"   "}
+                          <a
+                            href=""
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(`/creator-profile/${data?.user?.id}`);
+                            }}
+                            className="link fw-bold"
+                          >
+                            @{data?.user?.display_name}
+                          </a>
+                          {"  "}&#8226;{"     "}
+                          {"  "}
+                          {moment(data?.createdAt).fromNow()}
+                        </small>
+                        <div className="social-icons">
+                          {data?.user?.facebook_url && (
+                            <a
+                              href="#"
+                              className="social-icon facebook"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                window.open(data?.user?.facebook_url, "_blank");
+                              }}
+                            >
+                              <i className="uil uil-facebook-f"></i>
+                            </a>
+                          )}
+                          {data?.user?.instagram_url && (
+                            <a
+                              href="#"
+                              className="social-icon instagram"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                window.open(
+                                  data?.user?.instagram_url,
+                                  "_blank"
+                                );
+                              }}
+                            >
+                              <i className="uil uil-instagram"></i>
+                            </a>
+                          )}
+                          {data?.user?.snapchat_url && (
+                            <a
+                              href="#"
+                              className="social-icon snapchat"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                window.open(data?.user?.snapchat_url, "_blank");
+                              }}
+                            >
+                              <i className="uil uil-snapchat-ghost"></i>
+                            </a>
+                          )}
+                          {data?.user?.youtube_url && (
+                            <a
+                              href="#"
+                              className="social-icon youtube"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                window.open(data?.user?.youtube_url, "_blank");
+                              }}
+                            >
+                              <i className="uil uil-youtube"></i>
+                            </a>
+                          )}
+                        </div>
                       </span>
                     </div>
                   </div>

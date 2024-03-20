@@ -20,16 +20,15 @@ import {
   job2,
   job3,
   defaultImage,
-  client01,
 } from "../../components/imageImport";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { getAllWork } from "../../redux/dispatchers/work.dispatch";
+import { Backdrop, CircularProgress, useMediaQuery } from "@mui/material";
 import axios from "axios";
 import { BASE_URL } from "../../constants/config";
-import { Backdrop, CircularProgress, useMediaQuery } from "@mui/material";
 
-const CreateProfile = () => {
+const MyProfile = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -98,39 +97,42 @@ const CreateProfile = () => {
     },
   ];
 
-  const isMobile = useMediaQuery("(max-width:767px)");
-  const isSmall = useMediaQuery("(max-width:980px)");
+  const [allData, setAllData] = useState(AuctionData);
+  const [type, setType] = useState("all");
+
+  const setFilter = (type) => {
+    setType(type);
+    const newOne = AuctionData?.filter((data) => data?.filter?.includes(type));
+    setAllData(newOne);
+  };
 
   const { userData } = useSelector((state) => state.user);
   const { allWorks } = useSelector((state) => state.work);
+  const { allInfluencers } = useSelector((state) => state.influencer);
+  const { allJobs } = useSelector((state) => state.jobs);
+
+  const influencerNews = allInfluencers?.find(
+    (user) => user?.id === userData?.id
+  )?.influencer_news;
 
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllWork(userData?.id));
+  }, []);
+
+  const isMobile = useMediaQuery("(max-width:767px)");
+  const isSmall = useMediaQuery("(max-width:980px)");
 
   const [loading, setloading] = useState(false);
 
-  const [profileDetails, setProfileDetails] = useState({});
   const [workDetails, setworkDetails] = useState([]);
   const [creatorPitches, setcreatorPitches] = useState([]);
   const [brandJobs, setbrandJobs] = useState([]);
 
-  const GetProfileById = () => {
-    setloading(true);
-    axios
-      .get(`${BASE_URL}/api/user/profileView?userId=${id}`)
-      .then((res) => {
-        setloading(false);
-        setProfileDetails(res.data.user);
-      })
-      .catch((error) => {
-        console.log("error", error.response.data.message);
-        setloading(false);
-      });
-  };
-
   const CreatorWork = () => {
     setloading(true);
     axios
-      .get(`${BASE_URL}/api/work/getOneWorkByUserId?user_id=${id}`)
+      .get(`${BASE_URL}/api/work/getOneWorkByUserId?user_id=${userData?.id}`)
       .then((res) => {
         setloading(false);
         setworkDetails(res.data.workResult);
@@ -144,7 +146,7 @@ const CreateProfile = () => {
   const CreatorPitch = () => {
     setloading(true);
     axios
-      .get(`${BASE_URL}/api/pitch/getOnePitchByUserId?user_id=${id}`)
+      .get(`${BASE_URL}/api/pitch/getOnePitchByUserId?user_id=${userData?.id}`)
       .then((res) => {
         setloading(false);
         setcreatorPitches(res.data.pitchResult);
@@ -158,7 +160,7 @@ const CreateProfile = () => {
   const BrandJobs = () => {
     setloading(true);
     axios
-      .get(`${BASE_URL}/api/job/getOneJobByUserId?user_id=${id}`)
+      .get(`${BASE_URL}/api/job/getOneJobByUserId?user_id=${userData?.id}`)
       .then((res) => {
         setloading(false);
         setbrandJobs(res.data.jobResult);
@@ -171,19 +173,9 @@ const CreateProfile = () => {
 
   useEffect(() => {
     CreatorWork();
-    GetProfileById();
     CreatorPitch();
     BrandJobs();
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
   }, []);
-
-  const { allInfluencers } = useSelector((state) => state.influencer);
-  const { allJobs } = useSelector((state) => state.jobs);
-
-  const influencerNews = allInfluencers?.find(
-    (user) => user?.id === parseInt(id)
-  )?.influencer_news;
 
   return (
     <>
@@ -220,7 +212,7 @@ const CreateProfile = () => {
                   style={{ background: `url(${work1})` }}
                 ></div>
                 <div className="position-relative mt-n5">
-                  {profileDetails?.avatar === null ? (
+                  {userData?.avatar === null ? (
                     <img
                       src={defaultImage}
                       className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
@@ -228,7 +220,7 @@ const CreateProfile = () => {
                     />
                   ) : (
                     <img
-                      src={profileDetails?.avatar}
+                      src={userData?.avatar}
                       className="avatar avatar-md-md rounded-pill shadow-sm bg-light img-thumbnail mx-auto d-block"
                       alt=""
                       style={{ objectFit: "contain" }}
@@ -242,13 +234,12 @@ const CreateProfile = () => {
                         e.preventDefault();
                       }}
                       className="text-dark h6 name d-block mb-0"
-                      style={{ cursor: "default" }}
                     >
-                      {profileDetails?.first_name}
+                      {userData?.first_name}
                     </a>
-                    {profileDetails?.display_name && (
+                    {userData?.display_name && (
                       <small className="text-muted">
-                        @{profileDetails?.display_name}
+                        @{userData?.display_name}
                       </small>
                     )}
                   </div>
@@ -293,7 +284,7 @@ const CreateProfile = () => {
                         marginBottom: "0px",
                       }}
                     >
-                      {moment(profileDetails?.dob).format("DD MMM")}
+                      {moment(userData?.dob).format("DD MMM")}
                     </p>
                   </div>
                   {/* <div
@@ -314,7 +305,7 @@ const CreateProfile = () => {
                     </p>
                   </div> */}
                 </div>
-                {profileDetails?.bio && (
+                {userData?.bio && (
                   <div
                     style={{
                       paddingTop: "20px",
@@ -327,7 +318,7 @@ const CreateProfile = () => {
                     }}
                   >
                     <h5 style={{ fontWeight: "700" }}>Bio</h5>
-                    <p style={{ fontSize: "14px" }}>{profileDetails?.bio}</p>
+                    <p style={{ fontSize: "14px" }}>{userData?.bio}</p>
                   </div>
                 )}
 
@@ -345,7 +336,7 @@ const CreateProfile = () => {
                   <h5 style={{ fontWeight: "700", marginBottom: "25px" }}>
                     Social Channels
                   </h5>
-                  {profileDetails?.facebook_url && (
+                  {userData?.facebook_url && (
                     <div
                       style={{
                         display: "flex",
@@ -353,22 +344,12 @@ const CreateProfile = () => {
                       }}
                     >
                       <img src={social1} style={{ height: 20, width: 20 }} />
-                      <p
-                        style={{
-                          lineHeight: 1,
-                          marginLeft: "15px",
-                          cursor: "pointer",
-                        }}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          window.open(profileDetails?.facebook_url, "_blank");
-                        }}
-                      >
-                        {profileDetails?.facebook_url}
+                      <p style={{ lineHeight: 1, marginLeft: "15px" }}>
+                        {userData?.facebook_url}
                       </p>
                     </div>
                   )}
-                  {profileDetails?.instagram_url && (
+                  {userData?.instagram_url && (
                     <div
                       style={{
                         display: "flex",
@@ -376,22 +357,12 @@ const CreateProfile = () => {
                       }}
                     >
                       <img src={social4} style={{ height: 20, width: 20 }} />
-                      <p
-                        style={{
-                          lineHeight: 1,
-                          marginLeft: "15px",
-                          cursor: "pointer",
-                        }}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          window.open(profileDetails?.instagram_url, "_blank");
-                        }}
-                      >
-                        {profileDetails?.instagram_url}
+                      <p style={{ lineHeight: 1, marginLeft: "15px" }}>
+                        {userData?.instagram_url}
                       </p>
                     </div>
                   )}
-                  {profileDetails?.tiktok_url && (
+                  {userData?.tiktok_url && (
                     <div
                       style={{
                         display: "flex",
@@ -399,22 +370,12 @@ const CreateProfile = () => {
                       }}
                     >
                       <img src={social3} style={{ height: 20, width: 20 }} />
-                      <p
-                        style={{
-                          lineHeight: 1,
-                          marginLeft: "15px",
-                          cursor: "pointer",
-                        }}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          window.open(profileDetails?.tiktok_url, "_blank");
-                        }}
-                      >
-                        {profileDetails?.tiktok_url}
+                      <p style={{ lineHeight: 1, marginLeft: "15px" }}>
+                        {userData?.tiktok_url}
                       </p>
                     </div>
                   )}
-                  {profileDetails?.youtube_url && (
+                  {userData?.youtube_url && (
                     <div
                       style={{
                         display: "flex",
@@ -422,18 +383,8 @@ const CreateProfile = () => {
                       }}
                     >
                       <img src={social2} style={{ height: 20, width: 20 }} />
-                      <p
-                        style={{
-                          lineHeight: 1,
-                          marginLeft: "15px",
-                          cursor: "pointer",
-                        }}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          window.open(profileDetails?.youtube_url, "_blank");
-                        }}
-                      >
-                        {profileDetails?.youtube_url}
+                      <p style={{ lineHeight: 1, marginLeft: "15px" }}>
+                        youtube.com/lizhales_5864
                       </p>
                     </div>
                   )}
@@ -442,7 +393,7 @@ const CreateProfile = () => {
             </div>
             {/*end col*/}
 
-            {profileDetails?.role === "brands" ? (
+            {userData?.role === "brands" ? (
               <>
                 {brandJobs?.length > 0 && (
                   <div
@@ -540,7 +491,7 @@ const CreateProfile = () => {
                                 href=""
                                 onClick={(e) => {
                                   e.preventDefault();
-                                  navigate(`/job-detail/${data?.id}`);
+                                  navigate(`/blog-detail/${data?.id}`);
                                 }}
                                 data-bs-toggle="modal"
                                 data-bs-target="#LoginForm"
@@ -745,92 +696,6 @@ const CreateProfile = () => {
           </div>
         </div>
 
-        {/* Jobs */}
-        {/* {profileDetails?.role === "brands" && brandJobs?.length > 0 && (
-          <div className="container" style={{ marginBottom: "100px" }}>
-            <h1
-              className="title"
-              style={{
-                marginTop: "45px",
-                textAlign: "center",
-                fontWeight: "bolder",
-                marginBottom: "20px",
-              }}
-            >
-              {profileDetails?.first_name}'s Posted Jobs
-            </h1>
-
-            <div
-              className="row row-cols-xl-4 row-cols-lg-3 row-cols-sm-2 g-4 mt-4 mb-4 pb-2"
-              id="grid"
-            >
-              {brandJobs?.map((data, index) => {
-                return (
-                  <div className="col picture-item" key={data?.id}>
-                    <div className="card nft-items nft-primary rounded-md shadow overflow-hidden mb-1">
-                      <div className="nft-image position-relative overflow-hidden">
-                        <img
-                          src={data?.image_url}
-                          className="img-fluid"
-                          alt=""
-                        />
-
-                        
-                      </div>
-
-                      <div
-                        className="card-body content position-relative"
-                        style={{ padding: "10px" }}
-                      >
-                        
-
-                        <div className="">
-                          <a
-                            href={`/job-detail/${data?.id}`}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              navigate(`/job-detail/${data?.id}`);
-                            }}
-                            className="title text-dark h6"
-                          >
-                            {data?.title}
-                          </a>
-
-                          <div
-                            className="d-flex justify-content-between mt-2"
-                            style={{ alignItems: "baseline" }}
-                          >
-                            <small
-                              style={{
-                                letterSpacing: 2,
-                                fontSize: "12px",
-                              }}
-                            >
-                              Type:
-                              <small className="rate fw-bold">
-                                {" "}
-                                {data?.job_type}
-                              </small>
-                            </small>
-                            <small
-                              className=" fw-bold"
-                              style={{ fontSize: "12px" }}
-                            >
-                              <i className="uil uil-calendar-alt text-dark h6 me-1"></i>
-                              {moment(data?.createdAt).format("DD MMM YYYY")}
-                            </small>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-          </div>
-        )} */}
-
         {/* Work */}
         {workDetails?.length > 0 && (
           <div className="container" style={{ marginBottom: "100px" }}>
@@ -843,7 +708,7 @@ const CreateProfile = () => {
                 marginBottom: "20px",
               }}
             >
-              {profileDetails?.first_name}'s Work
+              {userData?.first_name}'s Work
             </h1>
 
             <div
@@ -1002,7 +867,7 @@ const CreateProfile = () => {
                 fontWeight: "bolder",
               }}
             >
-              {profileDetails?.first_name}'s Pitches
+              {userData?.first_name}'s Pitches
             </h1>
 
             <div
@@ -1282,4 +1147,4 @@ const CreateProfile = () => {
   );
 };
 
-export default CreateProfile;
+export default MyProfile;

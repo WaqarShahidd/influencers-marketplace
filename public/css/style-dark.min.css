@@ -217,6 +217,14 @@ a.text-danger:focus {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+a.sign-in-btn {
+  color: #fff !important;
+  cursor: pointer;
+}
+a.sign-in-btn:hover,
+a.sign-in-btn:focus {
+  color: #e40066 !important;
+}
 a.text-dark:hover,
 a.text-dark:focus {
   color: #323c49 !important;
@@ -3081,7 +3089,7 @@ p {
 }
 @media (max-width: 991px) {
   #topnav {
-    background-color: #fff;
+    /* background-color: #fff; */
     box-shadow: 0 0 3px rgba(60, 72, 88, 0.15);
     min-height: 74px;
   }
@@ -4507,6 +4515,12 @@ p {
 }
 .blog.blog-warning .tag.gradient {
   background: linear-gradient(to right, #fa693e 0%, #ffa432 100%) !important;
+}
+.pitch-gradient {
+  background-color: #e40066;
+  font-size: 14px !important;
+  font-weight: 700;
+  letter-spacing: 1.5px !important;
 }
 .blog.blog-warning .title:hover {
   color: #fa693e !important;
@@ -6642,7 +6656,7 @@ a.text-footer:focus {
   border-color: #495057;
 }
 .form-control::placeholder {
-  color: #45484b;
+  color: #b4b5b7;
 }
 .form-check-input {
   background-color: #120b2f;

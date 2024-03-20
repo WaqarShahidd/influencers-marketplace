@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import {
@@ -26,7 +26,7 @@ import { Backdrop, CircularProgress, useMediaQuery } from "@mui/material";
 import { useSelector } from "react-redux";
 import moment from "moment";
 
-const ItemDetailOne = () => {
+const PitchDetail = () => {
   const navigate = useNavigate();
 
   const activityData = [
@@ -52,90 +52,38 @@ const ItemDetailOne = () => {
       image: item2,
     },
   ];
-  const createdData = [
-    {
-      image: gif1,
-      title: "Deep Sea Phantasy",
-      id: "May 29, 2022 6:0:0",
-      type: "GIFs",
-      client: client01,
-      author: "StreetBoy",
-    },
-    {
-      image: item1,
-      title: "CyberPrimal 042 LAN",
-      id: "June 03, 2022 5:3:1",
-      type: "Arts",
-      client: client09,
-      author: "PandaOne",
-    },
-    {
-      image: gif2,
-      title: "Crypto Egg Stamp #5",
-      id: "June 10, 2022 1:0:1",
-      type: "GIFs",
-      client: client02,
-      author: "CutieGirl",
-    },
-    {
-      image: item2,
-      title: "Colorful Abstract Painting",
-      id: "June 18, 2022 1:2:1",
-      type: "Memes",
-      client: client03,
-      author: "NorseQueen",
-    },
-  ];
-
-  const relatedJobs = [
-    {
-      image: job1,
-      title: "Fashion Leader Inspiring Change.",
-      createdBy: "@callyjoe",
-      type: "Job Category",
-    },
-    {
-      image: job2,
-      title: "Fashion Leader Inspiring Change.",
-      createdBy: "@kristyhoney",
-      type: "Job Category",
-    },
-    {
-      image: job3,
-      title: "Fashion Leader Inspiring Change.",
-      createdBy: "@pandaone",
-      type: "Job Category",
-    },
-  ];
 
   const { id } = useParams();
+  const location = useLocation();
+  const pitchDetailReceived = location?.state?.filter;
+  console.log("textReceived", pitchDetailReceived);
 
   const [loading, setloading] = useState(false);
 
   const [jobDetails, setjobDetails] = useState({});
 
-  const GetJobById = () => {
-    setloading(true);
-    axios
-      .get(`${BASE_URL}/api/job/getOneJob?jobId=${id}`)
-      .then((res) => {
-        setloading(false);
-        setjobDetails(res.data.jobResult);
-      })
-      .catch((error) => {
-        console.log("error", error.response.data.message);
-        setloading(false);
-      });
-  };
+  //   const GetJobById = () => {
+  //     setloading(true);
+  //     axios
+  //       .get(`${BASE_URL}/api/job/getOneJob?jobId=${id}`)
+  //       .then((res) => {
+  //         setloading(false);
+  //         setjobDetails(res.data.jobResult);
+  //       })
+  //       .catch((error) => {
+  //         console.log("error", error.response.data.message);
+  //         setloading(false);
+  //       });
+  //   };
 
-  useEffect(() => {
-    GetJobById();
-  }, []);
+  //   useEffect(() => {
+  //     GetJobById();
+  //   }, []);
 
-  const { allJobs } = useSelector((state) => state.jobs);
+  //   const { allJobs } = useSelector((state) => state.jobs);
 
   const sendEmail = (email) => {
-    const subject = `Applying for ${jobDetails?.title}`;
+    const subject = `Applying for ${pitchDetailReceived?.title}`;
     const body = "";
 
     const gmailUrl = `https://mail.google.com/mail/u/0/?view=cm&fs=1&to=${encodeURIComponent(
@@ -151,15 +99,6 @@ const ItemDetailOne = () => {
     <>
       {/* Navbar */}
       <Navbar />
-      <Backdrop
-        sx={{
-          color: "#fff",
-          zIndex: (theme) => theme.zIndex.drawer + 1,
-        }}
-        open={loading}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
 
       {/* Start */}
       <section className="bg-item-detail d-table w-100">
@@ -168,7 +107,7 @@ const ItemDetailOne = () => {
             <div className="col-md-6">
               <div className="sticky-bar">
                 <img
-                  src={jobDetails?.image_url}
+                  src={pitchDetailReceived?.image_url}
                   className="img-fluid rounded-md shadow"
                   alt=""
                   style={{ width: "100%" }}
@@ -181,7 +120,7 @@ const ItemDetailOne = () => {
                 <div className="title-heading">
                   <h4 className="h3 fw-bold mb-0">
                     <span className="text-gradient-primary">
-                      {jobDetails?.title}
+                      {pitchDetailReceived?.title}
                     </span>
                     <br />
                     {/* <span className="text-gradient-primary">Illustration</span>{" "} */}
@@ -194,11 +133,13 @@ const ItemDetailOne = () => {
                       className="mb-0"
                       onClick={(e) => {
                         e.preventDefault();
-                        navigate(`/creator-profile/${jobDetails?.user?.id}`);
+                        navigate(
+                          `/creator-profile/${pitchDetailReceived?.user?.id}`
+                        );
                       }}
                       style={{ cursor: "pointer" }}
                     >
-                      {jobDetails?.user?.first_name}
+                      {pitchDetailReceived?.user?.first_name}
                     </h4>
                     {/* <h6 style={{ marginTop: "10px" }}>Levant</h6> */}
                   </div>
@@ -216,27 +157,13 @@ const ItemDetailOne = () => {
                       style={{ display: "flex", alignItems: "center" }}
                     >
                       <h6 style={{ margin: "0px", marginRight: "10px" }}>
-                        Job Type:{" "}
+                        Price Range:{" "}
                       </h6>
                       <p
                         style={{ margin: "0px", lineHeight: 1 }}
                         className="mb-0 text-muted"
                       >
-                        {jobDetails?.job_type}
-                      </p>
-                    </div>
-                    <div
-                      className="pt-2"
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <h6 style={{ margin: "0px", marginRight: "10px" }}>
-                        Pay:{" "}
-                      </h6>
-                      <p
-                        style={{ margin: "0px", lineHeight: 1 }}
-                        className="mb-0 text-muted"
-                      >
-                        ${jobDetails?.salary}
+                        ${pitchDetailReceived?.price_range}
                       </p>
                     </div>
                   </div>
@@ -254,11 +181,11 @@ const ItemDetailOne = () => {
                       className="btn btn-l btn-pills btn-primary"
                       onClick={(e) => {
                         e.preventDefault();
-                        sendEmail(jobDetails?.user?.email);
+                        sendEmail(pitchDetailReceived?.user?.email);
                       }}
                     >
                       {/* <i className="mdi mdi-cart fs-5 me-2"></i> */}
-                      Apply Now
+                      Contact Creator
                     </a>
                   </div>
                 </div>
@@ -299,21 +226,6 @@ const ItemDetailOne = () => {
                           Socials
                         </button>
                       </li>
-
-                      {/* <li className="nav-item" role="presentation">
-                        <button
-                          className="nav-link"
-                          id="activity-tab"
-                          data-bs-toggle="tab"
-                          data-bs-target="#activity"
-                          type="button"
-                          role="tab"
-                          aria-controls="activity"
-                          aria-selected="false"
-                        >
-                          Activity
-                        </button>
-                      </li> */}
                     </ul>
 
                     <div className="tab-content mt-4 pt-2" id="myTabContent">
@@ -324,14 +236,16 @@ const ItemDetailOne = () => {
                         role="tabpanel"
                         aria-labelledby="detail-tab"
                       >
-                        <p className="text-muted">{jobDetails?.description}</p>
+                        <p className="text-muted">
+                          {pitchDetailReceived?.creative_idea}
+                        </p>
 
                         <h6>Posted by:</h6>
 
                         <div className="creators creator-primary d-flex align-items-center">
                           <div className="position-relative">
                             <img
-                              src={jobDetails?.user?.avatar}
+                              src={pitchDetailReceived?.user?.avatar}
                               className="avatar avatar-md-sm shadow-md rounded-pill"
                               alt=""
                             />
@@ -343,16 +257,16 @@ const ItemDetailOne = () => {
                           <div className="ms-3">
                             <h6 className="mb-0">
                               <a
-                                href={`/creator-profile/${jobDetails?.user?.id}`}
+                                href={`/creator-profile/${pitchDetailReceived?.user?.id}`}
                                 onClick={(e) => {
                                   e.preventDefault();
                                   navigate(
-                                    `/creator-profile/${jobDetails?.user?.id}`
+                                    `/creator-profile/${pitchDetailReceived?.user?.id}`
                                   );
                                 }}
                                 className="text-dark name"
                               >
-                                {jobDetails?.user?.first_name}
+                                {pitchDetailReceived?.user?.first_name}
                               </a>
                             </h6>
                           </div>
@@ -366,87 +280,7 @@ const ItemDetailOne = () => {
                         role="tabpanel"
                         aria-labelledby="bids-tab"
                       >
-                        {/* <div className="creators creator-primary d-flex align-items-center">
-                          <div className="position-relative">
-                            <img
-                              src={client01}
-                              className="avatar avatar-md-sm shadow-md rounded-pill"
-                              alt=""
-                            />
-                          </div>
-
-                          <div className="ms-3">
-                            <h6 className="mb-0">
-                              2 WETH <span className="text-muted">by</span>{" "}
-                              <a
-                                href="/creator-profile"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  navigate("/creator-profile");
-                                }}
-                                className="text-dark name"
-                              >
-                                0xe849fa28a...ea14
-                              </a>
-                            </h6>
-                            <small className="text-muted">6 hours ago</small>
-                          </div>
-                        </div>
-
-                        <div className="creators creator-primary d-flex align-items-center mt-4">
-                          <div className="position-relative">
-                            <img
-                              src={client08}
-                              className="avatar avatar-md-sm shadow-md rounded-pill"
-                              alt=""
-                            />
-                          </div>
-
-                          <div className="ms-3">
-                            <h6 className="mb-0">
-                              0.001 WETH <span className="text-muted">by</span>{" "}
-                              <a
-                                href="/creator-profile"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  navigate("/creator-profile");
-                                }}
-                                className="text-dark name"
-                              >
-                                VOTwear
-                              </a>
-                            </h6>
-                            <small className="text-muted">6 hours ago</small>
-                          </div>
-                        </div>
-
-                        <div className="creators creator-primary d-flex align-items-center mt-4">
-                          <div className="position-relative">
-                            <img
-                              src={client10}
-                              className="avatar avatar-md-sm shadow-md rounded-pill"
-                              alt=""
-                            />
-                          </div>
-
-                          <div className="ms-3">
-                            <h6 className="mb-0">
-                              1.225 WETH <span className="text-muted">by</span>{" "}
-                              <a
-                                href="/creator-profile"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  navigate("/creator-profile");
-                                }}
-                                className="text-dark name"
-                              >
-                                PandaOne
-                              </a>
-                            </h6>
-                            <small className="text-muted">6 hours ago</small>
-                          </div>
-                        </div> */}
-                        {jobDetails?.user?.facebook_url && (
+                        {pitchDetailReceived?.user?.facebook_url && (
                           <div
                             style={{
                               display: "flex",
@@ -466,16 +300,16 @@ const ItemDetailOne = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 window.open(
-                                  jobDetails?.user?.facebook_url,
+                                  pitchDetailReceived?.user?.facebook_url,
                                   "_blank"
                                 );
                               }}
                             >
-                              {jobDetails?.user?.facebook_url}
+                              {pitchDetailReceived?.user?.facebook_url}
                             </p>
                           </div>
                         )}
-                        {jobDetails?.user?.instagram_url && (
+                        {pitchDetailReceived?.user?.instagram_url && (
                           <div
                             style={{
                               display: "flex",
@@ -495,16 +329,16 @@ const ItemDetailOne = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 window.open(
-                                  jobDetails?.user?.instagram_url,
+                                  pitchDetailReceived?.user?.instagram_url,
                                   "_blank"
                                 );
                               }}
                             >
-                              {jobDetails?.user?.instagram_url}
+                              {pitchDetailReceived?.user?.instagram_url}
                             </p>
                           </div>
                         )}
-                        {jobDetails?.user?.tiktok_url && (
+                        {pitchDetailReceived?.user?.tiktok_url && (
                           <div
                             style={{
                               display: "flex",
@@ -524,16 +358,16 @@ const ItemDetailOne = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 window.open(
-                                  jobDetails?.user?.tiktok_url,
+                                  pitchDetailReceived?.user?.tiktok_url,
                                   "_blank"
                                 );
                               }}
                             >
-                              {jobDetails?.user?.tiktok_url}
+                              {pitchDetailReceived?.user?.tiktok_url}
                             </p>
                           </div>
                         )}
-                        {jobDetails?.user?.youtube_url && (
+                        {pitchDetailReceived?.user?.youtube_url && (
                           <div
                             style={{
                               display: "flex",
@@ -553,79 +387,15 @@ const ItemDetailOne = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 window.open(
-                                  jobDetails?.user?.youtube_url,
+                                  pitchDetailReceived?.user?.youtube_url,
                                   "_blank"
                                 );
                               }}
                             >
-                              {jobDetails?.user?.youtube_url}{" "}
+                              {pitchDetailReceived?.user?.youtube_url}{" "}
                             </p>
                           </div>
                         )}
-                      </div>
-
-                      {/* Activity */}
-                      <div
-                        className="tab-pane fade"
-                        id="activity"
-                        role="tabpanel"
-                        aria-labelledby="activity-tab"
-                      >
-                        <div className="row g-4">
-                          {activityData?.map((data) => {
-                            return (
-                              <div className="col-12" key={data?.title}>
-                                <div className="card activity activity-primary rounded-md shadow p-4">
-                                  <div className="d-flex align-items-center">
-                                    <div className="position-relative">
-                                      <img
-                                        src={data?.image}
-                                        className="avatar avatar-md-md rounded-md shadow-md"
-                                        alt=""
-                                      />
-
-                                      <div className="position-absolute top-0 start-0 translate-middle px-1 rounded-lg shadow-md bg-white">
-                                        {data?.favorite ===
-                                        "Started Following" ? (
-                                          <i className="mdi mdi-account-check mdi-18px text-success"></i>
-                                        ) : data?.favorite === "Liked by" ? (
-                                          <i className="mdi mdi-heart mdi-18px text-danger"></i>
-                                        ) : (
-                                          <i className="mdi mdi-format-list-bulleted mdi-18px text-warning"></i>
-                                        )}
-                                      </div>
-                                    </div>
-                                    <span className="content ms-3">
-                                      <a
-                                        href=""
-                                        onClick={(e) => e.preventDefault()}
-                                        className="text-dark title mb-0 h6 d-block"
-                                      >
-                                        {data?.time}
-                                      </a>
-                                      <small className="text-muted d-block mt-1">
-                                        {data?.favorite}{" "}
-                                        <a
-                                          href=""
-                                          onClick={(e) => e.preventDefault()}
-                                          className="link fw-bold"
-                                        >
-                                          @{data?.author}
-                                        </a>
-                                      </small>
-
-                                      <small className="text-muted d-block mt-1">
-                                        {data?.time}
-                                      </small>
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          })}
-                          {/*end col*/}
-                        </div>
-                        {/*end row*/}
                       </div>
                     </div>
                   </div>
@@ -637,250 +407,6 @@ const ItemDetailOne = () => {
           {/*end row*/}
         </div>
         {/*end container*/}
-
-        <div className="container mt-100 mt-60">
-          <div className="row justify-content-center">
-            <div className="col">
-              <h1
-                className="title"
-                style={{
-                  marginTop: "45px",
-                  textAlign: "center",
-                  fontWeight: "bolder",
-                  marginBottom: "50px",
-                }}
-              >
-                Related Jobs
-              </h1>
-            </div>
-            {/*end col*/}
-          </div>
-          {/*end row*/}
-
-          <div className="row g-4">
-            {allJobs?.map((data, index) => {
-              return (
-                index < 3 &&
-                data?.id !== parseInt(id) && (
-                  <div className="col-lg-4 col-md-6" key={data?.title}>
-                    <div className="card blog blog-primary shadow rounded-md overflow-hidden">
-                      <div
-                        className="position-relative"
-                        style={{ display: "flex", justifyContent: "center" }}
-                      >
-                        <img
-                          src={data?.image_url}
-                          className="img-fluid rounded-md"
-                          alt=""
-                          style={{ height: "200px" }}
-                        />
-                        {/* <div className="position-absolute top-0 end-0 m-3">
-                        <span className="like-icon shadow-sm">
-                          <a
-                            href=""
-                            onClick={(e) => e.preventDefault()}
-                            className="text-muted icon"
-                          >
-                            <i className="mdi mdi-18px mdi-heart mb-0"></i>
-                          </a>
-                        </span>
-                      </div> */}
-                      </div>
-                      <div className="card-body position-relative p-4">
-                        <a
-                          onClick={(e) => {
-                            e.preventDefault();
-                            console.log(data?.id, id, data?.id === id);
-                          }}
-                          href=""
-                          className="badge tag gradient rounded-md fw-bold"
-                        >
-                          {data?.job_type}
-                        </a>
-
-                        <ul className="list-unstyled mt-2">
-                          <li className="list-inline-item text-muted small me-3">
-                            <i className="uil uil-calendar-alt text-dark h6 me-1"></i>
-                            {moment(data?.createdAt).format("MMM DD, YYYY")}
-                          </li>
-                        </ul>
-                        <a
-                          href={`/job-detail/${data?.id}`}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            navigate(`/job-detail/${data?.id}`);
-                          }}
-                          className="text-dark title h5 mt-3"
-                        >
-                          {data?.title}
-                        </a>
-
-                        <div className="mt-3 d-flex justify-content-between align-items-center">
-                          {/* <a
-                          href="/blog-detail"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            navigate("/blog-detail");
-                          }}
-                          className="btn btn-link text-muted"
-                        >
-                          Read more <FiArrowRight className="fea icon-sm" />
-                        </a> */}
-
-                          <a
-                            href={`/job-detail/${data?.id}`}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              navigate(`/job-detail/${data?.id}`);
-                            }}
-                            className="btn btn-pills btn-soft-primary"
-                          >
-                            View Job
-                          </a>
-
-                          <span className="text-muted fs-6">
-                            by{" "}
-                            <a
-                              href={`/creator-profile/${data?.user?.id}`}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                navigate(`/creator-profile/${data?.user?.id}`);
-                              }}
-                              className="link"
-                            >
-                              {data?.user?.first_name}
-                            </a>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )
-              );
-            })}
-
-            {/*end col*/}
-          </div>
-          {/*end row*/}
-        </div>
-
-        {/* <div className="container mt-100 mt-60">
-          <div className="row justify-content-center">
-            <div className="col">
-              <div className="section-title text-center mb-4 pb-2">
-                <h4 className="title mb-4">Related Auction Items</h4>
-                <p className="text-muted para-desc mb-0 mx-auto">
-                  We are a huge marketplace dedicated to connecting great
-                  artists of all Superex with their fans and unique token
-                  collectors!
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="row row-cols-xl-4 row-cols-lg-3 row-cols-sm-2 row-cols-1">
-            {createdData?.map((data) => {
-              return (
-                <div className="col mt-4 pt-2" key={data?.title}>
-                  <div className="card nft-items nft-primary nft-auction rounded-md shadow overflow-hidden mb-1 p-3">
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="d-flex align-items-center">
-                        <img
-                          src={data?.client}
-                          alt="user"
-                          className="avatar avatar-sm-sm img-thumbnail border-0 shadow-sm rounded-circle"
-                        />
-                        <a
-                          href=""
-                          onClick={(e) => e.preventDefault()}
-                          className="text-dark small creator-name h6 mb-0 ms-2"
-                        >
-                          @{data?.author}
-                        </a>
-                      </div>
-                    </div>
-
-                    <div className="nft-image rounded-md mt-3 position-relative overflow-hidden">
-                      <a
-                        href="/item-detail-one"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          navigate("/item-detail-one");
-                        }}
-                      >
-                        <img src={data?.image} className="img-fluid" alt="" />
-                      </a>
-                      <div className="position-absolute top-0 start-0 m-2">
-                        <a
-                          href=""
-                          onClick={(e) => e.preventDefault()}
-                          className="badge badge-link bg-primary"
-                        >
-                          {data?.type}
-                        </a>
-                      </div>
-                      <div className="position-absolute top-0 end-0 m-2">
-                        <span className="like-icon shadow-sm">
-                          <a
-                            href=""
-                            onClick={(e) => e.preventDefault()}
-                            className="text-muted icon"
-                          >
-                            <i className="mdi mdi-18px mdi-heart mb-0"></i>
-                          </a>
-                        </span>
-                      </div>
-
-                      <div className="position-absolute bottom-0 start-0 m-2 h5 bg-gradient-primary text-white title-dark rounded-pill px-3">
-                        <i className="uil uil-clock"></i>{" "}
-                        <Countdown
-                          date={data?.id}
-                          renderer={({ days, hours, minutes, seconds }) => (
-                            <span>
-                              {days}:{hours}:{minutes}:{seconds}
-                            </span>
-                          )}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="card-body content position-relative p-0 mt-3">
-                      <a
-                        href="/item-detail-one"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          navigate("/item-detail-one");
-                        }}
-                        className="title text-dark h6"
-                      >
-                        {data?.title}
-                      </a>
-
-                      <div className="d-flex align-items-center justify-content-between mt-3">
-                        <div className="">
-                          <small className="mb-0 d-block fw-semibold">
-                            Current Bid:
-                          </small>
-                          <small className="rate fw-bold">20.5 ETH</small>
-                        </div>
-                        <a
-                          href="/item-detail-one"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            navigate("/item-detail-one");
-                          }}
-                          className="btn btn-icon btn-pills btn-primary"
-                        >
-                          <i className="uil uil-shopping-bag"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div> */}
       </section>
       {/*end section*/}
       {/* End */}
@@ -1196,4 +722,4 @@ const ItemDetailOne = () => {
   );
 };
 
-export default ItemDetailOne;
+export default PitchDetail;

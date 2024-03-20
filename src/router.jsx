@@ -42,6 +42,8 @@ import CreatePitch from "./pages/CreatePitch/CreatePitch";
 import PitchBoard from "./pages/PitchBoard";
 import Jobs from "./pages/Jobs";
 import HomePage from "./pages/Home/HomePage";
+import MyProfile from "./pages/MyProfile/MyProfile";
+import PitchDetail from "./pages/PitchDetail/PitchDetail";
 
 export default function Router() {
   return (
@@ -69,20 +71,22 @@ export default function Router() {
         <Route exact path="/blog-detail/:id" element={<BlogDetail />} />
         <Route exact path="/aboutus" element={<AboutUs />} />
         <Route exact path="/blogs-sidebar" element={<Blog />} />
-        <Route exact path="/blogs" element={<BlogSidebar />} />
+        <Route exact path="/news" element={<BlogSidebar />} />
         <Route exact path="/contact" element={<Contact />} />
         <Route exact path="/collections" element={<Collections />} />
 
         <Route exact path="/creators" element={<Creator />} />
         <Route exact path="/jobs" element={<Jobs />} />
         <Route exact path="/activity" element={<Activity />} />
-        <Route exact path="/item-detail-one" element={<ItemDetailOne />} />
+        <Route exact path="/job-detail/:id" element={<ItemDetailOne />} />
         <Route exact path="/item-detail-two" element={<ItemDetailTwo />} />
         <Route exact path="/auction" element={<Auction />} />
         <Route exact path="/explore-four" element={<ExploreFour />} />
         <Route exact path="/explore-three" element={<ExploreThree />} />
         <Route exact path="/explore-two" element={<ExploreTwo />} />
         <Route exact path="/pitch-board" element={<PitchBoard />} />
+        <Route exact path="/creator-profile/:id" element={<CreateProfile />} />
+        <Route exact path="/pitch-detail" element={<PitchDetail />} />
 
         <Route exact path="/index-dark" element={<DarkVersionOne />} />
         <Route exact path="/index-dark-rtl" element={<DarkVersionOne />} />
@@ -124,11 +128,8 @@ export default function Router() {
           <Route exact path="/create-pitch" element={<CreatePitch />} />
 
           <Route exact path="/become-creator" element={<BecomeCreator />} />
-          <Route
-            exact
-            path="/creator-profile/:id"
-            element={<CreateProfile />}
-          />
+
+          <Route exact path="/profile" element={<MyProfile />} />
           <Route
             exact
             path="/creator-profile-edit"

@@ -8,6 +8,7 @@ import { bg02, news1, news3, news4, set } from "../../components/imageImport";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllNews } from "../../redux/dispatchers/news.dispatch";
 import moment from "moment";
+import { useMediaQuery } from "@mui/material";
 
 const newsTypes = [
   {
@@ -27,6 +28,102 @@ const newsTypes = [
   },
 ];
 
+const NewsComp = ({ title, filter, filteredNews, search }) => {
+  const navigate = useNavigate();
+
+  const isMobile = useMediaQuery("(max-width:984px)");
+  return (
+    <div className="row" style={{ marginBottom: "20px" }}>
+      <div className="title-heading">
+        <h5 className="heading fw-semibold sub-heading text-white title-dark">
+          {title}
+        </h5>
+      </div>
+      {filteredNews
+        ?.filter((blog) => blog?.title?.toLowerCase()?.includes(search))
+        ?.map((blog, index) => (
+          <div className="col-12" key={blog?.title}>
+            <div
+              className="card activity activity-primary rounded-md shadow p-4"
+              style={{ marginBottom: "20px" }}
+            >
+              <div className="d-flex align-items-center">
+                <div
+                  className="position-relative"
+                  style={{
+                    alignSelf: "flex-start",
+                    marginTop: "7.5px",
+                  }}
+                >
+                  <img
+                    src={blog?.image_url}
+                    className="avatar avatar-md-md rounded-md shadow-md"
+                    alt=""
+                    style={{
+                      width: isMobile ? "100px" : "125px",
+                      height: isMobile ? "100px" : "125px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <div className="position-absolute top-0 start-0 translate-middle px-1 rounded-lg shadow-md bg-white"></div>
+                  <div className="position-absolute top-0 start-0 translate-middle px-1 rounded-lg shadow-md bg-white"></div>
+                </div>
+
+                <span className="content" style={{ marginLeft: "30px" }}>
+                  <a
+                    href={`/blog-detail/${blog?.id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate(`/blog-detail/${blog?.id}`);
+                    }}
+                    className="text-dark title d-block"
+                    style={{
+                      fontSize: "24px",
+                      marginBottom: "10px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {blog?.title}
+                  </a>
+                  {/* <small
+                    className="text-muted d-block"
+                    style={{
+                      marginTop: "10px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    Category:{" "}
+                    {blog?.category === "InfluencerNews"
+                      ? "Creator News"
+                      : blog?.category === "socialMediaNews"
+                      ? "Social Media News"
+                      : "Event News"}
+                  </small> */}
+                  {/* <span
+                              className="creative-idea"
+                              style={{
+                                marginTop: "10px",
+                              }}
+                            >
+                              {blog?.creative_idea}
+                            </span> */}
+
+                  {/* <small className="text-muted d-block mt-3 mb-3">
+                    {blog?.user?.first_name}
+                    {"   "}
+
+                    {moment(blog?.createdAt).fromNow()}
+                  </small> */}
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
+      {/*end col*/}
+    </div>
+  );
+};
+
 const BlogSidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -35,46 +132,20 @@ const BlogSidebar = () => {
   const [newsType, setnewsType] = useState("");
   const [categorySelected, setcategorySelected] = useState("");
 
-  const blogList = [
-    {
-      image: news1,
-      title: "Influencer Is a Real Job. It’s Time to Act Like It and own it",
-      createdBy: "@callyjoe",
-      type: "Social Media News",
-    },
-    {
-      image: news1,
-      title: "How Brands Can Break Barriers and Empower Creators",
-      createdBy: "@kristyhoney",
-      type: "Event News",
-    },
-    {
-      image: news3,
-      title: "90% of Social Media Influencers Are Active on Instagram",
-      createdBy: "@pandaone",
-      type: "Creator News",
-    },
-    {
-      image: news4,
-      title: "The Cost of Living Crisis Is Changing Creator Strategies",
-      createdBy: "@streetboy",
-      type: "Social Media News",
-    },
-  ];
-
   useEffect(() => {
     document.getElementById("theme-opt").href = "./css/style-dark.min.css";
   }, []);
 
   useEffect(() => {
     dispatch(getAllNews());
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
   }, []);
 
   const { allNews } = useSelector((state) => state.news);
 
-  const filteredNews = allNews?.filter((blog) =>
-    blog?.category.includes(newsType)
-  );
+  const filteredNews = (type) =>
+    allNews?.filter((blog) => blog?.category.includes(type));
 
   return (
     <>
@@ -85,7 +156,7 @@ const BlogSidebar = () => {
       <section
         className="bg-half-170 d-table w-100"
         style={{
-          background: `url(${bg02}) bottom`,
+          // background: `url(${bg02}) bottom`,
           backgroundColor: "#120b2f",
         }}
       >
@@ -152,105 +223,94 @@ const BlogSidebar = () => {
       {/* Start Blog */}
       <section className="section">
         <div className="container">
-          <div className="row">
-            <div className="col-lg-8 col-md-6">
-              <div className="row g-4">
-                {filteredNews
-                  ?.filter((blog) =>
-                    blog?.title?.toLowerCase().includes(search)
-                  )
-                  ?.map((blog, index) => (
-                    <div className="col-lg-6" key={index}>
-                      <div className="card blog blog-primary shadow rounded-md overflow-hidden">
-                        <div
-                          className="position-relative"
-                          style={{ display: "flex", justifyContent: "center" }}
-                        >
-                          <img
-                            src={blog?.image_url}
-                            className="img-fluid rounded-md"
-                            alt=""
-                          />
-                          {/* <div className="position-absolute top-0 end-0 m-3">
-                          <span className="like-icon shadow-sm">
-                            <a
-                              href=""
-                              onClick={(e) => e.preventDefault()}
-                              className="text-muted icon"
-                            >
-                              <i className="mdi mdi-18px mdi-heart mb-0"></i>
-                            </a>
-                          </span>
-                        </div> */}
-                        </div>
-                        <div className="card-body position-relative p-4">
-                          <a
-                            href=""
-                            onClick={(e) => e.preventDefault()}
-                            className="badge tag gradient rounded-md fw-bold"
-                          >
-                            {blog?.category === "InfluencerNews"
-                              ? "Creator News"
-                              : blog?.category === "socialMediaNews"
-                              ? "Social Media News"
-                              : "Event News"}
-                          </a>
-
-                          <ul className="list-unstyled mt-2">
-                            <li className="list-inline-item text-muted small me-3">
-                              <i className="uil uil-calendar-alt text-dark h6 me-1"></i>
-                              {moment(blog?.date).format("DD MMMM, YYYY")}
-                            </li>
-                            <li className="list-inline-item text-muted small">
-                              <i className="uil uil-clock text-dark h6 me-1"></i>
-                              5 min read
-                            </li>
-                          </ul>
-                          <a
-                            href={`/blog-detail/${blog?.id}`}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              navigate(`/blog-detail/${blog?.id}`);
-                            }}
-                            className="text-dark title h5 mt-3"
-                          >
-                            {blog?.title}
-                          </a>
-
-                          <div className="mt-3 d-flex justify-content-between align-items-center">
-                            <a
-                              href={`/blog-detail/${blog?.id}`}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                navigate(`/blog-detail/${blog?.id}`);
+          <div className="container">
+            <div className="row justify-content-center">
+              <div className="col-12">
+                <div className="features-absolute">
+                  <div className="row justify-content-center" id="reserve-form">
+                    <div className="col-xl-10 mt-lg-5">
+                      <div className="card bg-white feature-top border-0 shadow rounded p-3">
+                        <form>
+                          <div className="registration-form text-dark text-start">
+                            <div
+                              className="row g-lg-0"
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "flex-end",
                               }}
-                              className="btn btn-link text-muted"
                             >
-                              Read more <FiArrowRight className="fea icon-sm" />
-                            </a>
-                            {/* <span className="text-muted fs-6">
-                            by{" "}
-                            <a
-                              href="/creator-profile"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                navigate("/creator-profile");
-                              }}
-                              className="link"
-                            >
-                              {blog?.createdBy}
-                            </a>
-                          </span> */}
+                              <div
+                                className="col-lg-3 col-md-6"
+                                style={{ width: "70%" }}
+                              >
+                                <div className="filter-search-form position-relative filter-border">
+                                  <i className="uil uil-search icons"></i>
+                                  <input
+                                    name="name"
+                                    type="text"
+                                    id="search-keyword"
+                                    className="form-control filter-input-box bg-light border-0"
+                                    placeholder="Search here..."
+                                    style={{ borderRadius: "8px" }}
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                  />
+                                </div>
+                              </div>
+                              {/*end col*/}
+
+                              <div
+                                className="col-lg-3 col-md-6 mt-3 mt-lg-0"
+                                style={{ width: "25%" }}
+                              >
+                                <input
+                                  type="submit"
+                                  id="search"
+                                  name="search"
+                                  style={{ height: 60 }}
+                                  className="btn btn-primary rounded-md searchbtn submit-btn w-100"
+                                  value="Search"
+                                />
+                              </div>
+                              {/*end col*/}
+                            </div>
+                            {/*end row*/}
                           </div>
-                        </div>
+                          {/*end container*/}
+                        </form>
                       </div>
                     </div>
-                  ))}
-                {/*end col*/}
+                    {/*ed col*/}
+                  </div>
+                  {/*end row*/}
+                </div>
               </div>
+              {/*end col*/}
+            </div>
+            {/*end row*/}
+          </div>
+          <div className="row">
+            <div className="col-lg-12 col-md-12">
+              <NewsComp
+                title="Creator News"
+                filteredNews={filteredNews("InfluencerNews")}
+                search={search}
+              />
+              <br /> <br /> <br />
+              <NewsComp
+                title="Social Media News"
+                filteredNews={filteredNews("socialMediaNews")}
+                search={search}
+              />
+              <br /> <br /> <br />
+              <NewsComp
+                title="Event News"
+                filteredNews={filteredNews("eventNews")}
+                search={search}
+              />
               {/*end row*/}
-
-              <div className="row">
+              {/* <div className="row">
                 <div className="col mt-4">
                   <div className="text-center">
                     <a
@@ -263,15 +323,14 @@ const BlogSidebar = () => {
                     </a>
                   </div>
                 </div>
-                {/*end col*/}
-              </div>
+              </div> */}
               {/*end row*/}
             </div>
             {/*end col*/}
 
-            <div className="col-lg-4 col-md-6 mt-4 pt-2 mt-sm-0 pt-sm-0">
+            {/* <div className="col-lg-4 col-md-6 mt-4 pt-2 mt-sm-0 pt-sm-0">
               <div className="sidebar sticky-bar ms-lg-4 p-4 rounded-md shadow">
-                {/* SEARCH */}
+                
                 <div className="widget">
                   <h6
                     style={{ color: "#fff" }}
@@ -300,123 +359,10 @@ const BlogSidebar = () => {
                     </form>
                   </div>
                 </div>
-                {/* SEARCH */}
 
-                {/* RECENT POST */}
-                {/* <div className="widget mt-4 pt-2">
-                  <h6 className="widget-title font-weight-bold pt-2 pb-2 bg-light rounded text-center">
-                    Recent Post
-                  </h6>
-                  <div className="mt-4">
-                    <div className="d-flex align-items-center">
-                      <img
-                        src={bg1}
-                        className="avatar avatar-small rounded"
-                        style={{ width: 'auto' }}
-                        alt=""
-                      />
-                      <div className="flex-1 ms-3">
-                        <a
-                          href="/blog-detail"
-                          onClick={e => {
-                            e.preventDefault()
-                            navigate('/blog-detail')
-                          }}
-                          className="d-block title text-dark"
-                        >
-                          Consultant Business
-                        </a>
-                        <small className="text-muted">15th January 2022</small>
-                      </div>
-                    </div>
-
-                    <div className="d-flex align-items-center mt-3">
-                      <img
-                        src={bg2}
-                        className="avatar avatar-small rounded"
-                        style={{ width: 'auto' }}
-                        alt=""
-                      />
-                      <div className="flex-1 ms-3">
-                        <a
-                          href="/blog-detail"
-                          onClick={e => {
-                            e.preventDefault()
-                            navigate('/blog-detail')
-                          }}
-                          className="d-block title text-dark"
-                        >
-                          Grow Your Business
-                        </a>
-                        <small className="text-muted">15th January 2022</small>
-                      </div>
-                    </div>
-
-                    <div className="d-flex align-items-center mt-3">
-                      <img
-                        src={bg3}
-                        className="avatar avatar-small rounded"
-                        style={{ width: 'auto' }}
-                        alt=""
-                      />
-                      <div className="flex-1 ms-3">
-                        <a
-                          href="/blog-detail"
-                          onClick={e => {
-                            e.preventDefault()
-                            navigate('/blog-detail')
-                          }}
-                          className="d-block title text-dark"
-                        >
-                          Look On The Glorious Balance
-                        </a>
-                        <small className="text-muted">15th January 2022</small>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
-                {/* RECENT POST */}
-
-                {/* TAG CLOUDS */}
-                <div className="widget mt-4 pt-2 text-center">
-                  <h6
-                    style={{ color: "#fff" }}
-                    className="widget-title font-weight-bold pt-2 pb-2 bg-light rounded"
-                  >
-                    Tags Cloud
-                  </h6>
-                  <div className="tagcloud mt-4">
-                    {newsTypes.map((tag, index) => (
-                      <a
-                        href=""
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (
-                            categorySelected === tag.name ||
-                            newsType === tag.value
-                          ) {
-                            setnewsType("");
-                            setcategorySelected("");
-                            return;
-                          }
-                          setnewsType(tag.value);
-                          setcategorySelected(tag.name);
-                        }}
-                        className="rounded text-capitalize fw-normal"
-                        style={{
-                          cursor: "pointer",
-                          backgroundColor:
-                            categorySelected === tag.name ? "#e40066" : "#000",
-                        }}
-                      >
-                        {tag.name}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-                {/* TAG CLOUDS */}
+                
               </div>
-            </div>
+            </div> */}
             {/*end col*/}
           </div>
           {/*end row*/}

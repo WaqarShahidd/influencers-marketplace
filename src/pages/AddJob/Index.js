@@ -10,9 +10,10 @@ import {
 } from "../../components/imageImport";
 import axios from "axios";
 import { BASE_URL } from "../../constants/config";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Backdrop, CircularProgress, Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
+import { getAllJobs } from "../../redux/dispatchers/jobs.dispatch";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -23,26 +24,7 @@ const AddJob = () => {
 
   const { userData } = useSelector((state) => state.user);
 
-  const handleChange = () => {
-    const fileUploader = document.querySelector("#input-file");
-    const getFile = fileUploader.files;
-    if (getFile.length !== 0) {
-      const uploadedFile = getFile[0];
-      readFile(uploadedFile);
-    }
-  };
-
-  const readFile = (uploadedFile) => {
-    if (uploadedFile) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const parent = document.querySelector(".preview-box");
-        parent.innerHTML = `<img className="preview-content" src=${reader.result} />`;
-      };
-
-      reader.readAsDataURL(uploadedFile);
-    }
-  };
+  const dispatch = useDispatch();
 
   const [createJobForm, setcreateJobForm] = useState({
     title: "",
@@ -124,6 +106,7 @@ const AddJob = () => {
   const CreateJob = (data) => {
     seterror(false);
     console.log(data, "data");
+    let token = localStorage.getItem("token");
     if (
       createJobForm.title === "" ||
       createJobForm.type === "" ||
@@ -137,13 +120,23 @@ const AddJob = () => {
     } else {
       setloading(true);
       axios
-        .post(`${BASE_URL}/api/job/createJob`, {
-          title: createJobForm.title,
-          description: createJobForm.description,
-          job_type: createJobForm.type,
-          salary: createJobForm.salary,
-          image_url: createJobForm.image,
-        })
+        .post(
+          `${BASE_URL}/api/job/createJob`,
+          {
+            title: createJobForm.title,
+            description: createJobForm.description,
+            job_type: createJobForm.type,
+            salary: createJobForm.salary,
+            image_url: URL,
+            role: userData?.role,
+            user_id: userData?.id,
+          },
+          {
+            headers: {
+              Authorization: `token ${JSON.parse(token)}`,
+            },
+          }
+        )
         .then((res) => {
           setloading(false);
           setOpen(true);
@@ -154,6 +147,8 @@ const AddJob = () => {
             salary: "",
           });
           setURL("");
+          setDataUri("");
+          dispatch(getAllJobs());
         })
         .catch((error) => {
           console.log(error);
@@ -179,7 +174,7 @@ const AddJob = () => {
       </Backdrop>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          Account Created Successfully
+          Job Posted Successfully
         </Alert>
       </Snackbar>
       <Snackbar open={error} autoHideDuration={6000} onClose={handleCloseError}>
@@ -287,7 +282,7 @@ const AddJob = () => {
                     <h6 className="mb-0">{userData?.first_name}</h6>
                     {userData?.display_name && (
                       <small className="text-muted">
-                        {userData?.display_name}
+                        @{userData?.display_name}
                       </small>
                     )}
 
@@ -454,7 +449,9 @@ const AddJob = () => {
                             <select
                               className="form-control"
                               defaultValue="Select Type"
+                              name="type"
                               onChange={changeHandler}
+                              value={createJobForm.type}
                             >
                               <option>Choose any type</option>
                               <option>Full-time</option>

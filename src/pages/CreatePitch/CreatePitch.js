@@ -154,6 +154,7 @@ const CreatePitch = () => {
             facebook_reach: pitchData.facebookRange,
             youtube_reach: pitchData.ytRange,
             image_url: URL,
+            role: userData?.role,
           },
           {
             headers: {

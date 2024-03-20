@@ -12,6 +12,11 @@ import { getProfilebyId } from "../../redux/dispatchers/profile";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Backdrop, CircularProgress, Snackbar } from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const CustomInput = React.forwardRef((props, ref) => {
   return (
@@ -103,6 +108,15 @@ const CreatorProfileEdit = () => {
   const dispatch = useDispatch();
 
   const [loading, setloading] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const UpdateProfile = () => {
     setloading(true);
@@ -134,7 +148,7 @@ const CreatorProfileEdit = () => {
       )
       .then((res) => {
         setloading(false);
-        navigate("/creator-profile/" + userData?.id);
+        setOpen(true);
         dispatch(getProfilebyId(userData?.id));
       })
       .catch((error) => {
@@ -157,6 +171,11 @@ const CreatorProfileEdit = () => {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Profile Updated Successfully
+        </Alert>
+      </Snackbar>
 
       {/* Start Home */}
       <section
@@ -260,7 +279,11 @@ const CreatorProfileEdit = () => {
                       {/*end col*/}
 
                       <div className="col-12 mb-4">
-                        <label className="form-label h6">Full Name</label>
+                        <label className="form-label h6">
+                          {userData?.role === "brands"
+                            ? "Brand Name"
+                            : "Full Name"}
+                        </label>
                         <input
                           name="name"
                           id="first"

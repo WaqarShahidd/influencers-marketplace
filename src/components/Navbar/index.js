@@ -2,11 +2,13 @@
 import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { client01, defaultImage, logo } from "../imageImport";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { clear } from "../../redux/dispatchers/profile";
 
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const url = useMemo(() => location?.pathname === "/blog-detail", []);
 
   const templatePage = [
@@ -122,34 +124,6 @@ const Navbar = () => {
                     </>
                   )}
                 </button> */}
-                <div
-                  className="dropdown-menu dd-menu dropdown-menu-end bg-white shadow rounded border-0 mt-3 p-0"
-                  style={{ width: 300 }}
-                >
-                  <div className="search-bar">
-                    <div id="itemSearch" className="menu-search mb-0">
-                      <form
-                        role="search"
-                        method="get"
-                        id="searchItemform"
-                        className="searchform"
-                      >
-                        <input
-                          type="text"
-                          className="form-control border rounded"
-                          name="s"
-                          id="searchItem"
-                          placeholder="Search..."
-                        />
-                        <input
-                          type="submit"
-                          id="searchItemsubmit"
-                          value="Search"
-                        />
-                      </form>
-                    </div>
-                  </div>
-                </div>
               </div>
             </li>
             {/* <li className="list-inline-item mb-0 me-1">
@@ -178,29 +152,42 @@ const Navbar = () => {
 
             <li className="list-inline-item mb-0">
               <div className="dropdown dropdown-primary">
-                <button
-                  type="button"
-                  className="btn btn-pills dropdown-toggle p-0"
-                  data-bs-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  {userData?.avatar === null ? (
-                    <img
-                      src={defaultImage}
-                      className="rounded-pill avatar avatar-sm-sm"
-                      alt=""
-                      style={{ objectFit: "contain" }}
-                    />
-                  ) : (
-                    <img
-                      src={userData?.avatar}
-                      className="rounded-pill avatar avatar-sm-sm"
-                      alt=""
-                      style={{ objectFit: "conver" }}
-                    />
-                  )}
-                </button>
+                {userData === null ? (
+                  <a
+                    href="/login"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/login");
+                    }}
+                    className="small fw-semibold d-flex align-items-center sign-in-btn"
+                  >
+                    Sign In
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn btn-pills dropdown-toggle p-0"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    {userData?.avatar === null ? (
+                      <img
+                        src={defaultImage}
+                        className="rounded-pill avatar avatar-sm-sm"
+                        alt=""
+                        style={{ objectFit: "contain" }}
+                      />
+                    ) : (
+                      <img
+                        src={userData?.avatar}
+                        className="rounded-pill avatar avatar-sm-sm"
+                        alt=""
+                        style={{ objectFit: "conver" }}
+                      />
+                    )}
+                  </button>
+                )}
                 <div
                   className="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 pb-3 pt-0 overflow-hidden rounded"
                   style={{ minWidth: 200 }}
@@ -241,10 +228,10 @@ const Navbar = () => {
                   <div className="mt-2">
                     <a
                       className="dropdown-item small fw-semibold text-dark d-flex align-items-center"
-                      href={`/creator-profile/${userData?.id}`}
+                      href={`/profile`}
                       onClick={(e) => {
                         e.preventDefault();
-                        navigate(`/creator-profile/${userData?.id}`);
+                        navigate(`/profile`);
                       }}
                     >
                       <span className="mb-0 d-inline-block me-1">
@@ -320,7 +307,8 @@ const Navbar = () => {
                       href="/login"
                       onClick={(e) => {
                         e.preventDefault();
-
+                        localStorage.removeItem("token");
+                        dispatch(clear());
                         navigate("/login");
                       }}
                     >
@@ -790,11 +778,11 @@ const Navbar = () => {
               </li>
               <li>
                 <a
-                  href="/blogs"
+                  href="/news"
                   onClick={(e) => {
                     e.preventDefault();
 
-                    navigate("/blogs");
+                    navigate("/news");
                   }}
                   className="sub-menu-item"
                 >
@@ -960,7 +948,7 @@ const Navbar = () => {
                   Contact
                 </a>
               </li>
-              <li className="has-submenu parent-parent-menu-item">
+              {/* <li className="has-submenu parent-parent-menu-item">
                 <a href="" onClick={(e) => mobileHandler(e, "pages")}>
                   Help
                 </a>
@@ -983,356 +971,7 @@ const Navbar = () => {
                       About Us
                     </a>
                   </li>
-                  {/* <li className="has-submenu parent-menu-item">
-                    <a href="" onClick={(e) => mobileHandler(e, "creators")}>
-                      {" "}
-                      Creator{" "}
-                    </a>
-                    <span className="submenu-arrow"></span>
-                    <ul
-                      className={`submenu ${
-                        mobile.includes("creators") ? "open" : ""
-                      }`}
-                    >
-                      <li>
-                        <a
-                          href="/creators"
-                          onClick={(e) => {
-                            e.preventDefault();
-                           
-                            }, 1000);
-                            navigate("/creators");
-                          }}
-                          className="sub-menu-item"
-                        >
-                          {" "}
-                          Creators
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="/creator-profile"
-                          onClick={(e) => {
-                            e.preventDefault();
-                           
-                            }, 1000);
-                            navigate("/creator-profile");
-                          }}
-                          className="sub-menu-item"
-                        >
-                          {" "}
-                          Creator Profile
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="/creator-profile-edit"
-                          onClick={(e) => {
-                            e.preventDefault();
-                           
-                            }, 1000);
-                            navigate("/creator-profile-edit");
-                          }}
-                          className="sub-menu-item"
-                        >
-                          {" "}
-                          Profile Edit
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="/become-creator"
-                          onClick={(e) => {
-                            e.preventDefault();
-                           
-                            }, 1000);
-                            navigate("/become-creator");
-                          }}
-                          className="sub-menu-item"
-                        >
-                          {" "}
-                          Become Creator
-                        </a>
-                      </li>
-                    </ul>
-                  </li> */}
-                  {/* <li>
-                    <a
-                      href="/collections"
-                      onClick={(e) => {
-                        e.preventDefault();
-                       
-                        }, 1000);
-                        navigate("/collections");
-                      }}
-                      className="sub-menu-item"
-                    >
-                      Collections
-                    </a>
-                  </li> */}
-                  {/* <li className="has-submenu parent-menu-item">
-                    <a href="" onClick={(e) => mobileHandler(e, "blog")}>
-                      {" "}
-                      Blog{" "}
-                    </a>
-                    <span className="submenu-arrow"></span>
-                    <ul
-                      className={`submenu ${
-                        mobile.includes("blog") ? "open" : ""
-                      }`}
-                    >
-                      <li>
-                        <a
-                          href="/blogs"
-                          onClick={(e) => {
-                            e.preventDefault();
-                           
-                            }, 1000);
-                            navigate("/blogs");
-                          }}
-                          className="sub-menu-item"
-                        >
-                          {" "}
-                          Blogs
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="/blog-sidebar"
-                          onClick={(e) => {
-                            e.preventDefault();
-                           
-                            }, 1000);
-                            navigate("/blog-sidebar");
-                          }}
-                          className="sub-menu-item"
-                        >
-                          {" "}
-                          Blog with sidebar
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="/blog-detail"
-                          onClick={(e) => {
-                            e.preventDefault();
-                           
-                            }, 1000);
-                            navigate("/blog-detail");
-                          }}
-                          className="sub-menu-item"
-                        >
-                          {" "}
-                          Blog Detail
-                        </a>
-                      </li>
-                    </ul>
-                  </li> */}
-                  {/* <li className="has-submenu parent-menu-item">
-                      <a href="" onClick={(e) => mobileHandler(e, "auth")}>
-                        {" "}
-                        Auth Pages{" "}
-                      </a>
-                      <span className="submenu-arrow"></span>
-                      <ul
-                        className={`submenu ${
-                          mobile.includes("auth") ? "open" : ""
-                        }`}
-                      >
-                        <li>
-                          <a
-                            href="/login"
-                            onClick={(e) => {
-                              e.preventDefault();
-                             
-                              }, 1000);
-                              navigate("/login");
-                            }}
-                            className="sub-menu-item"
-                          >
-                            {" "}
-                            Login
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="/signup"
-                            onClick={(e) => {
-                              e.preventDefault();
-                             
-                              }, 1000);
-                              navigate("/signup");
-                            }}
-                            className="sub-menu-item"
-                          >
-                            {" "}
-                            Signup
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="/reset-password"
-                            onClick={(e) => {
-                              e.preventDefault();
-                             
-                              }, 1000);
-                              navigate("/reset-password");
-                            }}
-                            className="sub-menu-item"
-                          >
-                            {" "}
-                            Forgot Password
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="/lock-screen"
-                            onClick={(e) => {
-                              e.preventDefault();
-                             
-                              }, 1000);
-                              navigate("/lock-screen");
-                            }}
-                            className="sub-menu-item"
-                          >
-                            {" "}
-                            Lock Screen
-                          </a>
-                        </li>
-                      </ul>
-                    </li> */}
-                  {/* <li className="has-submenu parent-menu-item">
-                    <a href="" onClick={(e) => mobileHandler(e, "special")}>
-                      {" "}
-                      Special
                   
-                    </a>
-                    <span className="submenu-arrow"></span>
-                    <ul
-                      className={`submenu ${
-                        mobile.includes("special") ? "open" : ""
-                      }`}
-                    >
-                      <li>
-                        <a
-                          href="/comingsoon"
-                          onClick={(e) => {
-                            e.preventDefault();
-                           
-                            }, 1000);
-                            navigate("/comingsoon");
-                          }}
-                          className="sub-menu-item"
-                        >
-                          {" "}
-                          Coming Soon
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="/maintenance"
-                          onClick={(e) => {
-                            e.preventDefault();
-                           
-                            }, 1000);
-                            navigate("/maintenance");
-                          }}
-                          className="sub-menu-item"
-                        >
-                          {" "}
-                          Maintenance
-                        </a>
-                      </li>
-                      
-                    </ul>
-                  </li> */}
-                  {/* <li className="has-submenu parent-menu-item">
-                    <a href="" onClick={(e) => mobileHandler(e, "help")}>
-                      {" "}
-                      Help Center
-                    </a>
-                    <span className="submenu-arrow"></span>
-                    <ul
-                      className={`submenu ${
-                        mobile.includes("help") ? "open" : ""
-                      }`}
-                    >
-                      <li>
-                        <a
-                          href="/helpcenter-overview"
-                          onClick={(e) => {
-                            e.preventDefault();
-                           
-                            }, 1000);
-                            navigate("/helpcenter-overview");
-                          }}
-                          className="sub-menu-item"
-                        >
-                          {" "}
-                          Overview
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="/helpcenter-faqs"
-                          onClick={(e) => {
-                            e.preventDefault();
-                           
-                            }, 1000);
-                            navigate("/helpcenter-faqs");
-                          }}
-                          className="sub-menu-item"
-                        >
-                          {" "}
-                          FAQs
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="/helpcenter-guides"
-                          onClick={(e) => {
-                            e.preventDefault();
-                           
-                            }, 1000);
-                            navigate("/helpcenter-guides");
-                          }}
-                          className="sub-menu-item"
-                        >
-                          {" "}
-                          Guides
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="/helpcenter-support-request"
-                          onClick={(e) => {
-                            e.preventDefault();
-                           
-                            }, 1000);
-                            navigate("/helpcenter-support-request");
-                          }}
-                          className="sub-menu-item"
-                        >
-                          {" "}
-                          Support
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <a
-                      href="/upload-work"
-                      onClick={(e) => {
-                        e.preventDefault();
-                       
-                        }, 1000);
-                        navigate("/upload-work");
-                      }}
-                      className="sub-menu-item"
-                    >
-                      Upload Works
-                    </a>
-                  </li> */}
                   <li>
                     <a
                       href="/terms"
@@ -1373,7 +1012,7 @@ const Navbar = () => {
                     </a>
                   </li>
                 </ul>
-              </li>
+              </li> */}
             </ul>
             {/*end navigation menu*/}
           </div>

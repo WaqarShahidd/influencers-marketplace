@@ -1867,6 +1867,9 @@ progress {
   padding: 1rem 0.75rem !important ;
   color: white !important;
 }
+.form-control-datepicker::placeholder {
+  color: white !important;
+}
 @media (prefers-reduced-motion: reduce) {
   .form-control {
     transition: none;

@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import { bg01, office } from "../../components/imageImport";
-import StyleSwitcher from "../../components/StyleSwitcher";
+import { Backdrop, CircularProgress, Snackbar } from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
+import axios from "axios";
+import { BASE_URL } from "../../constants/config";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Contact = () => {
   const navigate = useNavigate();
@@ -75,10 +82,86 @@ const Contact = () => {
       }
     }, 200);
   }
+
+  const [name, setname] = useState("");
+  const [email, setemail] = useState("");
+  const [subject, setsubject] = useState("");
+  const [comments, setcomments] = useState("");
+  const [open, setOpen] = useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+  const handleCloseError = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    seterror(false);
+  };
+
+  const [loading, setloading] = useState(false);
+  const [error, seterror] = useState(false);
+  const [errorMsg, seterrorMsg] = useState("");
+
+  const ContactUs = () => {
+    seterror(false);
+    if (name === "" || email === "" || subject === "" || comments === "") {
+      seterror(true);
+      seterrorMsg("Please fill all the fields");
+      return;
+    } else {
+      setloading(true);
+      axios
+        .post(`${BASE_URL}/api/contactus/createContactUs`, {
+          name: name,
+          message: comments,
+          reason: subject,
+          email: email,
+        })
+        .then((res) => {
+          setloading(false);
+          setOpen(true);
+        })
+        .catch((error) => {
+          seterror(true);
+          seterrorMsg(error.response.data.message);
+          setloading(false);
+        });
+    }
+  };
+
   return (
     <>
       {/* Navbar */}
       <Navbar />
+      <Backdrop
+        sx={{
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
+        open={loading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Message Sent Successfully
+        </Alert>
+      </Snackbar>
+      <Snackbar open={error} autoHideDuration={6000} onClose={handleCloseError}>
+        <Alert
+          onClose={handleCloseError}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          {errorMsg}
+        </Alert>
+      </Snackbar>
 
       {/* Start Home */}
       <section
@@ -241,7 +324,12 @@ const Contact = () => {
                               id="name"
                               type="text"
                               className="form-control"
-                              placeholder="Enter Your Name :"
+                              placeholder="Enter Your Name:"
+                              value={name}
+                              onChange={(e) => {
+                                e.preventDefault();
+                                setname(e.target.value);
+                              }}
                             />
                           </div>
                         </div>
@@ -256,7 +344,12 @@ const Contact = () => {
                               id="email"
                               type="email"
                               className="form-control"
-                              placeholder="Enter Your Email :"
+                              placeholder="Enter Your Email:"
+                              value={email}
+                              onChange={(e) => {
+                                e.preventDefault();
+                                setemail(e.target.value);
+                              }}
                             />
                           </div>
                         </div>
@@ -269,7 +362,12 @@ const Contact = () => {
                               name="subject"
                               id="subject"
                               className="form-control"
-                              placeholder="Type Subject :"
+                              placeholder="Type Subject:"
+                              value={subject}
+                              onChange={(e) => {
+                                e.preventDefault();
+                                setsubject(e.target.value);
+                              }}
                             />
                           </div>
                         </div>
@@ -285,7 +383,12 @@ const Contact = () => {
                               id="comments"
                               rows="4"
                               className="form-control"
-                              placeholder="Enter Your Message :"
+                              placeholder="Enter Your Message:"
+                              value={comments}
+                              onChange={(e) => {
+                                e.preventDefault();
+                                setcomments(e.target.value);
+                              }}
                             ></textarea>
                           </div>
                         </div>
@@ -298,6 +401,10 @@ const Contact = () => {
                               id="submit"
                               name="send"
                               className="btn btn-primary rounded-md"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                ContactUs();
+                              }}
                             >
                               Send Message
                             </button>

@@ -1,52 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import Countdown from "react-countdown";
-import StyleSwitcher from "../../components/StyleSwitcher";
 import {
   bg01,
-  MetaMask_Fox,
-  aave,
-  Airswap,
-  Compound,
-  DDEX,
-  defiSaver,
-  dYdX,
-  IDEX,
-  Kyber,
-  Maker,
-  NUO,
-  PoolTogether,
-  Sablier,
-  set,
-  Uniswap,
-  Zerion,
   logoDark,
-  client06,
-  client05,
-  client08,
-  item10,
-  item9,
-  item8,
-  item7,
-  gif6,
-  item6,
-  gif5,
-  item5,
-  gif4,
-  item4,
-  gif3,
-  item3,
-  item2,
-  gif2,
-  item1,
-  gif1,
   news1,
   news2,
   news3,
   news4,
 } from "../../components/imageImport";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllJobs } from "../../redux/dispatchers/jobs.dispatch";
+import moment from "moment";
 
 const Jobs = () => {
   const navigate = useNavigate();
@@ -77,6 +44,16 @@ const Jobs = () => {
       type: "Freelance",
     },
   ];
+
+  const dispatch = useDispatch();
+
+  const { allJobs, getJobLoading } = useSelector((state) => state.jobs);
+  const { userData } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    dispatch(getAllJobs());
+  }, []);
+
   return (
     <>
       {/* Navbar */}
@@ -323,12 +300,15 @@ const Jobs = () => {
       <section className="section">
         <div className="container">
           <div className="row">
-            <div className="col-lg-3 col-md-6">
+            {/* <div className="col-lg-3 col-md-6">
               <div className="sticky-bar">
                 <h5 className="mb-0">Filters</h5>
-                <div className="p-4 rounded-md shadow mt-4">
+                <div
+                  className="rounded-md shadow mt-4"
+                  style={{ padding: "10px" }}
+                >
                   <div>
-                    <h6>Orders By:</h6>
+                    <h6>Order By:</h6>
                     <form>
                       <div className="form-check align-items-center d-flex mb-0">
                         <input
@@ -357,7 +337,7 @@ const Jobs = () => {
                         >
                           Trending
                         </label>
-                      </div>
+                      </div> 
                       <div className="form-check align-items-center d-flex mb-0">
                         <input
                           className="form-check-input"
@@ -376,7 +356,7 @@ const Jobs = () => {
                   </div>
 
                   <div className="mt-4">
-                    <h6>Catagories By:</h6>
+                    <h6>Categories By:</h6>
                     <form>
                       <div className="form-check align-items-center d-flex mb-0">
                         <input
@@ -500,12 +480,12 @@ const Jobs = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             {/*end col*/}
 
             <div className="col-lg-9 col-md-6 mt-4 mt-sm-0 pt-2 pt-sm-0">
               <div className="row row-cols-xl-3 row-cols-lg-2 row-cols-1">
-                {AuctionData?.map((data, index) => {
+                {allJobs?.map((data, index) => {
                   return (
                     <div
                       className={index < 3 ? "col" : "col pt-2 mt-4"}
@@ -571,30 +551,35 @@ const Jobs = () => {
 
                         <div className="nft-image rounded-md position-relative overflow-hidden">
                           <a
-                            href="/item-detail-one"
+                            href={`/job-detail/${data?.id}`}
                             onClick={(e) => {
                               e.preventDefault();
-                              navigate("/item-detail-one");
+                              navigate(`/job-detail/${data?.id}`);
                             }}
                           >
                             <img
-                              src={data?.image}
+                              src={data?.image_url}
                               className="img-fluid"
                               alt=""
+                              style={{
+                                height: "150px",
+                                width: "100%",
+                                objectFit: "cover",
+                              }}
                             />
                           </a>
-                          {data?.type && (
+                          {/* {data?.job_type && (
                             <div className="position-absolute top-0 start-0 m-2">
                               <a
                                 href=""
                                 onClick={(e) => e.preventDefault()}
                                 className="badge badge-link bg-primary"
                               >
-                                {data?.type}
+                                {data?.job_type}
                               </a>
                             </div>
-                          )}
-                          <div
+                          )} */}
+                          {/* <div
                             className={`${
                               data?.id ? "" : "hide-data"
                             } position-absolute bottom-0 start-0 m-2 bg-gradient-primary text-white title-dark rounded-pill px-3`}
@@ -606,26 +591,48 @@ const Jobs = () => {
                                 <span>Urgently Hiring</span>
                               )}
                             />
-                          </div>
+                          </div> */}
                         </div>
 
                         <div className="card-body content position-relative p-0 mt-3">
                           <a
-                            href="/item-detail-one"
+                            href={`/job-detail/${data?.id}`}
                             onClick={(e) => {
                               e.preventDefault();
-                              navigate("/item-detail-one");
+                              navigate(`/job-detail/${data?.id}`);
                             }}
-                            className="title text-dark h6"
+                            style={{ fontWeight: "600", fontSize: "18px" }}
+                            className="title text-dark"
                           >
-                            Job Title
+                            {data?.title}
                           </a>
-                          <p style={{ fontSize: "15px" }}>{data?.title}</p>
+                          <br />
+                          <a
+                            href={`/creator-profile/${data?.user?.id}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(`/creator-profile/${data?.user?.id}`);
+                            }}
+                            style={{
+                              marginBottom: "0px",
+                              marginTop: "10px",
+                              cursor: "pointer",
+                              fontWeight: "400",
+                              fontSize: "14px",
+                              color: "#b2b2b2",
+                            }}
+                            className="title"
+                          >
+                            {data?.user?.first_name}
+                          </a>
 
                           <div className="d-flex justify-content-between mt-2">
-                            <small className="rate fw-bold">Mesopotamia</small>
+                            <small className="rate fw-bold">
+                              {" "}
+                              {data?.job_type}
+                            </small>
                             <small className="text-dark fw-bold">
-                              $30,000 USD
+                              ${data?.salary}
                               {/* <span className="text-muted">($50,000)</span> */}
                             </small>
                           </div>
@@ -641,20 +648,10 @@ const Jobs = () => {
                                 marginTop: "10px",
                               }}
                             >
-                              {" "}
-                              We are seeking a Social Media Scheduler to join
-                              our team. In this role, you will primarily focus
-                              on Posting design post to correctly via Meta Suite
-                              or any third party software for our social media
-                              channels for multiple clients. Social media
-                              management tools like Meta (formerly Facebook
-                              Business Suite) is a must to know. Training will
-                              be provided for Specific software's but Meta
-                              (previously Facebook) posting knowledge is
-                              required.
+                              {data?.description}
                             </span>
                             <span style={{ fontSize: "10px", color: "grey" }}>
-                              Posted 2 days ago
+                              {moment(data?.createdAt).fromNow()}
                             </span>
                           </div>
                         </div>
@@ -666,7 +663,7 @@ const Jobs = () => {
               </div>
               {/*end row*/}
 
-              <div className="row justify-content-center mt-4">
+              {/* <div className="row justify-content-center mt-4">
                 <div className="col">
                   <div className="text-center">
                     <a
@@ -679,8 +676,7 @@ const Jobs = () => {
                     </a>
                   </div>
                 </div>
-                {/*end col*/}
-              </div>
+              </div> */}
               {/*end row*/}
             </div>
             {/*end col*/}

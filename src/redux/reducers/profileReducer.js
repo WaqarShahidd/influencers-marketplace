@@ -1,10 +1,14 @@
 import { createAction, createReducer } from "@reduxjs/toolkit";
 
-const initialState = {};
+const initialState = {
+  userData: null,
+};
 
 const getMeReq = createAction("getProfileRequest");
 const getMeSuc = createAction("getProfileSuccess");
 const getMeF = createAction("getProfileFailure");
+
+const clear = createAction("clear");
 
 export const userDataReducer = createReducer(initialState, (builder) => {
   builder
@@ -18,5 +22,8 @@ export const userDataReducer = createReducer(initialState, (builder) => {
     .addCase(getMeF, (state, action) => {
       state.getProfileLoading = false;
       state.getProfileError = action.payload;
+    })
+    .addCase(clear, (state, action) => {
+      state.userData = null;
     });
 });

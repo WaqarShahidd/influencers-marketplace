@@ -5,6 +5,7 @@ import { logoS } from "../../components/imageImport";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "./../../constants/config";
+import moment from "moment";
 
 const BlogDetail = () => {
   const { id } = useParams();
@@ -34,6 +35,8 @@ const BlogDetail = () => {
 
   useEffect(() => {
     GetNews();
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
   }, []);
 
   return (
@@ -66,7 +69,7 @@ const BlogDetail = () => {
                       Faimos
                     </a>
                     <small className="text-muted mb-0">
-                      20th January 2022, 8 min read
+                      {moment(newsData?.createdAt).format("DD MMMM, YYYY")}
                     </small>
                   </div>
                 </div>
@@ -110,7 +113,6 @@ const BlogDetail = () => {
                   src={newsData?.image_url}
                   className="img-fluid rounded-md shadow"
                   alt=""
-                  style={{ width: "50%" }}
                 />
               </div>
 

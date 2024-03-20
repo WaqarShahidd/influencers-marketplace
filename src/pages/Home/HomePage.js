@@ -5,8 +5,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { tns } from "tiny-slider/src/tiny-slider";
-import Choices from "choices.js";
-import Countdown from "react-countdown";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import {
@@ -76,7 +74,10 @@ import {
 } from "../../components/imageImport";
 import { FiArrowRight } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllInfluencers } from "../../redux/dispatchers/influencers.dispatch";
+import {
+  getAllInfluencers,
+  getAllTrendingInfluencers,
+} from "../../redux/dispatchers/influencers.dispatch";
 import {
   getAllNews,
   getAllNewsByCategory,
@@ -137,11 +138,21 @@ const HomePage = () => {
     dispatch(getAllNewsByCategory("socialMediaNews"));
     dispatch(getAllNews());
     dispatch(getUpcomingBirthdays());
+    dispatch(getAllTrendingInfluencers());
   }, []);
 
-  const { allInfluencers } = useSelector((state) => state.influencer);
+  const { allInfluencers, allTrendingInfluencers } = useSelector(
+    (state) => state.influencer
+  );
   const { allNewsByCategory, allNews } = useSelector((state) => state.news);
   const { upcomingBirthday } = useSelector((state) => state.upcoming);
+
+  const [searchText, setSearchText] = useState("");
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    navigate("/creators", { state: { filter: searchText } });
+  };
 
   return (
     <>
@@ -238,49 +249,12 @@ const HomePage = () => {
                                   className="form-control filter-input-box bg-light border-0"
                                   placeholder="Search here..."
                                   style={{ borderRadius: "8px" }}
+                                  onChange={(e) =>
+                                    setSearchText(e.target.value)
+                                  }
                                 />
                               </div>
                             </div>
-                            {/*end col*/}
-
-                            {/* <div className="col-lg-3 col-md-6 mt-3 mt-md-0">
-                              <div className="filter-search-form position-relative filter-border">
-                                <i className="uil uil-usd-circle icons"></i>
-                                <select
-                                  className="form-select"
-                                  data-trigger
-                                  name="choices-criteria"
-                                  id="choices-criteria"
-                                  aria-label="Default select example"
-                                  defaultValue={"Auction Product"}
-                                >
-                                  <option value="1">Auction Product</option>
-                                  <option value="2">On Sale</option>
-                                  <option value="3">Offers</option>
-                                </select>
-                              </div>
-                            </div> */}
-                            {/*end col*/}
-
-                            {/* <div className="col-lg-3 col-md-6 mt-3 mt-lg-0">
-                              <div className="filter-search-form position-relative filter-border">
-                                <i className="uil uil-window icons"></i>
-                                <select
-                                  className="form-select "
-                                  data-trigger
-                                  name="choices-type"
-                                  id="choices-type"
-                                  aria-label="Default select example"
-                                  defaultValue={"Art"}
-                                >
-                                  <option value="1">Art</option>
-                                  <option value="2">Games</option>
-                                  <option value="3">Music</option>
-                                  <option value="4">Videos</option>
-                                  <option value="5">Memes</option>
-                                </select>
-                              </div>
-                            </div> */}
                             {/*end col*/}
 
                             <div className="col-lg-3 col-md-6 mt-3 mt-lg-0 search-btn-homepage">
@@ -291,6 +265,7 @@ const HomePage = () => {
                                 style={{ height: 60 }}
                                 className="btn btn-primary rounded-md searchbtn submit-btn w-100"
                                 value="Search"
+                                onClick={handleSearch}
                               />
                             </div>
                             {/*end col*/}
@@ -344,7 +319,7 @@ const HomePage = () => {
           <div className="row">
             <div className="col-12 mt-3">
               <div className="tiny-five-item-nav-arrow">
-                {allInfluencers?.map((data, index) => {
+                {allTrendingInfluencers?.map((data, index) => {
                   return (
                     <div
                       className="tiny-slide"
@@ -364,7 +339,7 @@ const HomePage = () => {
                               alt=""
                               onClick={(e) => {
                                 e.preventDefault();
-                                navigate("/creator-profile");
+                                navigate(`/creator-profile/${data?.id}`);
                               }}
                             />
                           ) : (
@@ -374,7 +349,7 @@ const HomePage = () => {
                               alt=""
                               onClick={(e) => {
                                 e.preventDefault();
-                                navigate("/creator-profile");
+                                navigate(`/creator-profile/${data?.id}`);
                               }}
                               style={{ objectFit: "contain" }}
                             />
@@ -382,10 +357,10 @@ const HomePage = () => {
 
                           <div className="content text-center pt-2 p-2">
                             <a
-                              href="/creator-profile"
+                              href={`/creator-profile/${data?.id}`}
                               onClick={(e) => {
                                 e.preventDefault();
-                                navigate("/creator-profile");
+                                navigate(`/creator-profile/${data?.id}`);
                               }}
                               className="text-dark h6 name d-block mb-0"
                             >
@@ -406,6 +381,8 @@ const HomePage = () => {
                                 WebkitLineClamp: 2,
                                 overflow: "hidden",
                                 textOverflow: "ellipsis",
+                                maxWidth: "95%",
+                                textAlign: "center",
                               }}
                             >
                               {data?.bio}
@@ -454,98 +431,19 @@ const HomePage = () => {
         </div>
         {/*end container*/}
 
-        {/* <div className="container mt-100 mt-60">
-          <div className="row justify-content-center">
-            <div className="col-12">
-              <div className="section-title text-center mb-4 pb-2">
-                <h4 className="title mb-2">Popular Brands</h4>
-                <p className="text-muted mb-0">
-                  Explore the popular brands and their collections
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="row">
-            {collectionData?.map((data, index) => {
-              return (
-                <div className="col-lg-4 col-md-6 mt-4 pt-2" key={data?.title}>
-                  <div className="card bg-white collections collection-primary rounded-md shadow p-2 pb-0">
-                    <div className="row g-2">
-                      <div className="col-12">
-                        <img
-                          src={data?.img1}
-                          className="img-fluid shadow-sm rounded-md"
-                          alt=""
-                        />
-                      </div>
-
-                      <div className="col-4">
-                        <img
-                          src={data?.img2}
-                          className="img-fluid shadow-sm rounded-md"
-                          alt=""
-                        />
-                      </div>
-
-                      <div className="col-4">
-                        <img
-                          src={data?.img3}
-                          className="img-fluid shadow-sm rounded-md"
-                          alt=""
-                        />
-                      </div>
-
-                      <div className="col-4">
-                        <img
-                          src={data?.img4}
-                          className="img-fluid shadow-sm rounded-md"
-                          alt=""
-                        />
-                      </div>
-                    </div>
-
-                    <div className="content text-center p-4 mt-n5">
-                      <div className="position-relative d-inline-flex">
-                        <img
-                          src={data?.client}
-                          className="avatar avatar-small rounded-pill img-thumbnail shadow-md"
-                          alt=""
-                        />
-                        <span className="verified text-primary">
-                          <i className="mdi mdi-check-decagram"></i>
-                        </span>
-                      </div>
-
-                      <div className="mt-2">
-                        <a
-                          href="/explore-four"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            navigate("/explore-four");
-                          }}
-                          className="text-dark title h5"
-                        >
-                          {data?.title}
-                        </a>
-
-                        <p className="text-muted mb-0 small">27 Items</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div> */}
-        {/*end container*/}
-
         {/* Creator News */}
         {allNews?.filter((data) => data?.category === "InfluencerNews")
           ?.length > 0 && (
           <div className="container mt-100 mt-60">
             <div className="row justify-content-center">
-              <div className="col">
+              <div
+                className="col"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
                 <div className="section-title mb-5 pb-3">
                   <h4 className="title mb-4">Creator News</h4>
                   <p
@@ -556,6 +454,18 @@ const HomePage = () => {
                     it
                   </p>
                 </div>
+                <div className="text-end d-md-block d-none">
+                  <a
+                    href="/news"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/news");
+                    }}
+                    className="btn btn-link primary text-dark"
+                  >
+                    See More <i className="uil uil-arrow-right"></i>
+                  </a>
+                </div>
               </div>
               {/*end col*/}
             </div>
@@ -564,17 +474,19 @@ const HomePage = () => {
             <div className="row g-4">
               {allNews
                 ?.filter((data) => data?.category === "InfluencerNews")
-                ?.map((data) => {
+                ?.map((data, index) => {
                   return (
-                    <div className="col-lg-4 col-md-6" key={data?.type}>
-                      <div className="card blog blog-primary shadow rounded-md overflow-hidden">
-                        <div className="position-relative">
-                          <img
-                            src={data?.image_url}
-                            className="img-fluid rounded-md"
-                            alt=""
-                          />
-                          {/* <div className="position-absolute top-0 end-0 m-3">
+                    index < 3 && (
+                      <div className="col-lg-4 col-md-6" key={data?.type}>
+                        <div className="card blog blog-primary shadow rounded-md overflow-hidden">
+                          <div className="position-relative">
+                            <img
+                              src={data?.image_url}
+                              className="img-fluid rounded-md"
+                              alt=""
+                              style={{ height: "200px" }}
+                            />
+                            {/* <div className="position-absolute top-0 end-0 m-3">
                         <span className="like-icon shadow-sm">
                           <a
                             href=""
@@ -585,49 +497,51 @@ const HomePage = () => {
                           </a>
                         </span>
                       </div> */}
-                        </div>
-                        <div className="card-body position-relative p-4">
-                          <a
-                            href=""
-                            onClick={(e) => e.preventDefault()}
-                            className="badge tag gradient rounded-md fw-bold"
-                          >
-                            Influencer
-                          </a>
+                          </div>
+                          <div className="card-body position-relative p-4">
+                            <a
+                              href=""
+                              onClick={(e) => e.preventDefault()}
+                              className="badge tag gradient rounded-md fw-bold"
+                              style={{ cursor: "default" }}
+                            >
+                              Influencer
+                            </a>
 
-                          <ul className="list-unstyled mt-2">
-                            <li className="list-inline-item text-muted small me-3">
-                              <i className="uil uil-calendar-alt text-dark h6 me-1"></i>
-                              {moment(data?.date).format("DD MMMM, YYYY")}
-                            </li>
-                            <li className="list-inline-item text-muted small">
-                              <i className="uil uil-clock text-dark h6 me-1"></i>
-                              5 min read
-                            </li>
-                          </ul>
-                          <a
-                            href="/blog-detail"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              navigate("/blog-detail");
-                            }}
-                            className="text-dark title h5 mt-3"
-                          >
-                            {data?.title}
-                          </a>
-
-                          <div className="mt-3 d-flex justify-content-between align-items-center">
+                            <ul className="list-unstyled mt-2">
+                              <li className="list-inline-item text-muted small me-3">
+                                <i className="uil uil-calendar-alt text-dark h6 me-1"></i>
+                                {moment(data?.date).format("DD MMMM, YYYY")}
+                              </li>
+                              <li className="list-inline-item text-muted small">
+                                <i className="uil uil-clock text-dark h6 me-1"></i>
+                                5 min read
+                              </li>
+                            </ul>
                             <a
                               href={`/blog-detail/${data?.id}`}
                               onClick={(e) => {
                                 e.preventDefault();
                                 navigate(`/blog-detail/${data?.id}`);
                               }}
-                              className="btn btn-link text-muted"
+                              className="text-dark title h5 mt-3"
                             >
-                              Read more <FiArrowRight className="fea icon-sm" />
+                              {data?.title}
                             </a>
-                            {/* <span className="text-muted fs-6">
+
+                            <div className="mt-3 d-flex justify-content-between align-items-center">
+                              <a
+                                href={`/blog-detail/${data?.id}`}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigate(`/blog-detail/${data?.id}`);
+                                }}
+                                className="btn btn-link text-muted"
+                              >
+                                Read more{" "}
+                                <FiArrowRight className="fea icon-sm" />
+                              </a>
+                              {/* <span className="text-muted fs-6">
                             by{" "}
                             <a
                               href="/creator-profile"
@@ -640,10 +554,11 @@ const HomePage = () => {
                               @{data?.createdBy}
                             </a>
                           </span> */}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    )
                   );
                 })}
               {/*end col*/}
@@ -657,12 +572,31 @@ const HomePage = () => {
         {allNewsByCategory?.length > 0 && (
           <div className="container mt-100 mt-60">
             <div className="row justify-content-center">
-              <div className="col">
+              <div
+                className="col"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
                 <div className="section-title mb-4 pb-2">
                   <h4 className="title mb-4">Social Media News</h4>
                   <p className="text-muted para-desc mb-0 ">
                     Check out the latest news and updates from our social media
                   </p>
+                </div>
+                <div className="text-end d-md-block d-none">
+                  <a
+                    href="/news"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/news");
+                    }}
+                    className="btn btn-link primary text-dark"
+                  >
+                    See More <i className="uil uil-arrow-right"></i>
+                  </a>
                 </div>
               </div>
               {/*end col*/}
@@ -726,13 +660,149 @@ const HomePage = () => {
                 ?.filter((data) => data?.socialMediaNewsType?.includes(type))
                 ?.map((data, index) => {
                   return (
+                    index < 3 && (
+                      <div className="col-lg-4 col-md-6" key={index}>
+                        <div className="card blog blog-primary shadow rounded-md overflow-hidden">
+                          <div className="position-relative">
+                            <img
+                              src={data?.image_url}
+                              className="img-fluid rounded-md"
+                              alt=""
+                              style={{ height: "200px" }}
+                            />
+                            {/* <div className="position-absolute top-0 end-0 m-3">
+                          <span className="like-icon shadow-sm">
+                            <a
+                              href=""
+                              onClick={(e) => e.preventDefault()}
+                              className="text-muted icon"
+                            >
+                              <i className="mdi mdi-18px mdi-heart mb-0"></i>
+                            </a>
+                          </span>
+                        </div> */}
+                          </div>
+                          <div className="card-body position-relative p-4">
+                            {/* <a
+                          href=""
+                          className="badge tag gradient rounded-md fw-bold"
+                        >
+                          {data?.type[1]}
+                        </a> */}
+
+                            <ul className="list-unstyled mt-2">
+                              <li className="list-inline-item text-muted small me-3">
+                                <i className="uil uil-calendar-alt text-dark h6 me-1"></i>
+                                {moment(data?.date).format("DD MMMM, YYYY")}
+                              </li>
+                              <li className="list-inline-item text-muted small">
+                                <i className="uil uil-clock text-dark h6 me-1"></i>
+                                5 min read
+                              </li>
+                            </ul>
+                            <a
+                              href={`/blog-detail/${data?.id}`}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate(`/blog-detail/${data?.id}`);
+                              }}
+                              className="text-dark title h5 mt-3"
+                            >
+                              {data?.title}
+                            </a>
+
+                            <div className="mt-3 d-flex justify-content-between align-items-center">
+                              <a
+                                href={`/blog-detail/${data?.id}`}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigate(`/blog-detail/${data?.id}`);
+                                }}
+                                className="btn btn-link text-muted"
+                              >
+                                Read more{" "}
+                                <FiArrowRight className="fea icon-sm" />
+                              </a>
+                              {/* <span className="text-muted fs-6">
+                            by{" "}
+                            <a
+                              href="/creator-profile"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/creator-profile");
+                              }}
+                              className="link"
+                            >
+                              {data?.createdBy}
+                            </a>
+                          </span> */}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  );
+                })}
+
+              {/*end col*/}
+            </div>
+          </div>
+        )}
+        {/*end container*/}
+
+        {/* Event News */}
+        <div className="container mt-100 mt-60">
+          <div className="row justify-content-center">
+            <div className="col">
+              <div
+                className="col"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div className="section-title mb-4 pb-2">
+                  <h4 className="title mb-4">Event News</h4>
+                  <p className="text-muted para-desc mb-0 ">
+                    Check out the latest news and updates from our events
+                  </p>
+                </div>
+                <div className="text-end d-md-block d-none">
+                  <a
+                    href="/news"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/news");
+                    }}
+                    className="btn btn-link primary text-dark"
+                  >
+                    See More <i className="uil uil-arrow-right"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            {/*end col*/}
+          </div>
+          {/*end row*/}
+
+          <div className="row g-4">
+            {allNews
+              ?.filter((data) => data?.category === "eventNews")
+              ?.map((data, index) => {
+                return (
+                  index < 3 && (
                     <div className="col-lg-4 col-md-6" key={index}>
                       <div className="card blog blog-primary shadow rounded-md overflow-hidden">
-                        <div className="position-relative">
+                        <div
+                          className="position-relative"
+                          style={{ display: "flex", justifyContent: "center" }}
+                        >
                           <img
                             src={data?.image_url}
                             className="img-fluid rounded-md"
                             alt=""
+                            style={{ height: "200px" }}
                           />
                           {/* <div className="position-absolute top-0 end-0 m-3">
                           <span className="like-icon shadow-sm">
@@ -747,16 +817,10 @@ const HomePage = () => {
                         </div> */}
                         </div>
                         <div className="card-body position-relative p-4">
-                          {/* <a
-                          href=""
-                          className="badge tag gradient rounded-md fw-bold"
-                        >
-                          {data?.type[1]}
-                        </a> */}
-
                           <ul className="list-unstyled mt-2">
                             <li className="list-inline-item text-muted small me-3">
                               <i className="uil uil-calendar-alt text-dark h6 me-1"></i>
+
                               {moment(data?.date).format("DD MMMM, YYYY")}
                             </li>
                             <li className="list-inline-item text-muted small">
@@ -765,10 +829,10 @@ const HomePage = () => {
                             </li>
                           </ul>
                           <a
-                            href="/blog-detail"
+                            href={`/blog-detail/${data?.id}`}
                             onClick={(e) => {
                               e.preventDefault();
-                              navigate("/blog-detail");
+                              navigate(`/blog-detail/${data?.id}`);
                             }}
                             className="text-dark title h5 mt-3"
                           >
@@ -787,111 +851,6 @@ const HomePage = () => {
                               Read more <FiArrowRight className="fea icon-sm" />
                             </a>
                             {/* <span className="text-muted fs-6">
-                            by{" "}
-                            <a
-                              href="/creator-profile"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                navigate("/creator-profile");
-                              }}
-                              className="link"
-                            >
-                              {data?.createdBy}
-                            </a>
-                          </span> */}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-
-              {/*end col*/}
-            </div>
-          </div>
-        )}
-        {/*end container*/}
-
-        {/* Event News */}
-        <div className="container mt-100 mt-60">
-          <div className="row justify-content-center">
-            <div className="col">
-              <div className="col">
-                <div className="section-title mb-4 pb-2">
-                  <h4 className="title mb-4">Event News</h4>
-                  <p className="text-muted para-desc mb-0 ">
-                    Check out the latest news and updates from our events
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/*end col*/}
-          </div>
-          {/*end row*/}
-
-          <div className="row g-4">
-            {allNews
-              ?.filter((data) => data?.category === "eventNews")
-              ?.map((data, index) => {
-                return (
-                  <div className="col-lg-4 col-md-6" key={index}>
-                    <div className="card blog blog-primary shadow rounded-md overflow-hidden">
-                      <div
-                        className="position-relative"
-                        style={{ display: "flex", justifyContent: "center" }}
-                      >
-                        <img
-                          src={data?.image_url}
-                          className="img-fluid rounded-md"
-                          alt=""
-                        />
-                        {/* <div className="position-absolute top-0 end-0 m-3">
-                          <span className="like-icon shadow-sm">
-                            <a
-                              href=""
-                              onClick={(e) => e.preventDefault()}
-                              className="text-muted icon"
-                            >
-                              <i className="mdi mdi-18px mdi-heart mb-0"></i>
-                            </a>
-                          </span>
-                        </div> */}
-                      </div>
-                      <div className="card-body position-relative p-4">
-                        <ul className="list-unstyled mt-2">
-                          <li className="list-inline-item text-muted small me-3">
-                            <i className="uil uil-calendar-alt text-dark h6 me-1"></i>
-
-                            {moment(data?.date).format("DD MMMM, YYYY")}
-                          </li>
-                          <li className="list-inline-item text-muted small">
-                            <i className="uil uil-clock text-dark h6 me-1"></i>5
-                            min read
-                          </li>
-                        </ul>
-                        <a
-                          href={`/blog-detail/${data?.id}`}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            navigate(`/blog-detail/${data?.id}`);
-                          }}
-                          className="text-dark title h5 mt-3"
-                        >
-                          {data?.title}
-                        </a>
-
-                        <div className="mt-3 d-flex justify-content-between align-items-center">
-                          <a
-                            href={`/blog-detail/${data?.id}`}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              navigate(`/blog-detail/${data?.id}`);
-                            }}
-                            className="btn btn-link text-muted"
-                          >
-                            Read more <FiArrowRight className="fea icon-sm" />
-                          </a>
-                          {/* <span className="text-muted fs-6">
                           by{" "}
                           <a
                             href="/creator-profile"
@@ -904,10 +863,11 @@ const HomePage = () => {
                             {data?.createdBy}
                           </a>
                         </span> */}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  )
                 );
               })}
 
@@ -1007,12 +967,28 @@ import { getUpcomingBirthdays } from './../../redux/dispatchers/birthdays.dispat
 
                     <div className="d-flex align-items-center ms-3">
                       <div className="position-relative d-inline-flex">
-                        <img
-                          src={data?.avatar}
-                          className="avatar avatar-md-sm shadow-md rounded-pill"
-                          alt=""
-                          style={{ objectFit: "contain" }}
-                        />
+                        {data?.avatar === null ? (
+                          <img
+                            src={defaultImage}
+                            className="avatar avatar-md-sm shadow-md rounded-pill"
+                            alt=""
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(`/creator-profile/${data?.id}`);
+                            }}
+                          />
+                        ) : (
+                          <img
+                            src={data?.avatar}
+                            className="avatar avatar-md-sm shadow-md rounded-pill"
+                            alt=""
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(`/creator-profile/${data?.id}`);
+                            }}
+                            style={{ objectFit: "contain" }}
+                          />
+                        )}
                         {data?.verified && (
                           <>
                             <span className="verified text-primary">

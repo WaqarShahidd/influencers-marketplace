@@ -26,3 +26,9 @@ export const getProfilebyId = (id) => async (dispatch) => {
     });
   }
 };
+
+export const clear = () => async (dispatch) => {
+  dispatch({
+    type: "clear",
+  });
+};

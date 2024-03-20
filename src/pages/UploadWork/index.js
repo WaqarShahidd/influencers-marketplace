@@ -36,6 +36,14 @@ const UploadWork = () => {
     setOpen(false);
   };
 
+  const handleCloseError = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    seterror(false);
+  };
+
   const onImageChange = (file) => {
     console.log("image change", file);
     if (!file) {
@@ -80,41 +88,50 @@ const UploadWork = () => {
   const dispatch = useDispatch();
 
   const [loading, setloading] = useState(false);
+  const [error, seterror] = useState(false);
+  const [errorMsg, seterrorMsg] = useState("");
 
   const AddWork = () => {
-    setloading(true);
-    const token = JSON.parse(localStorage.getItem("token"));
-    axios
-      .post(
-        `${BASE_URL}/api/work/createWork`,
-        {
-          user_id: userData?.id,
-          title: title,
-          description: description,
-          type: type,
-          audience_enagagement: engagement,
-          image_url: URL,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+    if (title === "" || URL === "" || engagement === "") {
+      seterror(true);
+      seterrorMsg("Please fill all the fields");
+    } else {
+      setloading(true);
+      const token = JSON.parse(localStorage.getItem("token"));
+      axios
+        .post(
+          `${BASE_URL}/api/work/createWork`,
+          {
+            user_id: userData?.id,
+            title: title,
+            description: description,
+            type: type,
+            audience_enagagement: engagement,
+            image_url: URL,
+            role: userData?.role,
           },
-        }
-      )
-      .then((res) => {
-        setloading(false);
-        setOpen(true);
-        setTitle("");
-        setDescription("");
-        setType("");
-        setEngagement("");
-        setDataUri("");
-        setURL("");
-      })
-      .catch((error) => {
-        console.log("error", error.response.data.message);
-        setloading(false);
-      });
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          setloading(false);
+          setOpen(true);
+          setTitle("");
+          setDescription("");
+          setType("");
+          setEngagement("");
+          setDataUri("");
+          setURL("");
+        })
+        .catch((error) => {
+          console.log("error", error.response.data.message);
+          setloading(false);
+          seterrorMsg(error.response.data.message);
+        });
+    }
   };
 
   return (
@@ -134,6 +151,15 @@ const UploadWork = () => {
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
           Work Uploaded Successfully
+        </Alert>
+      </Snackbar>
+      <Snackbar open={error} autoHideDuration={6000} onClose={handleCloseError}>
+        <Alert
+          onClose={handleCloseError}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          {errorMsg}
         </Alert>
       </Snackbar>
 
